@@ -18,9 +18,15 @@
 
 .menuItem{
     background-color: white;
-    display: flex;
     flex-direction: row;
-    align-items: center;
+}
+
+.pro-sidebar .pro-menu {
+    display: flex;
+}
+.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout ul{
+    display: flex;
+    flex-direction: column;
 }
 
 

@@ -1,15 +1,18 @@
 import Sidebar from '../components/Sidebar';
+import '../css/Common.css'
 
 
 const Home = () =>{
 
     return(
-    <div style={{display:'flex',flexDirection:'row'}}>
-        <div>
+    <div className='Page'>
+
+        <div className='Sidebar'>
             <Sidebar />
         </div>
-        <div>
-            <h3>Anasayfa </h3>
+
+        <div className='Main'>
+            <h3 style={{height:'100rem'}}>Anasayfa </h3>
         </div>
 
     </div>

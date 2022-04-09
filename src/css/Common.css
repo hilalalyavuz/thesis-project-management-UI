@@ -1,0 +1,16 @@
+.Page{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.Sidebar{
+    display: flex;
+    flex: 1;
+}
+
+.Main{
+    display: flex;
+    flex: 7;
+    overflow: auto;
+}

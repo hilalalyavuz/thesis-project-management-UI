@@ -65,18 +65,16 @@ return(
         My Profile
         <Link to={'/Home'} />
     </MenuItem>
-
-    <SubMenu title="Components" className='subMenu'>
-      <MenuItem className='menuItem'>Component 1</MenuItem>
-      <MenuItem className='menuItem'>Component 2</MenuItem>
-    </SubMenu>
     
-    <MenuItem className='menuItem'>
+    <div style={{display:'flex',height:'100%',alignItems:'flex-end'}}>
+        <MenuItem className='menuItem'>
         <h5 style={{marginLeft:'0rem',marginRight:'8rem'}}> {props.name} </h5>
         <LogoutIcon />
         Log Out
         <Link to={'/Home'} />
     </MenuItem>
+    </div>
+    
 
   </Menu>
 
