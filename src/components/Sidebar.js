@@ -8,21 +8,28 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import GroupsIcon from '@mui/icons-material/Groups';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import LogoutIcon from '@mui/icons-material/Logout';
+import {Link} from 'react-router-dom';
 
-const Sidebar = () =>{
+const Sidebar = (props) =>{
 
-return(<ProSidebar>
+return(
+<ProSidebar>
   <Menu className='menu'>
-     <h4 style={{marginLeft:'5rem'}}>Hoşgeldiniz!</h4>
+     <h4 style={{marginLeft:'5rem'}}>Hoşgeldiniz!
+     <Link to={'/Home'} />
+     </h4>
 
      <h5> DASHBOARD </h5>
     <MenuItem className='menuItem'>
         <AssignmentIcon />
         Documents
+        <Link to={'/Home'} />
      </MenuItem>
     <MenuItem className='menuItem'>
         <TaskAltIcon />
         Tasks
+        <Link to={'/Home'} />
     </MenuItem>
 
     <h5> SUPERVISOR </h5>
@@ -30,35 +37,50 @@ return(<ProSidebar>
     <MenuItem className='menuItem'>
         <ManageAccountsIcon />
         Choose Supervisor
+        <Link to={'/Home'} />
     </MenuItem>
 
     <MenuItem className='menuItem'>
         <CalendarMonthIcon />
         Make an Appointment
+        <Link to={'/Home'} />
     </MenuItem>
 
     <MenuItem className='menuItem'>
         <ChatIcon />
         Contact Supervisor
+        <Link to={'/Home'} />
     </MenuItem>
 
     <h5> GROUP </h5>
     <MenuItem className='menuItem'>
         <GroupsIcon />
         Create Group
+        <Link to={'/Home'} />
     </MenuItem>
 
     <h5> PROFILE </h5>
     <MenuItem className='menuItem'>
         <PermIdentityIcon />
         My Profile
+        <Link to={'/Home'} />
     </MenuItem>
 
     <SubMenu title="Components" className='subMenu'>
       <MenuItem className='menuItem'>Component 1</MenuItem>
       <MenuItem className='menuItem'>Component 2</MenuItem>
     </SubMenu>
+    
+    <MenuItem className='menuItem'>
+        <h5 style={{marginLeft:'0rem',marginRight:'8rem'}}> {props.name} </h5>
+        <LogoutIcon />
+        Log Out
+        <Link to={'/Home'} />
+    </MenuItem>
+
   </Menu>
+
+  
 </ProSidebar>);
 
 };
