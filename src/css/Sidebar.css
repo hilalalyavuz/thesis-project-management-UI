@@ -1,0 +1,46 @@
+.menu {
+    background-color: white;
+    height:100vh;
+    color:darkslategrey;
+    
+    border-right: 2px whitesmoke dotted;
+
+}
+
+.menuItem:hover{
+    color: #50C878;
+    background-color: #FAFFF7 ;
+}
+.menuItem:active{
+    border-right: 4px green solid;
+}
+
+
+.menuItem{
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item{
+    background-color: white;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item:hover{
+    color: #50C878;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item > .pro-item-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.menu h5{
+    margin-left: 1.5rem;
+    font-weight: bold;
+    color:grey
+}
+
