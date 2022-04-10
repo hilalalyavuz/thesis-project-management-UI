@@ -8,6 +8,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import "../css/Common.css";
+import "../css/Tasks.css";
 import Sidebar from "../components/Sidebar";
 
 function not(a, b) {
@@ -29,6 +30,7 @@ export default function TransferList() {
   const rightChecked = intersection(checked, right);
 
   const handleToggle = (value) => () => {
+    console.log(value)
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -65,6 +67,8 @@ export default function TransferList() {
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
   };
+
+
 
   const customList = (items) => (
     <Paper sx={{ width: 200, height: 230, overflow: "auto" }}>
@@ -105,7 +109,7 @@ export default function TransferList() {
       </div>
       <div className="Main">
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item>{customList(left)}</Grid>
+          <Grid item> <h3>To Do</h3> {customList(left)}</Grid>
           <Grid item>
             <Grid container direction="column" alignItems="center">
               <Button
@@ -130,7 +134,7 @@ export default function TransferList() {
               </Button>
             </Grid>
           </Grid>
-          <Grid item>{customList(middle)}</Grid>
+          <Grid item> <h3>In Progress</h3> {customList(middle)}</Grid>
           <Grid item>
             <Grid container direction="column" alignItems="center">
               <Button
@@ -155,7 +159,7 @@ export default function TransferList() {
               </Button>
             </Grid>
           </Grid>
-          <Grid item>{customList(right)}</Grid>
+          <Grid item> <h3>Done</h3> {customList(right)}</Grid>
         </Grid>
       </div>
     </div>

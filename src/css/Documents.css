@@ -1,0 +1,28 @@
+.table{
+    height: 20rem;
+    width: 60rem;
+}
+.tableButtons{
+    margin-top: 3rem;
+    justify-content: flex-end;
+    display: flex;
+}
+.tableButtons button{
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+.tableButtons label{
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+.css-f3jnds-MuiDataGrid-columnHeaders{
+    background-color: #283691;
+    color: white;
+}
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate{
+    color: #FBB400 !important;
+}
+
+.css-3ihp42-MuiDataGrid-root .MuiDataGrid-row.Mui-selected:hover, .css-3ihp42-MuiDataGrid-root .MuiDataGrid-row.Mui-selected.Mui-hovered{
+    background-color: #fbb4001c !important;
+}

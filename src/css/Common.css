@@ -14,3 +14,11 @@
     flex: 7;
     overflow: auto;
 }
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: orange;
+    border-radius: 10rem;
+}
