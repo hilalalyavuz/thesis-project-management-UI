@@ -24,12 +24,12 @@ return(
     <MenuItem className='menuItem'>
         <AssignmentIcon />
         Documents
-        <Link to={'/Home'} />
+        <Link to={'/Documents'} />
      </MenuItem>
     <MenuItem className='menuItem'>
         <TaskAltIcon />
         Tasks
-        <Link to={'/Home'} />
+        <Link to={'/Tasks'} />
     </MenuItem>
 
     <h5> SUPERVISOR </h5>
