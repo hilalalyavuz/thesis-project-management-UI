@@ -1,0 +1,44 @@
+.p-card .p-card-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.title{
+    display: flex;
+    justify-content: center;
+}
+
+.card{
+    height:fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1.5rem;
+}
+
+.prog{
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.timeline-demo .custom-marker {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.progressbar{
+    width: -webkit-fill-available;
+}
+
+

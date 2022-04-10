@@ -1,23 +1,60 @@
-import Sidebar from '../components/Sidebar';
-import '../css/Common.css'
+import Sidebar from "../components/Sidebar";
+import "../css/Common.css";
+import '../css/Home.css';
+import { Knob } from "primereact/knob";
+import { useState } from "react";
+import { Card } from 'primereact/card';
+import { ProgressBar } from 'primereact/progressbar';
+import React from 'react';
+import {Calendar} from 'primereact/calendar';
 
+const Home = () => {
 
-const Home = () =>{
-
-    return(
-    <div className='Page'>
-
-        <div className='Sidebar'>
-            <Sidebar />
-        </div>
-
-        <div className='Main'>
-            <h3 style={{height:'100rem'}}>Anasayfa </h3>
-        </div>
-
-    </div>
+  const displayValueTemplate = (value) => {
+    return (
+        <React.Fragment>
+            {value}/<b>100</b>
+        </React.Fragment>
     );
-    
+}
+  const [value, setValue] = useState(60);
+   return (
+    <div className="Page">
+      <div className="Sidebar">
+        <Sidebar />
+      </div>
+
+      <div className="Main" style={{flexDirection:'column'}}>
+          <div className="title">
+              <h3>DASHBOARD</h3> 
+          </div>
+     
+      
+<div className="prog">
+    <Card className="card">
+          <Knob value={value} size={200} />
+          <h3 className="mt-3">Completed</h3>
+    </Card>  
+    <div>
+
+<Card className="card" style={{width:'-webkit-fill-available'}}>
+     <h3>Remain Day: 60 </h3>
+      <ProgressBar value={40} displayValueTemplate={displayValueTemplate} size={80} className="progressbar"/>
+          </Card>
+
+          <Card className="card">
+          <Calendar inline showWeek />
+
+          </Card>
+    </div>
+     
+         
+        </div>
+
+        
+      </div>
+    </div>
+  );
 };
 
 export default Home;
