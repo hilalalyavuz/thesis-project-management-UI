@@ -10,7 +10,6 @@
 }
 
 .Main{
-    display: flex;
     flex: 7;
     overflow: auto;
 }
@@ -19,6 +18,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: orange;
+    background-color: #696cff;
     border-radius: 10rem;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root{
+    background-color: #6366F1 !important;
+}
+
+.css-1rwt2y5-MuiButtonBase-root-MuiButton-root{
+    color: #6366F1 !important;
 }

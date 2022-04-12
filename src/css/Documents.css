@@ -1,3 +1,10 @@
+
+.Main2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .table{
     height: 20rem;
     width: 60rem;
@@ -16,13 +23,12 @@
     margin-bottom: 1rem;
 }
 .css-f3jnds-MuiDataGrid-columnHeaders{
-    background-color: #283691;
-    color: white;
+    background-color: whitesmoke;
 }
 .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate{
-    color: #FBB400 !important;
+    color: #696cff !important;
 }
 
 .css-3ihp42-MuiDataGrid-root .MuiDataGrid-row.Mui-selected:hover, .css-3ihp42-MuiDataGrid-root .MuiDataGrid-row.Mui-selected.Mui-hovered{
-    background-color: #fbb4001c !important;
+    background-color: #696cff23 !important;
 }
