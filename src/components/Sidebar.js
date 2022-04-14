@@ -37,7 +37,7 @@ return(
     <MenuItem className='menuItem'>
         <ManageAccountsIcon />
         Choose Supervisor
-        <Link to={'/Home'} />
+        <Link to={'/ChooseSupervisor'} />
     </MenuItem>
 
     <MenuItem className='menuItem'>

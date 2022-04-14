@@ -3,6 +3,7 @@ import './App.css';
 import Home from './views/Home';
 import Documents from './views/Documents';
 import Tasks from './views/Tasks';
+import ChooseSupervisor from './views/ChooseSupervisor';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           <Route path="/Documents" exact element={<Documents/>}>
           </Route>
           <Route path="/Tasks" exact element={<Tasks/>}>
+          </Route>
+          <Route path="/ChooseSupervisor" exact element={<ChooseSupervisor/>}>
           </Route>
        </Routes>
      </Router>
