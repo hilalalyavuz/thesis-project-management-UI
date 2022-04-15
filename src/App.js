@@ -4,6 +4,7 @@ import Home from './views/Home';
 import Documents from './views/Documents';
 import Tasks from './views/Tasks';
 import ChooseSupervisor from './views/ChooseSupervisor';
+import CreateGroup from './views/CreateGroup';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           <Route path="/Tasks" exact element={<Tasks/>}>
           </Route>
           <Route path="/ChooseSupervisor" exact element={<ChooseSupervisor/>}>
+          </Route>
+          <Route path="/CreateGroup" exact element={<CreateGroup/>}>
           </Route>
        </Routes>
      </Router>
