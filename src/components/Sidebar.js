@@ -49,7 +49,7 @@ return(
     <MenuItem className='menuItem'>
         <ChatIcon />
         Contact Supervisor
-        <Link to={'/Home'} />
+        <Link to={'/ContactSupervisor'} />
     </MenuItem>
 
     <h5> GROUP </h5>

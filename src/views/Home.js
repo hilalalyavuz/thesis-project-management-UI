@@ -43,7 +43,7 @@ const Home = () => {
           </Card>
 
           <Card className="card">
-          <Calendar inline showWeek />
+          <Calendar value={"Mon Apr 18 2022 00:00:00 GMT+0300 (GMT+03:00)"} onChange={(e) => console.log(e)} inline showWeek />
 
           </Card>
     </div>

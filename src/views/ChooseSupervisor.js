@@ -78,7 +78,7 @@ export default function Documents() {
               }}
             />
           </div>
-          <div>
+          <div className="buttonArea">
           <Button variant="contained" style={{marginTop:'6rem',marginBottom:'1rem'}}>
                               SUBMIT
                             </Button>
