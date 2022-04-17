@@ -24,7 +24,7 @@ export default function CreateGroup() {
 
     const [state2, setState2] = useState([]);
     const handleChange3 = (event) => {
-        state2[event.target.name] = event.target.value;
+        state2[(event.target.name)-1] = event.target.value;
         toast.current.show({ severity: 'info', summary: `${event.target.name}. Id Entered`, detail: `Id: ${event.target.value}`, life: 3000 });
       }
     
@@ -34,6 +34,7 @@ export default function CreateGroup() {
       }
 
       const handleChange2 = (event) => {
+          console.log(state2)
         alert('Gönderilen değer: ' + state2);
         event.preventDefault();
       }

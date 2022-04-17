@@ -1,0 +1,23 @@
+.card2{
+    padding: 2rem;
+    margin: 1rem;
+}
+.formTop{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.formLeft{
+    margin-right: 10%;
+}
+.css-13r4j3i{
+    display: flex;
+    flex-direction: column;
+}
+.formBottom{
+    display: flex;
+    justify-content: flex-end;
+}
+.submit{
+    margin-top: 0rem !important;
+}

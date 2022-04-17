@@ -56,14 +56,14 @@ return(
     <MenuItem className='menuItem'>
         <GroupsIcon />
         Create Group
-        <Link to={'/Home'} />
+        <Link to={'/CreateGroup'} />
     </MenuItem>
 
     <h5> PROFILE </h5>
     <MenuItem className='menuItem'>
         <PermIdentityIcon />
         My Profile
-        <Link to={'/Home'} />
+        <Link to={'/Profile'} />
     </MenuItem>
     
     <div style={{display:'flex',height:'100%',alignItems:'flex-end'}}>
