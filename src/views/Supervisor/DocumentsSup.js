@@ -12,11 +12,11 @@ import { Rating } from 'primereact/rating';
 export default function DocumentSup(){
     
     const [selectedCity1, setSelectedCity1] = useState(null);
-    const [doc,setDoc] = useState();
+    const [doc,setDoc] = useState(null);
     const [docDialog, setDocDialog] = useState(false);
     const [value1, setValue1] = useState('');
-    const [stat,setStat] = useState();
-    const [rating,setRating] = useState();
+    const [stat,setStat] = useState(null);
+    const [rating,setRating] = useState(null);
 
     const rows = [
         {
@@ -123,7 +123,7 @@ export default function DocumentSup(){
                 </div>
                 <Dialog visible={docDialog} style={{ width: '450px' }} header="Document Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDocDialog(false)}}>
                 <div className="field">
-                <label htmlFor="name">{doc.name}</label>
+                    <label htmlFor="name">{doc ? doc.name:null}</label>
                 </div>
                 <div className="field">
                     <label htmlFor="stat">Status</label>
@@ -140,7 +140,7 @@ export default function DocumentSup(){
                         <Rating value={rating} onChange={(e) => setRating(e.value)} />
                     </div>
                 </div>
-            </Dialog>
+                </Dialog>
             </div>
         </div>
     );
