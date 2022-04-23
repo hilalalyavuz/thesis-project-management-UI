@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {useState, useRef} from 'react'
-import Sidebar from '../components/Sidebar';
-import '../css/Common.css'
-import '../css/CreateGroup.css'
+import Sidebar from '../../components/Sidebar';
+import '../../css/Common.css'
+import '../../css/CreateGroup.css'
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';

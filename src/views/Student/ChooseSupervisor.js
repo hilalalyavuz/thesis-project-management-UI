@@ -3,10 +3,10 @@ import { useState, useRef } from "react";
 import {
   DataGrid
 } from "@mui/x-data-grid";
-import Sidebar from "../components/Sidebar";
-import '../css/Common.css'
-import '../css/Documents.css'
-import '../css/ChooseSupervisor.css'
+import Sidebar from "../../components/Sidebar";
+import '../../css/Common.css'
+import '../../css/Documents.css'
+import '../../css/ChooseSupervisor.css'
 import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
 import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css"; //icons

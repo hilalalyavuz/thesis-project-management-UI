@@ -1,13 +1,14 @@
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom";
 import './App.css';
-import Home from './views/Home';
-import Documents from './views/Documents';
-import Tasks from './views/Tasks';
-import ChooseSupervisor from './views/ChooseSupervisor';
-import CreateGroup from './views/CreateGroup';
-import Profile from './views/Profile';
-import ContactSupervisor from './views/ContactSupervisor';
-
+import Home from './views/Student/Home';
+import Documents from './views/Student/Documents';
+import Tasks from './views/Student/Tasks';
+import ChooseSupervisor from './views/Student/ChooseSupervisor';
+import CreateGroup from './views/Student/CreateGroup';
+import Profile from './views/Student/Profile';
+import ContactSupervisor from './views/Student/ContactSupervisor';
+import SupervisorHome from './views/Supervisor/SupervisorHome';
+import DocumentsSup from './views/Supervisor/DocumentsSup';
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
           <Route path="/Profile" exact element={<Profile/>}>
           </Route>
           <Route path="/ContactSupervisor" exact element={<ContactSupervisor/>}>
+          </Route>
+          <Route path="/SupervisorHome" exact element={<SupervisorHome/>}>
+          </Route>
+          <Route path="/DocumentsSup" exact element={<DocumentsSup/>}>
           </Route>
        </Routes>
      </Router>

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {useState, useRef} from 'react'
-import Sidebar from '../components/Sidebar';
-import '../css/Common.css'
-import '../css/Profile.css'
-import '../css/Table.css'
+import Sidebar from '../../components/Sidebar';
+import '../../css/Common.css'
+import '../../css/Profile.css'
+import '../../css/Table.css'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Card } from '@mui/material';

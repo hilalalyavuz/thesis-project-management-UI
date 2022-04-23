@@ -7,9 +7,9 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
-import "../css/Common.css";
-import "../css/Tasks.css";
-import Sidebar from "../components/Sidebar";
+import "../../css/Common.css";
+import "../../css/Tasks.css";
+import Sidebar from "../../components/Sidebar";
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);

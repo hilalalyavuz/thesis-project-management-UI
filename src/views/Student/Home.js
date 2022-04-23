@@ -1,6 +1,6 @@
-import Sidebar from "../components/Sidebar";
-import "../css/Common.css";
-import '../css/Home.css';
+import Sidebar from "../../components/Sidebar";
+import "../../css/Common.css";
+import '../../css/Home.css';
 import { Knob } from "primereact/knob";
 import { useState } from "react";
 import { Card } from 'primereact/card';

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {useState, useRef} from 'react'
-import Sidebar from '../components/Sidebar';
-import '../css/Common.css'
-import '../css/ContactSupervisor.css'
+import Sidebar from '../../components/Sidebar';
+import '../../css/Common.css'
+import '../../css/ContactSupervisor.css'
 import TextField from '@mui/material/TextField';
 import { Card } from '@mui/material';
 import Button from '@mui/material/Button';

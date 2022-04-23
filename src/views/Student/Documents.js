@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {useState, useRef} from 'react'
 import { DataGrid, GridSelectedRowCount, selectedGridRowsCountSelector, selectedGridRowsSelector } from '@mui/x-data-grid';
-import Sidebar from '../components/Sidebar';
-import Table from '../components/Table'
-import '../css/Common.css'
-import '../css/Documents.css'
+import Sidebar from '../../components/Sidebar';
+import Table from '../../components/Table'
+import '../../css/Common.css'
+import '../../css/Documents.css'
 import { Toast } from 'primereact/toast';
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
