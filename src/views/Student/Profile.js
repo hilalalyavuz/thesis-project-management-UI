@@ -14,10 +14,39 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function Profile() {
 
-    const onRowSelect = (event) => {
+    const [selectionModel, setSelectionModel] = useState([]);
+    const [selectionModel1, setSelectionModel1] = useState([]);
+
+    const onRowSelect = (selModel)=>{
+            
+            if (selModel.length > 1) {
+              const selectionSet = new Set(selectionModel);
+              const result = selModel.filter((s) => !selectionSet.has(s));
+
+              setSelectionModel(result);
+            } else {
+              setSelectionModel(selModel);
+            }
+            
+          
     }
 
+    const onRowSelect1 = (selModel)=>{
+            
+        if (selModel.length > 1) {
+          const selectionSet = new Set(selectionModel1);
+          const result = selModel.filter((s) => !selectionSet.has(s));
+
+          setSelectionModel1(result);
+        } else {
+          setSelectionModel1(selModel);
+        }
+        
+      
+}
+
     const deleteRow = () =>{
+      
       }
 
     const rows = [
@@ -148,7 +177,9 @@ export default function Profile() {
                                               pageSize={5}
                                               rowsPerPageOptions={[5]}
                                               checkboxSelection
-                                              onSelectionModelChange = {onRowSelect}
+                                              selectionModel={selectionModel}
+                                              hideFooterSelectedRowCount
+                                              onSelectionModelChange={onRowSelect}
                                               
                                           />
                           </div>
@@ -171,7 +202,9 @@ export default function Profile() {
                                               pageSize={5}
                                               rowsPerPageOptions={[5]}
                                               checkboxSelection
-                                              onSelectionModelChange = {onRowSelect}
+                                              selectionModel={selectionModel1}
+                                              hideFooterSelectedRowCount
+                                              onSelectionModelChange={onRowSelect1}
                                               
                                           />
                           </div>
