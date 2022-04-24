@@ -54,7 +54,7 @@ export default function Documents() {
         <Sidebar />
       </div>
 
-      <div className="Main" style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+      <div className="Main" style={{display:'flex',flexDirection:'column'}}>
         <div className="Main2">
             <Card className="card">
           <div className="table">

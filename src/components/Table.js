@@ -87,7 +87,7 @@ const Table = (props) => {
         
         <Toast ref={toast} />
 
-        <Card className="card">
+        <Card className="card2">
         <div>
               <div className='table'>
                               <h3>{props.data}</h3>

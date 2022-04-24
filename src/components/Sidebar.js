@@ -43,7 +43,7 @@ return(
     <MenuItem className='menuItem'>
         <CalendarMonthIcon />
         Make an Appointment
-        <Link to={'/Home'} />
+        <Link to={'/MakeAppointment'} />
     </MenuItem>
 
     <MenuItem className='menuItem'>
