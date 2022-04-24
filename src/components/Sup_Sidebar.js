@@ -62,7 +62,7 @@ return(
     <MenuItem className='menuItem'>
         <PermIdentityIcon />
         My Profile
-        <Link to={'/Profile'} />
+        <Link to={'/ProfileSup'} />
     </MenuItem>
     
     <div style={{display:'flex',height:'100%',alignItems:'flex-end'}}>

@@ -9,6 +9,7 @@ import Profile from './views/Student/Profile';
 import ContactSupervisor from './views/Student/ContactSupervisor';
 import SupervisorHome from './views/Supervisor/SupervisorHome';
 import DocumentsSup from './views/Supervisor/DocumentsSup';
+import ProfileSup from './views/Supervisor/ProfileSup';
 import MakeAppointment from './views/MakeAppointment';
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
           </Route>
           <Route path="/DocumentsSup" exact element={<DocumentsSup/>}>
           </Route>
+          <Route path="/ProfileSup" exact element={<ProfileSup/>}>
+            </Route>
           <Route path="/MakeAppointment" exact element={<MakeAppointment/>}>
           </Route>
        </Routes>
