@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useState, useRef} from 'react'
-import Sidebar from '../../components/Sup_Sidebar';
+import Sidebar from '../../components/Admin_Sidebar';
 import '../../css/Common.css'
 import { Card } from '@mui/material';
 import { Button } from 'primereact/button';
@@ -9,20 +9,22 @@ import { Column } from 'primereact/column';
 import { Dialog } from 'primereact/dialog';
 import { Box } from '@mui/system';
 import { Calendar } from 'primereact/calendar';
+import { InputText } from 'primereact/inputtext';
 
-export default function AppointmentRequests() {
+export default function DocumentsAdmin() {
 
 
     const [doc,setDoc] = useState(null);
     const [docDialog, setDocDialog] = useState(false);
     const [date8, setDate8] = useState(null);
     const [date3, setDate3] = useState(null);
+    const [value1, setValue1] = useState('');
 
     
 
     let rows = [
-        { id: 1, date: "17/04/2022", hour: "10:30"},
-        { id: 2, date: "18/04/2022", hour: "10:30"}
+        { id: 1, date: "17/04/2022", name: "RAD"},
+        { id: 2, date: "18/04/2022", name: "SDD"}
       ];
 
       const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
@@ -61,14 +63,14 @@ export default function AppointmentRequests() {
    
   <Card style={{marginTop:'5rem'}} className='card'>
     <div className="table">
-        <h3>Appointment</h3>
+        <h3>Documents</h3>
                         <DataTable value={rows} paginator responsiveLayout="scroll"
                         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10,20,50]}
                         paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
                         <Column field="id" header="id" style={{ width: '25%' }}></Column>
                         <Column field="date" header="date" style={{ width: '25%' }}></Column>
-                        <Column field="hour" header="hour" style={{ width: '25%' }}></Column>
+                        <Column field="name" header="name" style={{ width: '25%' }}></Column>
                         <Column header="Edit" body={actionEdit}></Column>
                         </DataTable>
                     </div>
@@ -77,7 +79,7 @@ export default function AppointmentRequests() {
                     <div>
                         <form>
                             <Box>
-                        <h3>Create Appointment</h3>
+                        <h3>Create Document</h3>
                         <div className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>
                              Date:
@@ -86,9 +88,9 @@ export default function AppointmentRequests() {
                         </div>
                         <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>
-                             Hour:
+                             Name:
                         </label>
-                        <Calendar id="time24" value={date8} onChange={(e) => setDate8(e.value)} showIcon timeOnly hourFormat="24" />
+                        <InputText value={value1} onChange={(e) => setValue1(e.target.value)} />
                     </div>
                     
                         
@@ -114,9 +116,9 @@ export default function AppointmentRequests() {
                         </div>
                         <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>
-                             Hour:
+                             Name:
                         </label>
-                        <Calendar id="time24" value={date8} onChange={(e) => setDate8(e.value)} showIcon timeOnly hourFormat="24" />
+                        <InputText value={value1} onChange={(e) => setValue1(e.target.value)} />
                     </div>
                 </Dialog>
     
