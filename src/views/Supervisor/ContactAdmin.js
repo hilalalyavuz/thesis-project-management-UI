@@ -15,10 +15,7 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 export default function ContactAdmin() {
 
-    
-
-    
-
+  
     const [state2, setState2] = useState([]);
     
 

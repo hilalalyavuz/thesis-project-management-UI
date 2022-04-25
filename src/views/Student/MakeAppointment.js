@@ -76,7 +76,7 @@ export default function MakeAppointment() {
     
   <Card className="card">
           <div className="table">
-          <h3>Choose Supervisor</h3>
+          <h3>Appointment</h3>
             <DataGrid
               rows={rows}
               columns={columns}

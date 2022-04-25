@@ -12,6 +12,8 @@ import DocumentsSup from './views/Supervisor/DocumentsSup';
 import ProfileSup from './views/Supervisor/ProfileSup';
 import MakeAppointment from './views/Student/MakeAppointment';
 import ContactAdmin from './views/Supervisor/ContactAdmin'
+import AppointmentRequests from './views/Supervisor/AppointmentRequests'
+import AvailableHours from './views/Supervisor/AvailableHours'
 
 function App() {
   return (
@@ -42,6 +44,10 @@ function App() {
           <Route path="/MakeAppointment" exact element={<MakeAppointment/>}>
           </Route>
           <Route path="/ContactAdmin" exact element={<ContactAdmin/>}>
+          </Route>
+          <Route path="/AppointmentRequests" exact element={<AppointmentRequests/>}>
+          </Route>
+          <Route path="/AvailableHours" exact element={<AvailableHours/>}>
           </Route>
        </Routes>
      </Router>

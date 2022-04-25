@@ -34,12 +34,12 @@ return(
     <MenuItem className='menuItem'>
         <CalendarMonthIcon />
         Appointment Requests
-        <Link to={'/'} />
+        <Link to={'/AppointmentRequests'} />
      </MenuItem>
      <MenuItem className='menuItem'>
-        <EmailOutlinedIcon />
-        Messages
-        <Link to={'/'} />
+        <CalendarMonthIcon />
+        Available Hours
+        <Link to={'/AvailableHours'} />
      </MenuItem>
      <MenuItem className='menuItem'>
      <AssignmentIcon />
