@@ -11,10 +11,11 @@ import SupervisorHome from './views/Supervisor/SupervisorHome';
 import DocumentsSup from './views/Supervisor/DocumentsSup';
 import ProfileSup from './views/Supervisor/ProfileSup';
 import MakeAppointment from './views/Student/MakeAppointment';
-import ContactAdmin from './views/Supervisor/ContactAdmin'
-import AppointmentRequests from './views/Supervisor/AppointmentRequests'
-import AvailableHours from './views/Supervisor/AvailableHours'
-import DocumentsAdmin from './views/Admin/DocumentsAdmin'
+import ContactAdmin from './views/Supervisor/ContactAdmin';
+import AppointmentRequests from './views/Supervisor/AppointmentRequests';
+import AvailableHours from './views/Supervisor/AvailableHours';
+import DocumentsAdmin from './views/Admin/DocumentsAdmin';
+import TaskSup from './views/Supervisor/TaskSup';
 
 function App() {
   return (
@@ -49,6 +50,8 @@ function App() {
           <Route path="/AppointmentRequests" exact element={<AppointmentRequests/>}>
           </Route>
           <Route path="/AvailableHours" exact element={<AvailableHours/>}>
+          </Route>
+          <Route path="/TaskSup" exact element={<TaskSup/>}>
           </Route>
           <Route path="/DocumentsAdmin" exact element={<DocumentsAdmin/>}>
           </Route>
