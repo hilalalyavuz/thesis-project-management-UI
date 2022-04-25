@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useState, useRef} from 'react'
-import Sidebar from '../components/Sidebar';
-import '../css/Common.css'
+import Sidebar from '../../components/Sidebar';
+import '../../css/Common.css'
 import { Card } from '@mui/material';
 import Button from '@mui/material/Button';
 import { DataGrid } from "@mui/x-data-grid";

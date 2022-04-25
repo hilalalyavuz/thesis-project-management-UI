@@ -25,8 +25,11 @@ export default function DocumentSup(){
                 <Sup_Sidebar />
             </div>
             <div className='Main'>
-            <Dropdown value={selectedCity1} options={cities} onChange={onCityChange} optionLabel="name" placeholder="Select a Group" />
+                <div style={{marginTop:'1rem',display:'flex',justifyContent:'center'}}>
+                    <Dropdown value={selectedCity1} options={cities} onChange={onCityChange} optionLabel="name" placeholder="Select a Group" />
                 <Button label="Filter" aria-label="Submit"  />
+                </div>
+            
                 <div className=''>
                 {hh.map(x => (
               <SupTableDoc data={x}/>

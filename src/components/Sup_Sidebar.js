@@ -55,7 +55,7 @@ return(
     <MenuItem className='menuItem'>
         <ChatIcon />
         Contact Admin
-        <Link to={'/ContactSupervisor'} />
+        <Link to={'/ContactAdmin'} />
     </MenuItem>
 
     <h5> PROFILE </h5>
