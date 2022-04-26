@@ -29,7 +29,7 @@ return(
      <MenuItem className='menuItem'>
         <GroupsIcon />
         Students
-        <Link to={'/'} />
+        <Link to={'/Students'} />
     </MenuItem>
     <MenuItem className='menuItem'>
         <CalendarMonthIcon />
