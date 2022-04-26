@@ -108,8 +108,15 @@ export default function TransferList() {
         <Sidebar />
       </div>
       <div className="Main">
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item> <h3>To Do</h3> {customList(left)}</Grid>
+        <Grid container spacing={2} justifyContent="center" alignItems="center" marginTop="0.5rem">
+        
+            <Grid item >
+            <fieldset style={{border:'2px solid orange', borderRadius:'1rem'}}>
+          <legend> To Do </legend>
+          {customList(left)}
+        </fieldset>
+         </Grid>
+          
           <Grid item>
             <Grid container direction="column" alignItems="center">
               <Button
@@ -134,7 +141,12 @@ export default function TransferList() {
               </Button>
             </Grid>
           </Grid>
-          <Grid item> <h3>In Progress</h3> {customList(middle)}</Grid>
+          <Grid item>
+            <fieldset style={{border:'2px solid green', borderRadius:'1rem'}}>
+          <legend> In Progress </legend>
+          {customList(middle)}
+        </fieldset>
+         </Grid>
           <Grid item>
             <Grid container direction="column" alignItems="center">
               <Button
@@ -159,7 +171,10 @@ export default function TransferList() {
               </Button>
             </Grid>
           </Grid>
-          <Grid item> <h3>Done</h3> {customList(right)}</Grid>
+          <Grid item> <fieldset style={{border:'2px solid gray', borderRadius:'1rem'}}>
+          <legend> Done </legend>
+          {customList(right)}
+        </fieldset> </Grid>
         </Grid>
       </div>
     </div>

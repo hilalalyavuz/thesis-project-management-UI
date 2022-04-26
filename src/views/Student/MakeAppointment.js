@@ -13,38 +13,9 @@ import { AspectRatio } from '@mui/icons-material';
 
 export default function MakeAppointment() {
 
-  const [dates2, setDates2] = useState(null);
-
-
-  function padTo2Digits(num) {
-    return num.toString().padStart(2, '0');
-  }
   
-  function formatDate(date) {
-    return [
-      padTo2Digits(date.getDate()),
-      padTo2Digits(date.getMonth() + 1),
-      date.getFullYear(),
-    ].join('/');
-  }
-
-  const setDates = async () =>{
-    console.log(dates2)
-    let rows2 = [];
-    if(dates2.length === 2){
-      dates2[0] = formatDate(dates2[0])
-      dates2[1] = formatDate(dates2[1])
-      rows.forEach(myFunction);
-      function myFunction(value, index, array) {
-        if(value.date > dates2[0] && value.date < dates2[1]){
-          console.log(value)
-          rows2.push({ id: index, date: value.date, hour: value.hour})
-        }
-      }
-      DataGrid.rows = rows2
-    }
-
-  }
+  const [date2, setDate2] = useState(null);
+  
 
   let rows = [
     { id: 1, date: "17/04/2022", hour: "10:30"},
@@ -69,14 +40,17 @@ export default function MakeAppointment() {
 <div className='Main'>
   <div className='Main2'>
 
-  <div className="field col-12 md:col-4">
-                        <label htmlFor="range">Range</label>
-                        <Calendar id="range" value={dates2} onSelect={setDates} onChange={(e) => setDates2(e.value)} selectionMode="range" readOnlyInput />
-                    </div>
+ 
     
-  <Card className="card">
-          <div className="table">
-          <h3>Appointment</h3>
+  <Card className="card" style={{width:'70%',height:'50rem',marginTop:'6rem'}}>
+  <h3 style={{marginBottom:'1rem'}}>Appointment</h3>
+  <div className="field col-12 md:col-4" style={{marginTop:'2rem',marginBottom:'2rem'}}>
+                        <label htmlFor="basic">Date Filter: </label>
+                        <Calendar id="basic" value={date2} onChange={(e) => setDate2(e.value)} dateFormat="mm-dd-yy" showIcon />
+                    </div>
+
+          <div className="table" style={{width:'90%', height:'100%'}}>
+          
             <DataGrid
               rows={rows}
               columns={columns}
@@ -96,8 +70,8 @@ export default function MakeAppointment() {
               }}
             />
           </div>
-          <div className="buttonArea">
-          <Button variant="contained" style={{marginTop:'6rem',marginBottom:'1rem'}}>
+          <div className="buttonArea" style={{marginTop:'0rem'}}>
+          <Button variant="contained" style={{marginBottom:'1rem'}}>
                               SUBMIT
                             </Button>
           </div>

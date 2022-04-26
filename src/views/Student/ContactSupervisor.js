@@ -42,13 +42,13 @@ export default function ContactSupervisor() {
   <div className='Main2'>
     
 
-  <Card className="card">
+  <Card className="card" style={{width:'60%'}}>
     <h3>Contact Supervisor</h3>
     <form onSubmit={handleChange2} style={{display:'flex', flexDirection:'column'}}>
-    <Box
+    <Box 
       component="form"
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
+        '& .MuiTextField-root': { m: 1, width: '50ch' },
       }}
       noValidate
       autoComplete="off"
@@ -79,8 +79,10 @@ export default function ContactSupervisor() {
       
     </Box>
 
-       
-      <Button type="submit" value="Submit" variant="contained">Submit</Button>
+       <div style={{display:'flex',justifyContent:'center',marginBottom:'1rem'}}>
+         <Button style={{width:'40%'}} type="submit" value="Submit" variant="contained">Submit</Button>
+       </div>
+      
 </form>
             
         

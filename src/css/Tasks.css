@@ -1,6 +1,7 @@
 .css-f2jb3h-MuiPaper-root{
     width: 26rem !important;
     height: 55rem !important;
+    box-shadow: none !important;
 }
 h3{
     text-align: center;

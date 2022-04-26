@@ -56,9 +56,9 @@ export default function Documents() {
 
       <div className="Main" style={{display:'flex',flexDirection:'column'}}>
         <div className="Main2">
-            <Card className="card">
-          <div className="table">
-          <h3>Choose Supervisor</h3>
+            <Card className="card" style={{width:'80%',marginTop:'6rem'}}>
+          <div className="table" style={{height:'30rem',width:'100%'}}>
+          <h3 style={{paddingBottom:'2rem'}}>Choose Supervisor</h3>
             <DataGrid
               rows={rows}
               columns={columns}
