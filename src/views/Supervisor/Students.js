@@ -10,12 +10,6 @@ import { ProgressBar } from 'primereact/progressbar';
 
 export default function Students() {
 
-
-    const [doc,setDoc] = useState(null);
-    const [docDialog, setDocDialog] = useState(false);
-    const [date8, setDate8] = useState(null);
-    const [date3, setDate3] = useState(null);
-
     const rows = [
         {
             "ID": 1,
