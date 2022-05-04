@@ -49,8 +49,8 @@ export default function Students() {
 <div className='Main'>
   <div className='Main2'>
    
-  <Card style={{marginTop:'5rem'}} className='card'>
-    <div className="table">
+  <Card style={{marginTop:'5rem',width:'80%'}} className='card'>
+    <div className="table" style={{width:'100%'}}>
         <h3>Students</h3>
                         <DataTable value={rows} paginator responsiveLayout="scroll"
                         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"

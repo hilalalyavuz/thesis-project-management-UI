@@ -96,7 +96,7 @@ export default function Profile() {
 <div className='Main'>
   <div className='Main2'>
     
-        <div>
+        <div style={{width:'70%'}}>
         <Card className="card2">
         <h3>Profile</h3>
             <form>
@@ -169,7 +169,7 @@ export default function Profile() {
             </Card>
 
             <Card className='card2'>
-                <div className='table'>
+                <div className='tableProfile'>
                 <h3>Appointment</h3>
                               <DataGrid
                                               rows={rows}
@@ -194,7 +194,7 @@ export default function Profile() {
             </Card>
 
             <Card className='card2'>
-            <div className='table'>
+            <div className='tableProfile'>
                 <h3>Messages</h3>
                               <DataGrid
                                               rows={rows}

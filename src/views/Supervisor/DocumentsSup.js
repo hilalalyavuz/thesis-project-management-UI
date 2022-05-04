@@ -30,7 +30,7 @@ export default function DocumentSup(){
                 <Button label="Filter" aria-label="Submit"  />
                 </div>
             
-                <div className=''>
+                <div className='' style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
                 {hh.map(x => (
               <SupTableDoc data={x}/>
             ))

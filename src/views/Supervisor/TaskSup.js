@@ -111,22 +111,32 @@ export default function TransferList() {
           <div style={{display:'flex', flexDirection:'row', justifyContent:'center',marginTop:'2rem'}}>
               <Button label="Create Task" className="p-button-raised p-button-success" icon="pi pi-plus" onClick={actionDialog}/>
           </div>
-          
+        <div> 
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item> <h3>To Do</h3> {customList(left)}</Grid>
+          <Grid item> <fieldset style={{border:'2px solid orange', borderRadius:'1rem'}}>
+          <legend> <b>To Do</b> </legend>
+          {customList(left)}
+        </fieldset></Grid>
           <Grid item>
             <Grid container direction="column" alignItems="center">
               
             </Grid>
           </Grid>
-          <Grid item> <h3>In Progress</h3> {customList(middle)}</Grid>
+          <Grid item> <fieldset style={{border:'2px solid green', borderRadius:'1rem'}}>
+          <legend><b> In Progress</b> </legend>
+          {customList(middle)}
+        </fieldset></Grid>
           <Grid item>
             <Grid container direction="column" alignItems="center">
               
             </Grid>
           </Grid>
-          <Grid item> <h3>Done</h3> {customList(right)}</Grid>
+          <Grid item> <fieldset style={{border:'2px solid gray', borderRadius:'1rem'}}>
+          <legend> <b>Done</b> </legend>
+          {customList(right)}
+        </fieldset></Grid>
         </Grid>
+        </div> 
         <Dialog visible={dialog} style={{ width: '450px' }} header="Task Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDialog(false)}}>
                 <div className="field">
                     <label htmlFor="title">Title</label>

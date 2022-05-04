@@ -95,7 +95,7 @@ export default function AppointmentRequests() {
                             </Box>
                         
                         <div style={{marginTop:'2rem',justifyContent:'center',display:'flex'}}>
-                            <Button type="submit" value="Submit" variant="contained">Create</Button>
+                            <Button style={{backgroundColor:'#50C878', borderColor:'#50C878'}} type="submit" value="Submit" variant="contained">Create</Button>
                         </div>
                         
                         </form>

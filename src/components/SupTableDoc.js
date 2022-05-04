@@ -93,7 +93,7 @@ export default function SupTableDoc(props){
     const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
     
     return(
-        <div>
+        <div style={{width:'80%'}}>
             <div >
                 <div>
                 <h3>{props.data}</h3>

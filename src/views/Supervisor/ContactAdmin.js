@@ -39,13 +39,13 @@ export default function ContactAdmin() {
   <div className='Main2'>
     
 
-  <Card className="card">
+  <Card className="card" style={{width:'60%'}}>
     <h3>Contact Admin</h3>
     <form onSubmit={handleChange2} style={{display:'flex', flexDirection:'column'}}>
     <Box
       component="form"
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
+        '& .MuiTextField-root': { m: 1, width: '50ch' },
       }}
       noValidate
       autoComplete="off"
@@ -77,7 +77,9 @@ export default function ContactAdmin() {
     </Box>
 
        
-      <Button type="submit" value="Submit" variant="contained">Submit</Button>
+    <div style={{display:'flex',justifyContent:'center',marginBottom:'1rem'}}>
+         <Button style={{width:'40%'}} type="submit" value="Submit" variant="contained">Submit</Button>
+       </div>
 </form>
             
         
