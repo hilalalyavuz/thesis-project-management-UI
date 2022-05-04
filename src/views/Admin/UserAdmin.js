@@ -10,8 +10,9 @@ import { Dialog } from 'primereact/dialog';
 import { Box } from '@mui/system';
 import { Calendar } from 'primereact/calendar';
 import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
 
-export default function DocumentsAdmin() {
+export default function UserAdmin() {
 
 
     const [doc,setDoc] = useState(null);
@@ -19,10 +20,27 @@ export default function DocumentsAdmin() {
     const [date8, setDate8] = useState(null);
     const [date3, setDate3] = useState(null);
     const [value1, setValue1] = useState('');
+    const [stat,setStat] = useState(null);
+
+    const status = [{name: 'Student'},{name: 'Supervisor'}]
 
     
 
     let rows = [
+        { id: 1, date: "17/04/2022", name: "RAD"},
+        { id: 2, date: "18/04/2022", name: "SDD"},
+        { id: 1, date: "17/04/2022", name: "RAD"},
+        { id: 2, date: "18/04/2022", name: "SDD"},
+        { id: 1, date: "17/04/2022", name: "RAD"},
+        { id: 2, date: "18/04/2022", name: "SDD"},
+        { id: 1, date: "17/04/2022", name: "RAD"},
+        { id: 2, date: "18/04/2022", name: "SDD"},
+        { id: 1, date: "17/04/2022", name: "RAD"},
+        { id: 2, date: "18/04/2022", name: "SDD"},
+        { id: 1, date: "17/04/2022", name: "RAD"},
+        { id: 2, date: "18/04/2022", name: "SDD"},
+        { id: 1, date: "17/04/2022", name: "RAD"},
+        { id: 2, date: "18/04/2022", name: "SDD"},
         { id: 1, date: "17/04/2022", name: "RAD"},
         { id: 2, date: "18/04/2022", name: "SDD"}
       ];
@@ -61,12 +79,12 @@ export default function DocumentsAdmin() {
 <div className='Main'>
   <div className='Main2'>
    
-  <Card style={{marginTop:'5rem', paddingBottom:'2rem', width:'80%'}} className='card2'>
-    <div className="table" style={{width:'100%'}}>
+  <Card style={{marginTop:'5rem', paddingBottom:'2rem', width:'80%',height:'50rem'}} className='card2'>
+    <div className="table" style={{width:'100%',height:'40rem'}}>
         <h3>Documents</h3>
                         <DataTable value={rows} paginator responsiveLayout="scroll"
                         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10,20,50]}
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={7}
                         paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
                         <Column field="id" header="id" style={{ width: '25%' }}></Column>
                         <Column field="date" header="date" style={{ width: '25%' }}></Column>
@@ -75,51 +93,16 @@ export default function DocumentsAdmin() {
                         </DataTable>
                     </div>
                     </Card>
-                    <Card style={{marginTop:'2rem',width:'40%'}} className='card'>
-                    <div>
-                        <form>
-                            <Box>
-                        <h3>Create Document</h3>
-                        <div className="field col-12 md:col-4">
-                        <label style={{marginRight:'1rem'}}>
-                             Date:
-                        </label>
-                            <Calendar id="icon" value={date3} onChange={(e) => setDate3(e.value)} showIcon />
-                        </div>
-                        <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
-                        <label style={{marginRight:'1rem'}}>
-                             Name:
-                        </label>
-                        <InputText value={value1} onChange={(e) => setValue1(e.target.value)} />
-                    </div>
-                    
-                        
-                            </Box>
-                        
-                        <div style={{marginTop:'2rem',justifyContent:'center',display:'flex'}}>
-                            <Button style={{backgroundColor:'#50C878', borderColor:'#50C878'}} type="submit" value="Submit" variant="contained">Create</Button>
-                        </div>
-                        
-                        </form>
-          
-          </div>
-                    </Card>
                    <Dialog visible={docDialog} style={{ width: '450px' }} header="Document Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDocDialog(false)}}>
                 <div className="field">
                     <label htmlFor="name">{doc ? doc.name:null}</label>
                 </div>
-                <div className="field col-12 md:col-4">
+                <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>
-                             Date:
+                             Role:
                         </label>
-                            <Calendar id="icon" value={date3} onChange={(e) => setDate3(e.value)} showIcon />
+                            <Dropdown value={stat} options={status} onChange={(e)=>{setStat(e.value)}} optionLabel="name" placeholder="Select Role" />
                         </div>
-                        <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
-                        <label style={{marginRight:'1rem'}}>
-                             Name:
-                        </label>
-                        <InputText value={value1} onChange={(e) => setValue1(e.target.value)} />
-                    </div>
                 </Dialog>
     
   </div>

@@ -17,6 +17,7 @@ import AvailableHours from './views/Supervisor/AvailableHours';
 import DocumentsAdmin from './views/Admin/DocumentsAdmin';
 import TaskSup from './views/Supervisor/TaskSup';
 import Students from "./views/Supervisor/Students";
+import UserAdmin from './views/Admin/UserAdmin';
 
 function App() {
   return (
@@ -57,6 +58,8 @@ function App() {
           <Route path="/Students" exact element={<Students/>}>
           </Route>
           <Route path="/DocumentsAdmin" exact element={<DocumentsAdmin/>}>
+          </Route>
+          <Route path="/UserAdmin" exact element={<UserAdmin/>}>
           </Route>
        </Routes>
      </Router>

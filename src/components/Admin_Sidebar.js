@@ -29,7 +29,7 @@ return(
     <MenuItem className='menuItem'>
         <TaskAltIcon />
         User
-        <Link to={'/'} />
+        <Link to={'/UserAdmin'} />
     </MenuItem>
 
     <MenuItem className='menuItem'>
