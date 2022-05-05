@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useRef} from 'react'
+import {useState, useEffect} from 'react'
 import Sidebar from '../../components/Sup_Sidebar';
 import '../../css/Common.css'
 import { Card } from '@mui/material';
@@ -9,6 +9,7 @@ import { Column } from 'primereact/column';
 import { Dialog } from 'primereact/dialog';
 import { Box } from '@mui/system';
 import { Calendar } from 'primereact/calendar';
+import axios from 'axios';
 
 export default function AppointmentRequests() {
 
@@ -17,14 +18,17 @@ export default function AppointmentRequests() {
     const [docDialog, setDocDialog] = useState(false);
     const [date8, setDate8] = useState(null);
     const [date3, setDate3] = useState(null);
+    const [data,setData] = useState();
 
-    
+    useEffect(()=>{
+        async function getData(){
+            await axios.get('https://localhost:7084/api/User').then((result)=>{
+                setData(result.data);
+            });
+        }
+        getData();
 
-    let rows = [
-        { id: 1, date: "17/04/2022", hour: "10:30"},
-        { id: 2, date: "18/04/2022", hour: "10:30"}
-      ];
-
+    },[]);
       const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
       const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
 
@@ -60,15 +64,15 @@ export default function AppointmentRequests() {
   <div className='Main2'>
    
   <Card style={{marginTop:'5rem'}} className='card'>
-    <div className="table">
+    <div className="table" style={{height:'-webkit-fill-available'}}>
         <h3>Appointment</h3>
-                        <DataTable value={rows} paginator responsiveLayout="scroll"
+                        <DataTable value={data} paginator scrollable
                         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10,20,50]}
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5}
                         paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
                         <Column field="id" header="id" style={{ width: '25%' }}></Column>
-                        <Column field="date" header="date" style={{ width: '25%' }}></Column>
-                        <Column field="hour" header="hour" style={{ width: '25%' }}></Column>
+                        <Column field="name" header="date" style={{ width: '25%' }}></Column>
+                        <Column field="surname" header="hour" style={{ width: '25%' }}></Column>
                         <Column header="Edit" body={actionEdit}></Column>
                         </DataTable>
                     </div>
