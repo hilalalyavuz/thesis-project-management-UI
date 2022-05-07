@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   DataGrid
 } from "@mui/x-data-grid";
@@ -12,8 +12,22 @@ import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css"; //icons
 import Button from "@mui/material/Button";
 import { Card } from '@mui/material';
+import axios from 'axios';
 
 export default function Documents() {
+
+  const [data,setData] = useState([]);
+
+  useEffect(()=>{
+    async function getData(){
+        await axios.get('https://localhost:7084/api/User/supervisor').then((result)=>{
+            setData(result.data);
+        });
+    }
+    getData();
+
+},[]);
+
   const rows = [
     { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
     { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
@@ -27,23 +41,10 @@ export default function Documents() {
   ];
   const columns = [
     { field: "id", headerName: "ID", width: 70 },
-    { field: "firstName", headerName: "First name", width: 130 },
-    { field: "lastName", headerName: "Last name", width: 130 },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      width: 90,
-    },
-    {
-      field: "fullName",
-      headerName: "Full name",
-      description: "This column has a value getter and is not sortable.",
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-    },
+    { field: "name", headerName: "First Name", width: 130 },
+    { field: "surname", headerName: "Last Name", width: 130 },
+    { field: "remain_capacity", headerName: "Remain Capacity", width: 130 },
+    { field: "capacity", headerName: "Capacity", width: 130 }
   ];
 
   const [selectionModel, setSelectionModel] = useState([]);
@@ -60,7 +61,7 @@ export default function Documents() {
           <div className="table" style={{height:'30rem',width:'100%'}}>
           <h3 style={{paddingBottom:'2rem'}}>Choose Supervisor</h3>
             <DataGrid
-              rows={rows}
+              rows={data}
               columns={columns}
               pageSize={5}
               checkboxSelection
