@@ -18,6 +18,7 @@ import DocumentsAdmin from './views/Admin/DocumentsAdmin';
 import TaskSup from './views/Supervisor/TaskSup';
 import Students from "./views/Supervisor/Students";
 import UserAdmin from './views/Admin/UserAdmin';
+import SignIn from './views/authorize/SignIn';
 
 function App() {
   return (
@@ -60,6 +61,8 @@ function App() {
           <Route path="/DocumentsAdmin" exact element={<DocumentsAdmin/>}>
           </Route>
           <Route path="/UserAdmin" exact element={<UserAdmin/>}>
+          </Route>
+          <Route path="/SignIn" exact element={<SignIn/>}>
           </Route>
        </Routes>
      </Router>
