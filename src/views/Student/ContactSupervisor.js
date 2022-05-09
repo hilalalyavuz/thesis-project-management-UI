@@ -12,14 +12,33 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import axios from 'axios';
 
 export default function ContactSupervisor() {
 
-    
-
+  const [topic, setTopic] = useState([]);
+  const [message, setMessage] = useState([]);
+  const toast = useRef(null);
+  let userEmail = sessionStorage.getItem("email");
+  let tok = sessionStorage.getItem("token");
+  const config = {
+      headers: { Authorization: `bearer ${tok}` }
+  };
     
 
     const [state2, setState2] = useState([]);
+
+    const send = async () => {
+      await axios.post(`https://localhost:7084/api/Student/Message/${userEmail}`,
+            {
+                "topic": topic,
+                "message": message
+              },config).then(response => {
+                toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
+              }).catch(error => {
+                toast.current.show({severity:'error', summary: 'Failed to login', life: 3000});
+            });;  
+    }
     
 
       const handleChange2 = (event) => {
@@ -33,6 +52,7 @@ export default function ContactSupervisor() {
     return(
         <>
         <div className='Page'>
+        <Toast ref={toast} />
 
 <div className='Sidebar'>
     <Sidebar/>
@@ -62,6 +82,7 @@ export default function ContactSupervisor() {
                 id="outlined-required"
                 label="Topic"
                 defaultValue="Hello World"
+                value={topic} onChange={(e)=>setTopic(e.target.value)}
             />
         </div>
         <div className='area'>
@@ -74,13 +95,14 @@ export default function ContactSupervisor() {
                 multiline
                 rows={4}
                 defaultValue="Default Value"
+                value={message} onChange={(e)=>setMessage(e.target.value)}
         />
         </div>
       
     </Box>
 
        <div style={{display:'flex',justifyContent:'center',marginBottom:'1rem'}}>
-         <Button style={{width:'40%'}} type="submit" value="Submit" variant="contained">Submit</Button>
+         <Button style={{width:'40%'}} onClick={send} value="Submit" variant="contained">Submit</Button>
        </div>
       
 </form>

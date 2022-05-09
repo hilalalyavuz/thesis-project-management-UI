@@ -33,7 +33,7 @@ export default function SignIn() {
 
         if(!email.includes('@')){
             toast.current.show({severity:'warn', detail:"Please enter a part following '@'.", life: 3000});
-        }
+        }else{
         
         const GetData = async () => { 
             await axios.post('https://localhost:7084/Auth/login',
@@ -65,6 +65,7 @@ export default function SignIn() {
             
             };
             GetData();
+        }
 
     }
 
