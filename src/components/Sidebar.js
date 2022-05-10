@@ -10,61 +10,65 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {Link} from 'react-router-dom';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { useEffect,useRef } from 'react';
+import React from 'react';
 
 const Sidebar = (props) =>{
-
+    if(document.getElementById(props.dname)){
+        var a = document.getElementById(props.dname);
+     //   a.style = "background-color:red";
+    }
+    
 return(
 <ProSidebar>
   <Menu className='menu'>
      <h4 style={{marginLeft:'5rem'}}>Hoşgeldiniz!
-     <Link to={'/Home'} />
      </h4>
-
-     <h5> DASHBOARD </h5>
-    <MenuItem className='menuItem'>
-        <AssignmentIcon />
+     <MenuItem className='menuItem' id='Home' icon={ <HomeOutlinedIcon />}>
+        Home
+        <Link to={'/Home'} />
+     </MenuItem>
+    <MenuItem className='menuItem' id='Documents' icon={<AssignmentIcon />}>
         Documents
         <Link to={'/Documents'} />
      </MenuItem>
-    <MenuItem className='menuItem'>
-        <TaskAltIcon />
+    <MenuItem className='menuItem' id='Tasks' icon={ <TaskAltIcon />}>
         Tasks
         <Link to={'/Tasks'} />
     </MenuItem>
 
     <h5> SUPERVISOR </h5>
 
-    <MenuItem className='menuItem'>
-        <ManageAccountsIcon />
-        Choose Supervisor
-        <Link to={'/ChooseSupervisor'} />
-    </MenuItem>
-
-    <MenuItem className='menuItem'>
-        <CalendarMonthIcon />
+    <MenuItem className='menuItem' id='MakeApp' icon={<CalendarMonthIcon />}>
         Make an Appointment
         <Link to={'/MakeAppointment'} />
     </MenuItem>
 
-    <MenuItem className='menuItem'>
-        <ChatIcon />
+    <MenuItem className='menuItem' id='ContactSupervisor' icon={<ChatIcon />}>
         Contact Supervisor
         <Link to={'/ContactSupervisor'} />
     </MenuItem>
 
-    <h5> GROUP </h5>
-    <MenuItem className='menuItem'>
+    <h5> PROFILE </h5>
+    <MenuItem className='menuItem' id='Profile' icon={<PermIdentityIcon />}>
+        My Profile
+        <Link to={'/Profile'} />
+    </MenuItem>
+         
+ <SubMenu title="Project Settings" icon={<SettingsIcon></SettingsIcon>}>
+    <MenuItem className='menuItem' id='CreateGroup'>
         <GroupsIcon />
         Create Group
         <Link to={'/CreateGroup'} />
     </MenuItem>
-
-    <h5> PROFILE </h5>
-    <MenuItem className='menuItem'>
-        <PermIdentityIcon />
-        My Profile
-        <Link to={'/Profile'} />
+    <MenuItem className='menuItem' id='ChooseSup'>
+        <ManageAccountsIcon />
+        Choose Supervisor
+        <Link to={'/ChooseSupervisor'} />
     </MenuItem>
+    </SubMenu>
     
     <div style={{display:'flex',height:'100%',alignItems:'flex-end'}}>
         <MenuItem className='menuItem'>

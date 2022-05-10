@@ -105,7 +105,7 @@ export default function TransferList() {
   return (
     <div className="Page">
       <div className="Sidebar">
-        <Sidebar />
+        <Sidebar dname='Tasks' />
       </div>
       <div className="Main">
         <Grid container spacing={2} justifyContent="center" alignItems="center" marginTop="0.5rem">

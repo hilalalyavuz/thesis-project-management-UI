@@ -21,7 +21,7 @@ const Home = () => {
    return (
     <div className="Page">
       <div className="Sidebar">
-        <Sidebar />
+        <Sidebar dname='Home' />
       </div>
 
       <div className="Main" style={{flexDirection:'column'}}>

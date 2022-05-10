@@ -55,7 +55,7 @@ export default function ContactSupervisor() {
         <Toast ref={toast} />
 
 <div className='Sidebar'>
-    <Sidebar/>
+    <Sidebar dname='ContactSupervisor'/>
 </div>
 
 <div className='Main'>

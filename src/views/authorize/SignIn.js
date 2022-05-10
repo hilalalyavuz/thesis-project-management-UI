@@ -26,7 +26,7 @@ export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const toast = useRef(null);
-    const [token,setToken] = useState("token");
+    const [token,setToken] = useState();
     const [role,setRole] = useState("role");
     
     const send = () =>{
@@ -42,11 +42,21 @@ export default function SignIn() {
                 "password": password
               }).then(response => {
                 toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
-                setToken(response.data[0])
+                setToken(response.data[0]);
                 sessionStorage.setItem("token", response.data[0]);
-                setRole(response.data[1])
+                setRole(response.data[1]);
                 sessionStorage.setItem("role", response.data[1]);
                 sessionStorage.setItem("email",email);
+                console.log(token);
+                const config = { headers: { Authorization: `bearer ${response.data[0]}` }}
+                async function hasGroup(){
+                    await axios.get(`https://localhost:7084/api/Student/hasGroup/${email}`,config).then((result)=>{
+                        if(result.data == false){
+                          sessionStorage.setItem("created",true);
+                        }
+                    })
+                }
+                  hasGroup();
                 
                 if(response.data[1] == "student"){
                     createBrowserHistory().push('/Home');

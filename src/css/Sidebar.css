@@ -2,19 +2,18 @@
     background-color: white;
     height:100vh;
     color:darkslategrey;
-    
-    border-right: 2px whitesmoke dotted;
-
 }
 
+.Sidebar{
+    filter: drop-shadow(-48px 0px 31px black);
+}
 .menuItem:hover{
-    color: #50C878;
+    color: #50C878 !important;
     background-color: #FAFFF7 ;
 }
 .menuItem:active{
     border-right: 4px green solid;
 }
-
 
 .menuItem{
     background-color: white;

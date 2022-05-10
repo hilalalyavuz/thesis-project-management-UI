@@ -34,7 +34,7 @@ export default function MakeAppointment() {
         <div className='Page'>
 
 <div className='Sidebar'>
-    <Sidebar/>
+    <Sidebar dname='MakeApp'/>
 </div>
 
 <div className='Main'>

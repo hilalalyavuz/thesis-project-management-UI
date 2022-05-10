@@ -41,7 +41,7 @@ export default function Documents() {
   return (
     <div className="Page">
       <div className="Sidebar">
-        <Sidebar />
+        <Sidebar dname='ChooseSup' />
       </div>
 
       <div className="Main" style={{display:'flex',flexDirection:'column'}}>

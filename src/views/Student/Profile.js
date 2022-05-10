@@ -90,7 +90,7 @@ export default function Profile() {
 <div className='Page'>
 
 <div className='Sidebar'>
-    <Sidebar/>
+    <Sidebar dname='Profile'/>
 </div>
 
 <div className='Main'>

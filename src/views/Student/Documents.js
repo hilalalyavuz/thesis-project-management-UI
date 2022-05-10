@@ -31,7 +31,7 @@ export default function Documents() {
     <div className='Page'>
 
         <div className='Sidebar'>
-            <Sidebar/>
+            <Sidebar dname="Documents"/>
         </div>
         
         <div className='Main'>

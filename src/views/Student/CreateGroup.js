@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import Sidebar from '../../components/Sidebar';
 import '../../css/Common.css'
 import '../../css/CreateGroup.css'
@@ -12,20 +12,30 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 import { Toast } from 'primereact/toast';
-import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
-import "primereact/resources/primereact.min.css";                  //core css
-import "primeicons/primeicons.css";                                //icons
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";                  
+import "primeicons/primeicons.css"; 
+import { Checkbox } from 'primereact/checkbox';    
+import axios from 'axios';  
+import { createBrowserHistory } from 'history';                        
 
 export default function CreateGroup() {
 
     const toast = useRef(null);
-
     const [size, setSize] = useState();
-
+    const [checked, setChecked] = useState(false);
+    let userEmail = sessionStorage.getItem("email");
+    let tok = sessionStorage.getItem("token");
+    let created = sessionStorage.getItem("created");
     const [state2, setState2] = useState([]);
+
+     const config = {
+        headers: { Authorization: `bearer ${tok}` }
+    };
+
+    const [id,setId] = useState("");
     const handleChange3 = (event) => {
         state2[(event.target.name)-1] = event.target.value;
-        toast.current.show({ severity: 'info', summary: `${event.target.name}. Id Entered`, detail: `Id: ${event.target.value}`, life: 3000 });
       }
     
         const handleChange = (event) => {
@@ -44,6 +54,31 @@ export default function CreateGroup() {
         return cb();
       };
 
+      const submitValues = () =>{
+        if(checked){
+
+        }else{
+          state2.push(id);
+          axios.post(`https://localhost:7084/api/Student/Group`,{'size':size+1,'ids':state2},config).then((result)=>{
+            console.log(result.data);
+            createBrowserHistory().push('/CreateGroup');
+            window.location.reload();
+
+          }).catch(error =>{
+
+        });
+        }
+        }
+
+      useEffect(()=>{
+        async function getData(){
+            await axios.get(`https://localhost:7084/api/Student/schoolId/${userEmail}`,config).then((result)=>{
+                setId(result.data.toString());
+            })
+        }
+        getData();
+    },[]);
+
 
 
     return(
@@ -51,20 +86,26 @@ export default function CreateGroup() {
         <div className='Page'>
 
 <div className='Sidebar'>
-    <Sidebar/>
+    <Sidebar dname='CreateGroup'/>
 </div>
 
 <div className='Main'>
+  { created ? <div><h5>You made your choice</h5></div> : 
   <div className='Main2'>
-    
   <Toast ref={toast} />
   <Card className="card">
     <h3>Create Group</h3>
-    <form onSubmit={handleChange2} style={{display:'flex', flexDirection:'column'}}>
+    <div className="field-checkbox" style={{margin:'0.5rem'}}>
+      <Checkbox style={{marginRight:'0.5rem'}} inputId="binary" checked={checked} onChange={e => setChecked(e.checked)} />
+        <label htmlFor="binary">I'll do it on my own.</label>
+    </div>
+    
+    <div style={{display:'flex', flexDirection:'column'}}>
     <Box sx={{ minWidth: 240 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Size</InputLabel>
         <Select
+          disabled={checked}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={size}
@@ -83,13 +124,13 @@ export default function CreateGroup() {
         runCallback(() => {
           const row = [];
           for (var i = 1; i <= size; i++) {
-            row.push(<TextField id="outlined-basic" label={`${i}. Id`} variant="outlined" name={i} key={i} inputProps={{ inputMode: 'numeric'}} onChange={handleChange3}/>);
+            row.push(<TextField id="outlined-basic" label={`${i}. School Id`} variant="outlined" name={i} key={i} inputProps={{ inputMode: 'numeric'}} onChange={handleChange3}/>);
           }
           return row;
         })
       }
-      <Button type="submit" value="Submit" variant="contained">Submit</Button>
-</form>
+      <Button type="submit" value="Submit" variant="contained" onClick={submitValues}>Submit</Button>
+</div>
             
         
           
@@ -97,11 +138,9 @@ export default function CreateGroup() {
       </Card>  
     
   </div>
-  
-    
-
-
+}
 </div>
+    
 
 </div>
 
