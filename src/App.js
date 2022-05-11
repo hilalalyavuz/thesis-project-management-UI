@@ -64,6 +64,8 @@ function App() {
           </Route>
           <Route path="/SignIn" exact element={<SignIn/>}>
           </Route>
+          <Route path="/" exact element={<SignIn/>}>
+          </Route>
        </Routes>
      </Router>
     

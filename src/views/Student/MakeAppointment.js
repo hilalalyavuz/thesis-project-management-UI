@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useRef} from 'react'
+import {useState, useEffect } from 'react'
 import Sidebar from '../../components/Sidebar';
 import '../../css/Common.css'
 import { Card } from '@mui/material';
@@ -10,17 +10,70 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import { AspectRatio } from '@mui/icons-material';
+import axios from 'axios';
+import { createBrowserHistory } from 'history';
 
 export default function MakeAppointment() {
 
   
   const [date2, setDate2] = useState(null);
+  const [rows, setRows] = useState([]);
+  const [rows2, setRows2] = useState([]);
+  const [filterDate, setFilterDate] = useState();
+  const [filterValue, setFilterValue] = useState('');
   
+  let userEmail = sessionStorage.getItem("email");
+  let tok = sessionStorage.getItem("token");
+  const config = {
+      headers: { Authorization: `bearer ${tok}` }
+  };
 
-  let rows = [
-    { id: 1, date: "17/04/2022", hour: "10:30"},
-    { id: 2, date: "18/04/2022", hour: "10:30"}
-  ];
+  useEffect(() => { 
+  const getHours = async () => {
+    await axios.get(`https://localhost:7084/api/Student/AvailableHours/${userEmail}`,config).then(response => {
+              
+              response.data.map(function(x){
+                if(x.is_visible == 1){
+                  return setRows2(prevRow => ([...prevRow,{id:x.id, date:x.available_date.split('T')[0], hour:x.available_date.split('T')[1]}]))
+                }
+              })
+            }).catch(error => {
+
+          });;  
+  }
+  getHours();  
+}, []);
+
+const send = async () => {
+  await axios.post(`https://localhost:7084/api/Student/MeetingRequests/${userEmail}`,
+        {
+            "available_id": selectionModel[0]
+          },config).then(response => {
+
+            createBrowserHistory().push('/MakeAppointment');
+            window.location.reload();
+            
+          }).catch(error => {
+            
+        });;  
+}
+
+const dateSelection = (event) => {
+  function convert(str) {
+    var date = new Date(str),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+    return [date.getFullYear(), mnth, day].join("-");
+  }
+  setFilterValue('equals')
+  setFilterDate(convert(event.value))
+}
+
+const deleteFilter = () =>{
+  setFilterValue('')
+  setFilterDate()
+}
+
   const columns = [
     { field: "date", headerName: "Date", width: 200 },
     { field: "hour", headerName: "Hour", width: 200 },
@@ -46,16 +99,20 @@ export default function MakeAppointment() {
   <h3 style={{marginBottom:'1rem'}}>Appointment</h3>
   <div className="field col-12 md:col-4" style={{marginTop:'2rem',marginBottom:'2rem'}}>
                         <label htmlFor="basic">Date Filter: </label>
-                        <Calendar id="basic" value={date2} onChange={(e) => setDate2(e.value)} dateFormat="mm-dd-yy" showIcon />
+                        <Calendar id="basic" value={date2} onChange={dateSelection} dateFormat="yy-mm-dd" showIcon />
+                        <Button onClick={deleteFilter}>Delete Filter</Button>
                     </div>
 
           <div className="table" style={{width:'90%', height:'100%'}}>
           
             <DataGrid
-              rows={rows}
+              rows={rows2}
               columns={columns}
               pageSize={5}
               checkboxSelection
+              filterModel={{
+                items: [{ columnField: 'date', operatorValue: filterValue , value: filterDate }],
+              }}
               selectionModel={selectionModel}
               hideFooterSelectedRowCount
               onSelectionModelChange={(selection) => {
@@ -71,7 +128,7 @@ export default function MakeAppointment() {
             />
           </div>
           <div className="buttonArea" style={{marginTop:'0rem'}}>
-          <Button variant="contained" style={{marginBottom:'1rem'}}>
+          <Button variant="contained" style={{marginBottom:'1rem'}} onClick={send}>
                               SUBMIT
                             </Button>
           </div>
