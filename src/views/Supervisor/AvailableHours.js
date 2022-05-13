@@ -65,7 +65,7 @@ export default function AppointmentRequests() {
    
   <Card style={{marginTop:'5rem'}} className='card'>
     <div className="table" style={{height:'-webkit-fill-available'}}>
-        <h3>Appointment</h3>
+        <h3>My Available Hours</h3>
                         <DataTable value={data} paginator scrollable
                         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5}
@@ -81,7 +81,7 @@ export default function AppointmentRequests() {
                     <div>
                         <form>
                             <Box>
-                        <h3>Create Appointment</h3>
+                        <h3>Create Availability</h3>
                         <div className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>
                              Date:
