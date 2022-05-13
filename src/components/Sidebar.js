@@ -13,6 +13,7 @@ import {Link} from 'react-router-dom';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useEffect,useRef } from 'react';
+import logo from '../img/logo.png';
 import React from 'react';
 
 const Sidebar = (props) =>{
@@ -24,8 +25,7 @@ const Sidebar = (props) =>{
 return(
 <ProSidebar>
   <Menu className='menu'>
-     <h4 style={{marginLeft:'5rem'}}>Hoşgeldiniz!
-     </h4>
+     <img src={logo} style={{height:'20%',width:'50%',marginLeft:'3.5rem'}}/>
      <MenuItem className='menuItem' id='Home' icon={ <HomeOutlinedIcon />}>
         Home
         <Link to={'/Home'} />

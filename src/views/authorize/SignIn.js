@@ -106,7 +106,7 @@ export default function SignIn() {
 <div style={{display:'flex'}}>
 <img style={{width:'13%'}} src={logo}/>
  <div style={{display:'flex',width:'100%',justifyContent:'center', alignItems:'center'}}>
- <h1>Thesis Project Management</h1>
+ <h1>Thesis Tracker</h1>
  </div>
  <img style={{width:'13%',visibility:'hidden'}} src={logo}/>
 </div>

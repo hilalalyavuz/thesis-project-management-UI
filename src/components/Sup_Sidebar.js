@@ -9,58 +9,54 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {Link} from 'react-router-dom';
+import logo from '../img/logo.png';
 
 const Sidebar = (props) =>{
 
 return(
 <ProSidebar>
   <Menu className='menu'>
-     <h4 style={{marginLeft:'5rem'}}>Hoşgeldiniz!
-     <Link to={'/Home'} />
-     </h4>
-     <MenuItem className='menuItem'>
-        <HomeOutlinedIcon />
+  <img src={logo} style={{height:'20%',width:'50%',marginLeft:'3.5rem'}}/>
+     <MenuItem className='menuItem' icon={<HomeOutlinedIcon />}>
         Home
         <Link to={'/'} />
      </MenuItem>
      <h5> STUDENTS </h5>
-     <MenuItem className='menuItem'>
-        <GroupsIcon />
+     <MenuItem className='menuItem' icon={<GroupsIcon />}>
         Students
         <Link to={'/Students'} />
     </MenuItem>
-    <MenuItem className='menuItem'>
-        <CalendarMonthIcon />
+    <MenuItem className='menuItem' icon={<CalendarMonthIcon />}>
         Appointment Requests
         <Link to={'/AppointmentRequests'} />
      </MenuItem>
-     <MenuItem className='menuItem'>
-        <CalendarMonthIcon />
+     <MenuItem className='menuItem' icon={<AccessTimeIcon />}>
         Available Hours
         <Link to={'/AvailableHours'} />
      </MenuItem>
-     <MenuItem className='menuItem'>
-     <AssignmentIcon />
+     <MenuItem className='menuItem' icon={<AssignmentIcon />}>
         Documents
         <Link to={'/DocumentsSup'} />
      </MenuItem>
-    <MenuItem className='menuItem'>
-        <TaskAltIcon />
+    <MenuItem className='menuItem' icon={<TaskAltIcon />}>
         Tasks
         <Link to={'/TaskSup'} />
     </MenuItem>
+    <MenuItem className='menuItem' icon={<AccountBoxIcon />}>
+        Choose Requests
+        <Link to={'/TaskSup'} />
+    </MenuItem>
     <h5> CONTACT </h5>
-    <MenuItem className='menuItem'>
-        <ChatIcon />
+    <MenuItem className='menuItem' icon={ <ChatIcon />}>
         Contact Admin
         <Link to={'/ContactAdmin'} />
     </MenuItem>
 
     <h5> PROFILE </h5>
-    <MenuItem className='menuItem'>
-        <PermIdentityIcon />
+    <MenuItem className='menuItem' icon={<PermIdentityIcon />}>
         My Profile
         <Link to={'/ProfileSup'} />
     </MenuItem>
