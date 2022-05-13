@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import {
-  DataGrid
-} from "@mui/x-data-grid";
+import {DataGrid} from "@mui/x-data-grid";
 import Sidebar from "../../components/Sidebar";
 import '../../css/Common.css'
 import '../../css/Documents.css'
@@ -13,18 +11,44 @@ import "primeicons/primeicons.css"; //icons
 import Button from "@mui/material/Button";
 import { Card } from '@mui/material';
 import axios from 'axios';
+import { createBrowserHistory } from 'history';   
 
 export default function Documents() {
 
   const [data,setData] = useState([]);
+  let userEmail = sessionStorage.getItem("email");
+  let tok = sessionStorage.getItem("token");
+  let choosed = sessionStorage.getItem("choosed");
+  const [selectionModel, setSelectionModel] = useState([]);
+  const [flag, setFlag] = useState();
+
+  const config = {
+    headers: { Authorization: `bearer ${tok}` }
+  };
+
+  const submitSelection =()=>{
+    axios.post(`https://localhost:7084/api/Student/Supervisor/${userEmail}`,{'supervisor_id':selectionModel[0]},config).then((result)=>{
+            sessionStorage.setItem("choosed",true);
+            createBrowserHistory().push('/ChooseSupervisor');
+            window.location.reload();
+
+          }).catch(error =>{
+            console.log(error);
+        });
+  }
 
   useEffect(()=>{
     async function getData(){
-        await axios.get('https://localhost:7084/api/Student/Supervisor').then((result)=>{
+        await axios.get('https://localhost:7084/api/Student/Supervisor',config).then((result)=>{
             setData(result.data);
         });
     }
     getData();
+    if(sessionStorage.getItem("choosed")=="true"){
+      setFlag(true);
+    }else{
+      setFlag(false);
+    }
 
 },[]);
 
@@ -36,8 +60,6 @@ export default function Documents() {
     { field: "capacity", headerName: "Capacity", width: 130 }
   ];
 
-  const [selectionModel, setSelectionModel] = useState([]);
-
   return (
     <div className="Page">
       <div className="Sidebar">
@@ -45,6 +67,7 @@ export default function Documents() {
       </div>
 
       <div className="Main" style={{display:'flex',flexDirection:'column'}}>
+      { flag ? <div><h5>You choosed your supervisor</h5></div> :
         <div className="Main2">
             <Card className="card" style={{width:'80%',marginTop:'6rem'}}>
           <div className="table" style={{height:'30rem',width:'100%'}}>
@@ -69,13 +92,15 @@ export default function Documents() {
             />
           </div>
           <div className="buttonArea">
-          <Button variant="contained" style={{marginTop:'6rem',marginBottom:'1rem'}}>
+          <Button variant="contained" style={{marginTop:'6rem',marginBottom:'1rem'}} onClick={submitSelection}>
                               SUBMIT
                             </Button>
           </div>
           </Card>
         </div>
+        }
       </div>
+            
     </div>
   );
 }

@@ -28,6 +28,8 @@ export default function CreateGroup() {
     let tok = sessionStorage.getItem("token");
     let created = sessionStorage.getItem("created");
     const [state2, setState2] = useState([]);
+    const [flag,setFlag] = useState();
+
 
      const config = {
         headers: { Authorization: `bearer ${tok}` }
@@ -55,12 +57,21 @@ export default function CreateGroup() {
       };
 
       const submitValues = () =>{
-        if(checked){
-
-        }else{
-          state2.push(id);
-          axios.post(`https://localhost:7084/api/Student/Group`,{'size':size+1,'ids':state2},config).then((result)=>{
+          console.log(checked);
+          if(checked){
+            axios.post(`https://localhost:7084/api/Student/Group`,{'size':1,'ids':[id]},config).then((result)=>{
             console.log(result.data);
+            sessionStorage.setItem("created",true);
+            createBrowserHistory().push('/CreateGroup');
+            window.location.reload();
+
+          });
+
+          }else{
+            state2.push(id);
+            axios.post(`https://localhost:7084/api/Student/Group`,{'size':size+1,'ids':state2},config).then((result)=>{
+            console.log(result.data);
+            sessionStorage.setItem("created",true);
             createBrowserHistory().push('/CreateGroup');
             window.location.reload();
 
@@ -68,7 +79,7 @@ export default function CreateGroup() {
 
         });
         }
-        }
+      }
 
       useEffect(()=>{
         async function getData(){
@@ -77,12 +88,18 @@ export default function CreateGroup() {
             })
         }
         getData();
+        if(sessionStorage.getItem("created")=="true"){
+          setFlag(true);
+        }else{
+          setFlag(false);
+        }
     },[]);
 
 
 
     return(
         <>
+        
         <div className='Page'>
 
 <div className='Sidebar'>
@@ -90,7 +107,7 @@ export default function CreateGroup() {
 </div>
 
 <div className='Main'>
-  { created ? <div><h5>You made your choice</h5></div> : 
+  { flag ? <div><h5>You made your choice</h5></div> : 
   <div className='Main2'>
   <Toast ref={toast} />
   <Card className="card">
@@ -131,25 +148,16 @@ export default function CreateGroup() {
       }
       <Button type="submit" value="Submit" variant="contained" onClick={submitValues}>Submit</Button>
 </div>
-            
-        
-          
         
       </Card>  
     
   </div>
-}
+  }
 </div>
     
 
 </div>
-
-        
-
-
-
-
-
+  
       </>
-    )
+);
 }
