@@ -73,16 +73,16 @@ export default function SignIn() {
                 }
                   hasSupervisor();
                 
-                // if(response.data[1] == "student"){
-                //     createBrowserHistory().push('/Home');
-                //     window.location.reload();
-                // }else if(response.data[1] == "supervisor"){
-                //     createBrowserHistory().push('/SupervisorHome');
-                //     window.location.reload();
-                // }else if(response.data[1] == "admin"){
-                //     createBrowserHistory().push('/DocumentsAdmin');
-                //     window.location.reload();
-                // }
+                if(response.data[1] == "student"){
+                    createBrowserHistory().push('/Home');
+                    window.location.reload();
+                }else if(response.data[1] == "supervisor"){
+                    createBrowserHistory().push('/SupervisorHome');
+                    window.location.reload();
+                }else if(response.data[1] == "admin"){
+                    createBrowserHistory().push('/DocumentsAdmin');
+                    window.location.reload();
+                }
                 
             }).catch(error => {
                 toast.current.show({severity:'error', summary: 'Failed to login', life: 3000});
