@@ -10,6 +10,8 @@ import Paper from "@mui/material/Paper";
 import "../../css/Common.css";
 import "../../css/Tasks.css";
 import Sidebar from "../../components/Sidebar";
+import {useEffect} from "react";
+import axios from 'axios';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -20,39 +22,64 @@ function intersection(a, b) {
 }
 
 export default function TransferList() {
+  let userEmail = sessionStorage.getItem("email");
+  let tok = sessionStorage.getItem("token");
+
+  const config = {
+    headers: { Authorization: `bearer ${tok}` }
+  };
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState([0, 1, 2, 3]);
-  const [middle, setMiddle] = React.useState([4, 5, 6, 7]);
-  const [right, setRight] = React.useState([8, 9, 10, 11]);
+  const [left, setLeft] = React.useState([]);
+  const [middle, setMiddle] = React.useState([]);
+  const [right, setRight] = React.useState([]);
+
+  const [leftID, setLeftID] = React.useState([]);
+  const [middleID, setMiddleID] = React.useState([]);
+  const [rightID, setRightID] = React.useState([]);
 
   const leftChecked = intersection(checked, left);
   const middleChecked = intersection(checked, middle);
   const rightChecked = intersection(checked, right);
+  let id = "";
+  let status_id = "";
+  let detail = "";
 
   const handleToggle = (value) => () => {
-    console.log(value)
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
-
-    if (currentIndex === -1) {
+    console.log(currentIndex);
+    if (newChecked.length == 0) {
       newChecked.push(value);
     } else {
       newChecked.splice(currentIndex, 1);
     }
 
     setChecked(newChecked);
+    console.log(newChecked);
   };
 
   const handleCheckedRight1 = () => {
     setMiddle(middle.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
+    id = leftChecked[0].id;
+    status_id = 2;
+    detail = leftChecked[0].detail;
+    axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
+      console.log(result.data);
+    })
   };
 
   const handleCheckedRight2 = () => {
     setRight(right.concat(middleChecked));
     setMiddle(not(middle, middleChecked));
     setChecked(not(checked, middleChecked));
+    id = middleChecked[0].id;
+    status_id = 3;
+    detail = middleChecked[0].detail;
+    axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
+      console.log(result.data);
+    })
   };
   
 
@@ -60,15 +87,43 @@ export default function TransferList() {
     setLeft(left.concat(middleChecked));
     setMiddle(not(middle, middleChecked));
     setChecked(not(checked, middleChecked));
+    id = middleChecked[0].id;
+    status_id = 1;
+    detail = middleChecked[0].detail;
+    axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
+      console.log(result.data);
+    })
   };
 
   const handleCheckedLeft2 = () => {
     setMiddle(middle.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
+    id = rightChecked[0].id;
+    status_id = 2;
+    detail = rightChecked[0].detail;
+    axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
+      console.log(result.data);
+    })
   };
 
+  useEffect(()=>{
+    async function getData(){
+        await axios.get(`https://localhost:7084/api/Student/Tasks/${userEmail}`,config).then((result)=>{
+            for(var i = 0; i < result.data.length; i++){
+              if(result.data[i].status_id=="1"){
+                setLeft(oldArray => [...oldArray, result.data[i]]);
+              }else if(result.data[i].status_id=="2"){
+                setMiddle(oldArray => [...oldArray, result.data[i]]);
+              }else if(result.data[i].status_id=="3"){
+                setRight(oldArray => [...oldArray, result.data[i]]);
+              }
+            }
+        });
+    }
+    getData();
 
+},[]);
 
   const customList = (items) => (
     <Paper sx={{ width: 200, height: 230, overflow: "auto" }}>
@@ -93,7 +148,7 @@ export default function TransferList() {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              <ListItemText id={labelId} primary={`${value.detail}`} />
             </ListItem>
           );
         })}
