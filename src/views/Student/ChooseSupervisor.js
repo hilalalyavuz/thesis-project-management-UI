@@ -19,6 +19,7 @@ export default function Documents() {
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
   let choosed = sessionStorage.getItem("choosed");
+  let created = sessionStorage.getItem("created");
   const [selectionModel, setSelectionModel] = useState([]);
   const [flag, setFlag] = useState();
 
@@ -67,7 +68,7 @@ export default function Documents() {
       </div>
 
       <div className="Main" style={{display:'flex',flexDirection:'column'}}>
-      { flag ? <div><h5>You choosed your supervisor</h5></div> :
+      { flag && created ? <div><h5>You choosed your supervisor</h5></div> :
         <div className="Main2">
             <Card className="card" style={{width:'80%',marginTop:'6rem'}}>
           <div className="table" style={{height:'30rem',width:'100%'}}>
