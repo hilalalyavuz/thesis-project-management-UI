@@ -14,18 +14,80 @@ import { Button } from "primereact/button";
 import { useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { InputTextarea } from "primereact/inputtextarea";
-import { InputText } from "primereact/inputtext"
+import { InputText } from "primereact/inputtext";
+import { useEffect, useRef } from 'react';
+import axios from 'axios';
+import { Toast } from 'primereact/toast';
 
 
 export default function TransferList() {
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState([0, 1, 2, 3]);
-  const [middle, setMiddle] = React.useState([4, 5, 6, 7]);
-  const [right, setRight] = React.useState([8, 9, 10, 11]);
+  const [left, setLeft] = React.useState([]);
+  const [middle, setMiddle] = React.useState([]);
+  const [right, setRight] = React.useState([]);
   const [dialog, setDialog] = useState(false);
-  const [value1,setValue1] = useState();
-  const [value2,setValue2] = useState();
+  let userEmail = sessionStorage.getItem("email");
+  let tok = sessionStorage.getItem("token");
+  const [groups, setGroups] = useState([]);
+  const [groupsNames, setGroupsNames] = useState([]);
+  const [selectedGroups, setSelectedGroups] = useState(null);
+  const [id,setID] = useState();
+  const [names,setNames] = useState(["All Groups"]);
+  const [value1, setValue1] = useState();
+  const [value2, setValue2] = useState("");
+  const [selectedName, setSelectedName] = useState(null);
+  const toast = useRef(null);
 
+  const config = {
+    headers: { Authorization: `bearer ${tok}` }
+  };
+
+  useEffect(()=>{
+    async function getData(){
+        await axios.get(`https://localhost:7084/api/Supervisor/Group/${userEmail}`,config).then((result)=>{
+            for(var i = 0; i < result.data.length; i++){
+              setGroups(oldArray => [...oldArray, result.data[i].id]);
+              setGroupsNames(oldArray => [...oldArray, `Group ${result.data[i].id}`]);
+            }
+        });
+    }
+    getData();
+
+},[]);
+
+
+  const onGroupChange = (e) => {
+    setSelectedGroups(e.value);
+    setID(e.value.split("Group ")[1]);
+  } 
+  const onNameChange = (e) => {
+    setSelectedName(e.value);
+  } 
+
+  const filter = ()=>{
+    setLeft([]);
+    setMiddle([]);
+    setRight([]);
+    setNames(["All Groups"]);
+    axios.get(`https://localhost:7084/api/Supervisor/Group/Tasks/${id}`,config).then((result)=>{
+            for(var i = 0; i < result.data.length; i++){
+              if(result.data[i].status_id=="1"){
+                setLeft(oldArray => [...oldArray, result.data[i]]);
+              }else if(result.data[i].status_id=="2"){
+                setMiddle(oldArray => [...oldArray, result.data[i]]);
+              }else if(result.data[i].status_id=="3"){
+                setRight(oldArray => [...oldArray, result.data[i]]);
+              }
+            }
+        });
+    axios.get(`https://localhost:7084/api/Supervisor/Group/Names/${userEmail}/${id}`,config).then((result)=>{
+          setNames(oldArray => [...oldArray,selectedGroups]);
+          result.data.map((x)=>{
+            setNames(oldArray => [...oldArray,x]);
+          });
+    });
+
+  }
 
   const handleToggle = (value) => () => {
     console.log(value)
@@ -41,26 +103,28 @@ export default function TransferList() {
     setChecked(newChecked);
   };
 
-  const [selectedCity1, setSelectedCity1] = useState(null);
-    const cities = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
-    ];
-    const onCityChange = (e) => {
-        setSelectedCity1(e.value);
-    }
-
     const actionDialog = () => {
         setDialog(true);
+    }
+
+    const saveAccordings = ()=>{
+      if(selectedName != null && value2 != ""){
+        axios.post(`https://localhost:7084/api/Supervisor/Group/Tasks/${userEmail}`,{'detail':value2,'assignTo':selectedName},config).then((result)=>{
+          toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
+
+          }).catch(error => {
+            toast.current.show({severity:'error', detail:`Error occured: ${error} `, life: 3000});
+          });
+          setDialog(false);
+      }else{
+        toast.current.show({severity:'warn', detail:`You should fill all fields in the form.`, life: 3000});
+      }
     }
 
     const docDialogFooter = (
         <React.Fragment>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDialog(false)}} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={()=>{console.log("saved")}}/>
+            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveAccordings}/>
         </React.Fragment>
     );
 
@@ -87,7 +151,7 @@ export default function TransferList() {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              <ListItemText id={labelId} primary={`${value.detail}`} />
             </ListItem>
           );
         })}
@@ -98,14 +162,15 @@ export default function TransferList() {
 
   return (
     <div className="Page">
+      <Toast ref={toast} />
       <div className="Sidebar">
         <Sup_Sidebar />
       </div>
       <div className="Main">
           <div>
           <div style={{marginTop:'1rem',display:'flex',justifyContent:'center'}}>
-                <Dropdown value={selectedCity1} options={cities} onChange={onCityChange} optionLabel="name" placeholder="Select a Group" />
-                <Button label="Filter" aria-label="Submit"  />
+                <Dropdown value={selectedGroups} options={groupsNames} onChange={onGroupChange} placeholder="Select a Group" />
+                <Button label="Filter" aria-label="Submit" onClick={filter} />
                 </div>
           </div>
           <div style={{display:'flex', flexDirection:'row', justifyContent:'center',marginTop:'2rem'}}>
@@ -138,13 +203,13 @@ export default function TransferList() {
         </Grid>
         </div> 
         <Dialog visible={dialog} style={{ width: '450px' }} header="Task Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDialog(false)}}>
-                <div className="field">
-                    <label htmlFor="title">Title</label>
-                    <InputText id="title" onChange={(e) => setValue1(e.value)}></InputText>
+                <div className="field" style={{marginTop:"1rem"}}>
+                    <label htmlFor="detail">Detail:</label>
+                    <InputTextarea id="detail" onChange={(e) => setValue2(e.target.value)} required rows={3} cols={20} />
                 </div>
                 <div className="field" style={{marginTop:"1rem"}}>
-                    <label htmlFor="detail">Detail</label>
-                    <InputTextarea id="detail" onChange={(e) => setValue2(e.value)} required rows={3} cols={20} />
+                  <label htmlFor="assing">Assign To:</label>
+                  <Dropdown value={selectedName} options={names} onChange={onNameChange} placeholder="Select to Assign" />
                 </div>
                 </Dialog> 
       </div>
