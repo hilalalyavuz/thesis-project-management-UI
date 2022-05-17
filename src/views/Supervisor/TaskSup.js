@@ -117,7 +117,7 @@ export default function TransferList() {
           });
           setDialog(false);
       }else{
-        toast.current.show({severity:'warn', detail:`You should fill all fields in the form.`, life: 3000});
+        toast.current.show({severity:'warn', detail:`You must fill all fields in the form before Save.`, life: 3000});
       }
     }
 
