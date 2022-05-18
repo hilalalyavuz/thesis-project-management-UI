@@ -19,15 +19,14 @@ import axios from 'axios';
 import { createBrowserHistory } from 'history';
 
 
-
-
-export default function SignIn() {
+export default function Register() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [surname, setSurname] = useState('');
+    const [name, setName] = useState('');
+    const [schoolid, setSchoolid] = useState('');
     const toast = useRef(null);
-    const [token,setToken] = useState();
-    const [role,setRole] = useState("role");
     
     const send = () =>{
 
@@ -36,55 +35,21 @@ export default function SignIn() {
         }else{
         
         const GetData = async () => { 
-            await axios.post('https://localhost:7084/Auth/login',
+            await axios.post('https://localhost:7084/api/User',
             {
+                "name": name,
+                "surname": surname,
                 "email": email,
+                "school_id": schoolid,
+                "role_id": "student",
                 "password": password
               }).then(response => {
+                
                 toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
-                setToken(response.data[0]);
-                sessionStorage.setItem("token", response.data[0]);
-                setRole(response.data[1]);
-                sessionStorage.setItem("role", response.data[1]);
-                sessionStorage.setItem("email",email);
-                const config = { headers: { Authorization: `bearer ${response.data[0]}` }}
-                async function hasGroup(){
-                    await axios.get(`https://localhost:7084/api/Student/hasGroup/${email}`,config).then((result)=>{
-                        console.log("a",result.data);
-                        if(result.data == false){
-                          sessionStorage.setItem("created",true);
-                        }else{
-                            sessionStorage.setItem("created",false);
-                        }
-                    })
-                    
-                }
-                  hasGroup();
+                createBrowserHistory().push('/SignIn');
+                window.location.reload();
 
-                  async function hasSupervisor(){
-                    await axios.get(`https://localhost:7084/api/Student/hasSupervisor/${email}`,config).then((result)=>{
-                            console.log("b",result.data);
-                            if(result.data == false){
-                                sessionStorage.setItem("choosed",true);
-                            }else{
-                                sessionStorage.setItem("choosed",false);
-                            }
-                    })
-                }
-                  hasSupervisor();
-                
-                if(response.data[1] == "student"){
-                    createBrowserHistory().push('/Home');
-                    window.location.reload();
-                }else if(response.data[1] == "supervisor"){
-                    createBrowserHistory().push('/SupervisorHome');
-                    window.location.reload();
-                }else if(response.data[1] == "admin"){
-                    createBrowserHistory().push('/DocumentsAdmin');
-                    window.location.reload();
-                }
-                
-            }).catch(error => {
+              }).catch(error => {
                 toast.current.show({severity:'error', summary: 'Failed to login', life: 3000});
             });;  
             
@@ -105,15 +70,14 @@ export default function SignIn() {
 
 <div style={{display:'flex'}}>
 <img style={{width:'13%'}} src={logo}/>
- <div style={{display:'flex',width:'100%',justifyContent:'center', alignItems:'center'}}>
+ <div style={{display:'flex',flexDirection:'column',width:'100%',justifyContent:'center', alignItems:'center'}}>
  <h1>Thesis Tracker</h1>
+ <h2>Register</h2>
  </div>
  <img style={{width:'13%',visibility:'hidden'}} src={logo}/>
 </div>
 
-  <div className='Main2' style={{height:'50%'}}>
-
-
+  <div className='Main2' style={{height:'57%'}}>
 
       <div style={{display:'flex',flexDirection:'row',height:'100%'}}>
             <Card style={{display:'flex',flex:'1',marginRight:'2rem', boxShadow:'rgb(204 204 204) 0rem 0rem 2rem 7px'}}>
@@ -125,8 +89,10 @@ export default function SignIn() {
             <Card style={{display:'flex',flex:'1', boxShadow:'rgb(204 204 204) 0rem 0rem 2rem 7px'}}>
                 <div style={{display:'flex',flex:'1', justifyContent:'center'}}>
                         <div style={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
-                            <h2 style={{display:'flex',justifyContent:'center'}}>Welcome</h2>
-                            <TextField id="email" label="Email" autoComplete="email" type="email" variant="outlined" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+                            <TextField id="name" label="Name" variant="outlined" value={name} onChange={(e)=>setName(e.target.value)}/>
+                            <TextField id="surname" label="Surname" variant="outlined" value={surname} onChange={(e)=>setSurname(e.target.value)}/>
+                            <TextField id="email" label="Email" variant="outlined" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+                            <TextField id="schoolid" label="School Id" variant="outlined" value={schoolid} onChange={(e)=>setSchoolid(e.target.value)}/>
                             <TextField
             id="outlined-password-input"
             label="Password"
@@ -134,10 +100,8 @@ export default function SignIn() {
             autoComplete="current-password"
             value={password} onChange={(e)=> setPassword(e.target.value)}
             />
-            <div style={{marginTop:'1rem'}}>
-            Don't have an account? <a href='/Register'>Sign up</a>
-            </div>
-                <Button style={{marginTop:'1rem',height:'2rem',borderRadius:'1rem',border:'1px solid #50C878', backgroundColor:'#50C878', color:'white', cursor:'pointer'}} onClick={send}>Sign In</Button>
+            
+                <Button style={{marginTop:'2rem',height:'2rem',borderRadius:'1rem',border:'1px solid #50C878', backgroundColor:'#50C878', color:'white', cursor:'pointer'}} onClick={send}>Sign In</Button>
             
             
                         </div>

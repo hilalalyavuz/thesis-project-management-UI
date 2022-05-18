@@ -20,6 +20,7 @@ import Students from "./views/Supervisor/Students";
 import UserAdmin from './views/Admin/UserAdmin';
 import SignIn from './views/authorize/SignIn';
 import ChooseRequests from './views/Supervisor/ChooseRequests';
+import Register from './views/authorize/Register';
 
 function App() {
   return (
@@ -68,6 +69,8 @@ function App() {
           <Route path="/" exact element={<SignIn/>}>
           </Route>
           <Route path="/ChooseRequests" exact element={<ChooseRequests/>}>
+          </Route>
+          <Route path="/Register" exact element={<Register/>}>
           </Route>
        </Routes>
      </Router>
