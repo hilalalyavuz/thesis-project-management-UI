@@ -111,7 +111,7 @@ export default function TransferList() {
       if(selectedName != null && value2 != ""){
         axios.post(`https://localhost:7084/api/Supervisor/Group/Tasks/${userEmail}`,{'detail':value2,'assignTo':selectedName},config).then((result)=>{
           toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
-
+          filter();
           }).catch(error => {
             toast.current.show({severity:'error', detail:`Error occured: ${error} `, life: 3000});
           });
