@@ -15,12 +15,24 @@ import { styled } from '@mui/material/styles';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Card } from '@mui/material';
+import axios from 'axios';
+import { Document, Page } from 'react-pdf';
+import { pdfjs } from 'react-pdf';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
+import { Dialog } from 'primereact/dialog';
+
+pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 
 
 const Table = (props) => {
     
-    
+  let userEmail = sessionStorage.getItem("email");
+  let tok = sessionStorage.getItem("token");
+  const config = {
+    headers: { Authorization: `bearer ${tok}` }
+  };
+
     const [deneme, setDeneme] = useState();
     
 
@@ -56,8 +68,8 @@ const Table = (props) => {
         { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
         { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
         { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+        { id: 15, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+        { id: 14, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
       ];
     const columns = [
 
@@ -82,11 +94,100 @@ const Table = (props) => {
       ];
 
 
+  const [alert1,setAlert1]=React.useState(false);
+
+      const uploadFile =async (event)=>{
+        
+        const nameoffile=props.data+"_"+event.target.files[0].name;
+
+        const formData=new FormData();
+        console.log(nameoffile);
+        formData.append("formFile",event.target.files[0],nameoffile)
+      try {
+      const res=await axios.post(`https://localhost:7084/api/User/a/${userEmail}`,formData)
+      console.log(res);
+      setAlert1(true)
+      setTimeout(() => {
+        setAlert1(false);
+      }, 4000); 
+      
+      } catch (error) {
+        setAlert1(false);
+      console.log(error)
+      }
+      }
+
+      
+
+      const [fileDown, setFileDown] = useState();
+  const [docDialog, setDocDialog] = useState(false);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
+
+  function changePage(offset) {
+    setPageNumber(prevPageNumber => prevPageNumber + offset);
+  }
+
+  function previousPage() {
+    changePage(-1);
+  }
+
+  function nextPage() {
+    changePage(1);
+  }
+      const downloadFile = async () => {
+        await axios.get(`https://localhost:7084/api/User/b/${selectedProduct1}`,{ responseType: 'arraybuffer' }).then((res => {
+          console.log(res);
+          setFileDown({"data":res.data});
+          setDocDialog(true);
+        }))
+        
+      }
+
+  
+
+
+
     return(
         <>
         
         <Toast ref={toast} />
 
+        <Dialog className="dialDoc" visible={docDialog}  header="Document Details" modal onHide={()=>{setDocDialog(false)}}>
+
+        <Document
+        file={fileDown}
+        onLoadSuccess={onDocumentLoadSuccess}
+      >
+        <Page pageNumber={pageNumber}>
+        
+        <p>
+          Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
+        </p>
+        <button
+          type="button"
+          disabled={pageNumber <= 1}
+          onClick={previousPage}
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          disabled={pageNumber >= numPages}
+          onClick={nextPage}
+        >
+          Next
+        </button>
+      
+        </Page>
+      </Document>
+        </Dialog>
+       
         <Card className="card2">
         <div>
               <div className='table'>
@@ -109,13 +210,13 @@ const Table = (props) => {
                             </Button>
 
                             <label htmlFor="contained-button-file">
-                              <Input accept="image/*" id="contained-button-file" multiple type="file" />
+                              <Input accept="pdf/*" id="contained-button-file" onChange={uploadFile} multiple type="file" />
                               <Button startIcon={<FileUploadIcon />} variant="contained" component="span">
                                 Upload
                               </Button>
                             </label>
 
-                            <Button variant="contained" startIcon={<VisibilityIcon />}>
+                            <Button variant="contained" onClick={downloadFile} startIcon={<VisibilityIcon />}>
                               View
                             </Button>
 

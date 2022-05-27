@@ -3,3 +3,7 @@
 .card{
     padding: 1rem;
 }
+
+.dialDoc #pr_id_1_content{
+    overflow-x: hidden !important;
+}

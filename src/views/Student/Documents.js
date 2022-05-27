@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import { DataGrid, GridSelectedRowCount, selectedGridRowsCountSelector, selectedGridRowsSelector } from '@mui/x-data-grid';
 import Sidebar from '../../components/Sidebar';
 import Table from '../../components/Table'
@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { display } from '@mui/system';
+import axios from 'axios';
 
 
 
@@ -23,7 +24,23 @@ import { display } from '@mui/system';
 
 export default function Documents() {
     
-  const hh = ["deniz","hilal","gds","hy"]
+  const[header, setHeader] = useState([]);
+  let userEmail = sessionStorage.getItem("email");
+  let tok = sessionStorage.getItem("token");
+  const config = {
+    headers: { Authorization: `bearer ${tok}` }
+  };
+
+  useEffect(()=>{
+    async function getData(){
+        await axios.get(`https://localhost:7084/api/User/GetDocumentType/${userEmail}`,config).then((result)=>{
+            setHeader(result.data);
+        });
+    }
+    getData();
+
+},[]);
+  
 
 
   
@@ -36,8 +53,8 @@ export default function Documents() {
         
         <div className='Main'>
           <div className='Main2'>
-            {hh.map(x => (
-              <Table data={x}/>
+            {header.map(x => (
+              <Table data={x.name}/>
             ))
 
             }
