@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import { DataGrid, GridSelectedRowCount, selectedGridRowsCountSelector, selectedGridRowsSelector } from '@mui/x-data-grid';
 import Sidebar from '../components/Sidebar';
 import '../css/Common.css'
@@ -20,6 +20,8 @@ import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
 import { Dialog } from 'primereact/dialog';
+import DownloadIcon from '@mui/icons-material/Download';
+import fileDownload from 'react-file-download'
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
@@ -41,6 +43,7 @@ const Table = (props) => {
     //for rad
     const [selectedProduct1, setSelectedProduct1] = useState(null);
     const [selectedProduct2, setSelectedProduct2] = useState(null);
+    const [rows, setRows] = useState([]);
 
     const onRowSelect = (event) => {
       setSelectedProduct1(event)
@@ -52,6 +55,18 @@ const Table = (props) => {
       setSelectedProduct2(event.length)
   }
 
+  async function getData(){
+    await axios.get(`https://localhost:7084/api/Student/GetDocument/${userEmail}/${props.data}`,config).then((result)=>{
+      console.log(result.data)
+        setRows(result.data);
+    });
+}
+
+  useEffect(()=>{
+    getData();
+
+},[]);
+
   const deleteRow = () =>{
     console.log(selectedProduct1)
   }
@@ -60,36 +75,20 @@ const Table = (props) => {
       display: 'none',
     });
 
-    const rows = [
-        { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-        { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-        { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 15, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 14, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-      ];
+    
     const columns = [
 
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'firstName', headerName: 'First name', width: 130 },
-        { field: 'lastName', headerName: 'Last name', width: 130 },
+        { field: 'name', headerName: 'Name', width: 250 },
+        { field: 'insert_date', headerName: 'Date', width: 180 },
         {
-          field: 'age',
-          headerName: 'Age',
-          type: 'number',
-          width: 90,
+          field: 'feedback',
+          headerName: 'Feedback',
+          width: 530,
         },
         {
-          field: 'fullName',
-          headerName: 'Full name',
-          description: 'This column has a value getter and is not sortable.',
-          sortable: false,
-          width: 160,
-          valueGetter: (params) =>
-            `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+          field: 'status_id',
+          headerName: 'Status',
+          width: 150,
         }
       ];
 
@@ -103,18 +102,14 @@ const Table = (props) => {
         const formData=new FormData();
         console.log(nameoffile);
         formData.append("formFile",event.target.files[0],nameoffile)
-      try {
-      const res=await axios.post(`https://localhost:7084/api/User/a/${userEmail}`,formData)
-      console.log(res);
-      setAlert1(true)
-      setTimeout(() => {
-        setAlert1(false);
-      }, 4000); 
       
-      } catch (error) {
-        setAlert1(false);
-      console.log(error)
-      }
+      await axios.post(`https://localhost:7084/api/User/a/${userEmail}`,formData).then(res => {
+        toast.current.show({severity:'success', summary: 'File Uploaded', life: 3000});
+        getData();
+      }).catch(err => {
+        toast.current.show({severity:'error', summary: 'Failed to upload', life: 3000});
+      })
+      
       }
 
       
@@ -145,6 +140,18 @@ const Table = (props) => {
           console.log(res);
           setFileDown({"data":res.data});
           setDocDialog(true);
+        }))
+        
+      }
+
+      const downloadFile2 = async () => {
+        await axios.get(`https://localhost:7084/api/User/b/${selectedProduct1}`,{ responseType: 'arraybuffer' }).then((res => {
+          console.log(res);
+          var file_name;
+          rows.map(x => {if(x.id == selectedProduct1){
+            file_name = x.name;
+          }})
+          fileDownload(res.data, file_name);
         }))
         
       }
@@ -188,9 +195,9 @@ const Table = (props) => {
       </Document>
         </Dialog>
        
-        <Card className="card2">
+        <Card className="card2" style={{width:'75%'}}>
         <div>
-              <div className='table'>
+              <div className='table' style={{width:'100%'}}>
                               <h3>{props.data}</h3>
                               <DataGrid
                                               rows={rows}
@@ -199,7 +206,6 @@ const Table = (props) => {
                                               rowsPerPageOptions={[5]}
                                               checkboxSelection
                                               onSelectionModelChange = {onRowSelect}
-                                              
                                           />
                           </div>
 
@@ -215,6 +221,10 @@ const Table = (props) => {
                                 Upload
                               </Button>
                             </label>
+
+                            <Button variant="contained" onClick={downloadFile2} startIcon={<DownloadIcon />}>
+                              Download
+                            </Button>
 
                             <Button variant="contained" onClick={downloadFile} startIcon={<VisibilityIcon />}>
                               View

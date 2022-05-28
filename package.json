@@ -21,6 +21,7 @@
     "primereact": "^8.0.0-rc.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-file-download": "^0.3.5",
     "react-pdf": "^5.7.2",
     "react-pdf-scroll": "^1.0.0",
     "react-pro-sidebar": "^0.7.1",
