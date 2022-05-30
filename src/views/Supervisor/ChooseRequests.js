@@ -75,23 +75,27 @@ export default function ChooseRequests() {
 
 <div className='Main'>
   <div className='Main2'>
-   
-  <Card className="card" style={{width:'80%'}}>
-          <div className="table" style={{width:'100%',height:'30rem'}}>
-          <h3>Choose Requests</h3>
-          <DataTable value={data} selection={selectedProduct5} onSelectionChange={e => setSelectedProduct5(e.value)} dataKey="id" responsiveLayout="scroll">
+   <div style={{width:'80%',marginTop:'2rem'}}>
+     <div>
+       <h3>Choose Requests</h3>
+     </div>
+   <Card>
+          <DataTable value={data} paginator responsiveLayout="scroll" selection={selectedProduct5} onSelectionChange={e => setSelectedProduct5(e.value)} dataKey="id"
+          paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10,20,30]}>
                     <Column selectionMode="single" headerStyle={{width: '3em'}}></Column>
                     <Column field="group_id" header="Group ID"></Column>
                     <Column field="persons_name" header="Names"></Column>
                 </DataTable>
-          </div>
-          <div className="buttonArea">
-          <Button label='Approve' className="p-button-success" onClick={accept} style={{marginTop:'6rem',marginBottom:'1rem',marginRight:'1rem'}} icon="pi pi-check">
+          </Card>
+          <div className="buttonArea" style={{marginTop:'0rem'}}>
+          <Button label='Approve' className=" p-button-raised p-button-success" onClick={accept} style={{marginTop:'6rem',marginBottom:'1rem',marginRight:'1rem'}} icon="pi pi-check">
                             </Button>
-          <Button label="Reject" className="p-button-danger" onClick={reject} style={{marginTop:'6rem',marginBottom:'1rem'}} icon="pi pi-times">
+          <Button label="Reject" className="p-button-raised p-button-danger" onClick={reject} style={{marginTop:'6rem',marginBottom:'1rem'}} icon="pi pi-times">
           </Button>
           </div>
-          </Card>
+   </div>
+  
     
   </div>
 

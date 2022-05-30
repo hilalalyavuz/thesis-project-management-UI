@@ -71,11 +71,11 @@ export default function TransferList() {
     setNames(["All Groups"]);
     axios.get(`https://localhost:7084/api/Supervisor/Group/Tasks/${id}`,config).then((result)=>{
             for(var i = 0; i < result.data.length; i++){
-              if(result.data[i].status_id=="1"){
+              if(result.data[i].status_id=="todo"){
                 setLeft(oldArray => [...oldArray, result.data[i]]);
-              }else if(result.data[i].status_id=="2"){
+              }else if(result.data[i].status_id=="inprogress"){
                 setMiddle(oldArray => [...oldArray, result.data[i]]);
-              }else if(result.data[i].status_id=="3"){
+              }else if(result.data[i].status_id=="done"){
                 setRight(oldArray => [...oldArray, result.data[i]]);
               }
             }

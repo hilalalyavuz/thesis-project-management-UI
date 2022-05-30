@@ -5,35 +5,28 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import ChatIcon from '@mui/icons-material/Chat';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import GroupsIcon from '@mui/icons-material/Groups';
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {Link} from 'react-router-dom';
+import logo from '../img/logo.png';
 
 const Sidebar = (props) =>{
 
 return(
 <ProSidebar>
   <Menu className='menu'>
-     <h4 style={{marginLeft:'5rem'}}>Hoşgeldiniz!
-     <Link to={'/Home'} />
-     </h4>
-
+  <img src={logo} style={{height:'20%',width:'50%',marginLeft:'3.5rem'}}/>
      <h5> DASHBOARD </h5>
-    <MenuItem className='menuItem'>
-        <AssignmentIcon />
+    <MenuItem className='menuItem' icon={<AssignmentIcon />}>
         Documents
         <Link to={'/DocumentsAdmin'} />
      </MenuItem>
-    <MenuItem className='menuItem'>
-        <TaskAltIcon />
+    <MenuItem className='menuItem' icon={<GroupsIcon />}>
         User
         <Link to={'/UserAdmin'} />
     </MenuItem>
 
-    <MenuItem className='menuItem'>
-        <ManageAccountsIcon />
+    <MenuItem className='menuItem' icon={<ChatIcon />}>
         Message
         <Link to={'/'} />
     </MenuItem>

@@ -33,10 +33,6 @@ export default function Students() {
     
     },[]);
 
-      const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
-      const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
-
-
     const showProgress = (rowData)=>(
         <React.Fragment>
             <ProgressBar value={rowData.Progress}></ProgressBar>
@@ -53,22 +49,23 @@ export default function Students() {
 
 <div className='Main'>
   <div className='Main2'>
-   
-  <Card style={{marginTop:'5rem',width:'80%'}} className='card'>
-    <div className="table" style={{width:'100%'}}>
-        <h3>Students</h3>
+   <div style={{marginTop:'2rem',width:'80%'}}>
+       <div>
+          <h3>Students</h3> 
+        </div>
+   <Card>
+        
                         <DataTable value={rows2} paginator responsiveLayout="scroll"
                         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10,20,50]}
-                        paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
-                        <Column field="id" header="ID" style={{ width: '25%' }}></Column>
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10,20,50]}>
+                        <Column field="id" header="ID" style={{ width: '10%' }}></Column>
                         <Column field="name" header="Name" style={{ width: '25%' }}></Column>
                         <Column field="email" header="Email" style={{ width: '25%' }}></Column>
                         <Column field="group" header="Group" style={{ width: '25%' }}></Column>
-                        <Column header="Progress" body={showProgress}></Column>
+                        <Column header="Status" body={showProgress}></Column>
                         </DataTable>
-                    </div>
                     </Card>
+   </div>
   </div>
 
 </div>

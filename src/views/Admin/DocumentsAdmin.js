@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {useState, useRef} from 'react'
+import {useState, useEffect} from 'react';
 import Sidebar from '../../components/Admin_Sidebar';
-import '../../css/Common.css'
+import '../../css/Common.css';
 import { Card } from '@mui/material';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
@@ -10,6 +10,8 @@ import { Dialog } from 'primereact/dialog';
 import { Box } from '@mui/system';
 import { Calendar } from 'primereact/calendar';
 import { InputText } from 'primereact/inputtext';
+import axios from 'axios';
+import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 
 export default function DocumentsAdmin() {
 
@@ -19,13 +21,26 @@ export default function DocumentsAdmin() {
     const [date8, setDate8] = useState(null);
     const [date3, setDate3] = useState(null);
     const [value1, setValue1] = useState('');
+    const [value2, setValue2] = useState('');
+    const [rows, setRows] = useState([]);
+    let userEmail = sessionStorage.getItem("email");
+    let tok = sessionStorage.getItem("token");
+    const config = {
+        headers: { Authorization: `bearer ${tok}` }
+    };
 
-    
-
-    let rows = [
-        { id: 1, date: "17/04/2022", name: "RAD"},
-        { id: 2, date: "18/04/2022", name: "SDD"}
-      ];
+    useEffect(() =>{
+        async function getData(){
+            await axios.get(`https://localhost:7084/api/Admin/GetDocumentTypes/`,config).then((result)=>{
+                result.data.map(x =>{
+                    let y = x.deadline.split('T')[1];
+                    let z = x.deadline.split('T')[0];
+                    setRows(old => ([...old, {id:x.id, department:x.department,name:x.name, deadline:z, hour:y}]));
+                });
+            });
+        }
+        getData();
+    },[]);
 
       const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
       const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
@@ -61,16 +76,18 @@ export default function DocumentsAdmin() {
 <div className='Main'>
   <div className='Main2'>
    
-  <Card style={{marginTop:'5rem', paddingBottom:'2rem', width:'80%'}} className='card2'>
-    <div className="table" style={{width:'100%'}}>
+  <Card style={{marginTop:'2rem', paddingBottom:'2rem', width:'80%'}} className='card2'>
+    <div className="table" style={{width:'100%',height:'-webkit-fill-available'}}>
         <h3>Documents</h3>
                         <DataTable value={rows} paginator responsiveLayout="scroll"
                         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10,20,50]}
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5,10,20]}
                         paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
-                        <Column field="id" header="id" style={{ width: '25%' }}></Column>
-                        <Column field="date" header="date" style={{ width: '25%' }}></Column>
-                        <Column field="name" header="name" style={{ width: '25%' }}></Column>
+                        <Column field="id" header="ID" style={{ width: '10%' }}></Column>
+                        <Column field="department" header="Department" style={{ width: '20%' }}></Column>
+                        <Column field="name" header="Name" style={{ width: '20%' }}></Column>
+                        <Column field="deadline" header="Deadline" style={{ width: '20%' }}></Column>
+                        <Column field="hour" header="Hour" style={{ width: '20%' }}></Column>
                         <Column header="Edit" body={actionEdit}></Column>
                         </DataTable>
                     </div>
@@ -81,16 +98,28 @@ export default function DocumentsAdmin() {
                             <Box>
                         <h3>Create Document</h3>
                         <div className="field col-12 md:col-4">
-                        <label style={{marginRight:'1rem'}}>
+                        <label style={{marginRight:'1.5rem'}}>
                              Date:
                         </label>
                             <Calendar id="icon" value={date3} onChange={(e) => setDate3(e.value)} showIcon />
+                        </div>
+                        <div className="field col-12 md:col-4" style={{marginTop:'1rem'}}>
+                        <label style={{marginRight:'1.3rem'}}>
+                             Hour:
+                        </label>
+                        <Calendar id="time24" value={date8} onChange={(e) => setDate8(e.value)} showIcon icon={<QueryBuilderIcon/>} timeOnly hourFormat="24" />
                         </div>
                         <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>
                              Name:
                         </label>
                         <InputText value={value1} onChange={(e) => setValue1(e.target.value)} />
+                    </div>
+                    <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
+                        <label style={{marginRight:'1.5rem'}}>
+                             Dept:
+                        </label>
+                        <InputText value={value2} onChange={(e) => setValue2(e.target.value)} />
                     </div>
                     
                         
@@ -114,11 +143,23 @@ export default function DocumentsAdmin() {
                         </label>
                             <Calendar id="icon" value={date3} onChange={(e) => setDate3(e.value)} showIcon />
                         </div>
+                        <div className="field col-12 md:col-4" style={{marginTop:'1rem'}}>
+                        <label style={{marginRight:'1.3rem'}}>
+                             Hour:
+                        </label>
+                        <Calendar id="time24" value={date8} onChange={(e) => setDate8(e.value)} showIcon icon={<QueryBuilderIcon/>} timeOnly hourFormat="24" />
+                        </div>
                         <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>
                              Name:
                         </label>
                         <InputText value={value1} onChange={(e) => setValue1(e.target.value)} />
+                    </div>
+                    <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
+                        <label style={{marginRight:'1.5rem'}}>
+                             Dept:
+                        </label>
+                        <InputText value={value2} onChange={(e) => setValue2(e.target.value)} />
                     </div>
                 </Dialog>
     

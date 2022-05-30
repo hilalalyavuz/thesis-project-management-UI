@@ -58,8 +58,6 @@ export default function AppointmentRequests() {
         getHours(); 
 
     },[]);
-      const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
-      const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
 
       const actionEdit = (rowData) => {
         return(
@@ -148,11 +146,10 @@ export default function AppointmentRequests() {
         <h3>My Available Hours</h3>
                         <DataTable value={rows2} paginator scrollable
                         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5}
-                        paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
-                        <Column field="id" header="id" style={{ width: '25%' }}></Column>
-                        <Column field="date" header="date" style={{ width: '25%' }}></Column>
-                        <Column field="hour" header="hour" style={{ width: '25%' }}></Column>
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5,10,20]}>
+                        <Column field="id" header="ID" style={{ width: '25%' }}></Column>
+                        <Column field="date" header="Date" style={{ width: '25%' }}></Column>
+                        <Column field="hour" header="Hour" style={{ width: '25%' }}></Column>
                         <Column header="Edit" body={actionEdit}></Column>
                         </DataTable>
                     </div>

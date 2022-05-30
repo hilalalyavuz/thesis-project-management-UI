@@ -63,7 +63,7 @@ export default function TransferList() {
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
     id = leftChecked[0].id;
-    status_id = 2;
+    status_id = "inprogress";
     detail = leftChecked[0].detail;
     axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
       console.log(result.data);
@@ -75,7 +75,7 @@ export default function TransferList() {
     setMiddle(not(middle, middleChecked));
     setChecked(not(checked, middleChecked));
     id = middleChecked[0].id;
-    status_id = 3;
+    status_id = "done";
     detail = middleChecked[0].detail;
     axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
       console.log(result.data);
@@ -88,7 +88,7 @@ export default function TransferList() {
     setMiddle(not(middle, middleChecked));
     setChecked(not(checked, middleChecked));
     id = middleChecked[0].id;
-    status_id = 1;
+    status_id = "todo";
     detail = middleChecked[0].detail;
     axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
       console.log(result.data);
@@ -100,7 +100,7 @@ export default function TransferList() {
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
     id = rightChecked[0].id;
-    status_id = 2;
+    status_id = "inprogress";
     detail = rightChecked[0].detail;
     axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
       console.log(result.data);
@@ -111,11 +111,11 @@ export default function TransferList() {
     async function getData(){
         await axios.get(`https://localhost:7084/api/Student/Tasks/${userEmail}`,config).then((result)=>{
             for(var i = 0; i < result.data.length; i++){
-              if(result.data[i].status_id=="1"){
+              if(result.data[i].status_id=="todo"){
                 setLeft(oldArray => [...oldArray, result.data[i]]);
-              }else if(result.data[i].status_id=="2"){
+              }else if(result.data[i].status_id=="in progress"){
                 setMiddle(oldArray => [...oldArray, result.data[i]]);
-              }else if(result.data[i].status_id=="3"){
+              }else if(result.data[i].status_id=="done"){
                 setRight(oldArray => [...oldArray, result.data[i]]);
               }
             }
