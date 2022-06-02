@@ -7,14 +7,19 @@ import '../../css/Table.css'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Card } from '@mui/material';
-import Button from '@mui/material/Button';
+import Button2 from '@mui/material/Button';
+import { Button } from 'primereact/button';
 import { DataGrid} from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import axios from 'axios';
 import { createBrowserHistory } from 'history';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
+import { Fragment } from 'react';
+import { Helmet } from 'react-helmet';
 
 export default function Profile() {
 
@@ -27,12 +32,15 @@ export default function Profile() {
     const [pemail, setPemail] = useState("");
     const [pschoolid, setPschoolid] = useState("");
     const [rows2, setRows2] = useState([]);
+    const [rows3, setRows3] = useState([]);
     const [rows, setRows] = useState([]);
     const [doc,setDoc] = useState(null);
     const [docDialog, setDocDialog] = useState(false);
     const [docRowTopic, setDocRowTopic] = useState("");
     const [docRowMessage, setDocRowMessage] = useState("");
-
+    const [value,setValue] = useState(0);
+    const [response1,setResponse] = useState();
+    const [disp,setDisp] = useState();
     
 
     let userEmail = sessionStorage.getItem("email");
@@ -42,44 +50,58 @@ export default function Profile() {
         headers: { Authorization: `bearer ${tok}` }
     };
 
+    const getProfile = async () => {
+      await axios.get(`https://localhost:7084/api/Student/StudentProfile/${userEmail}`,config).then(response => {
+                  response.data.map(x => 
+                    { setName(x.name)
+                      setSurname(x.surname)
+                      setPemail(x.email)
+                      setPschoolid(x.school_id)                   
+                  }
+                    )
+              }).catch(error => {
+  
+            });;  
+    }
+
+    const getMessages = async () => {
+      await axios.get(`https://localhost:7084/api/Student/StudentProfileMessageSent/${userEmail}`,config).then(response => {
+                  response.data.map(function(x){
+                    return setRows2(prevRow => ([...prevRow,{id:x.id, topic:x.topic, message:x.message, status:x.status_id,to_user_name:x.to_user_name}]))
+                  }
+                    )
+              }).catch(error => {
+  
+            });  
+    }
+
+    const getMessages2 = async () => {
+      await axios.get(`https://localhost:7084/api/Student/StudentProfileMessageReceived/${userEmail}`,config).then(response => {
+                  response.data.map(function(x){
+                    return setRows3(prevRow => ([...prevRow,{id:x.id, topic:x.topic, message:x.message, status:x.status_id, from_user_name:x.from_user_name}]))
+                  }
+                    )
+              }).catch(error => {
+  
+            });  
+    }
+
+    const getMeetings = async () => {
+      await axios.get(`https://localhost:7084/api/Student/StudentProfileMeeting/${userEmail}`,config).then(response => {
+                  response.data.map(function(x){
+                    return setRows(prevRow => ([...prevRow,{id:x.id, link:x.link, date:x.date}]))
+                  }
+                    )
+              }).catch(error => {
+  
+            });;  
+    }
+
     useEffect(() => { 
-      const getProfile = async () => {
-        await axios.get(`https://localhost:7084/api/Student/StudentProfile/${userEmail}`,config).then(response => {
-                    response.data.map(x => 
-                      { setName(x.name)
-                        setSurname(x.surname)
-                        setPemail(x.email)
-                        setPschoolid(x.school_id)                   
-                    }
-                      )
-                }).catch(error => {
-    
-              });;  
-      }
-
-      const getMessages = async () => {
-        await axios.get(`https://localhost:7084/api/Student/StudentProfileMessage/${userEmail}`,config).then(response => {
-                    response.data.map(function(x){
-                      return setRows2(prevRow => ([...prevRow,{id:x.id, topic:x.topic, message:x.message, status:x.status_id}]))
-                    }
-                      )
-                }).catch(error => {
-    
-              });;  
-      }
-
-      const getMeetings = async () => {
-        await axios.get(`https://localhost:7084/api/Student/StudentProfileMeeting/${userEmail}`,config).then(response => {
-                    response.data.map(function(x){
-                      return setRows(prevRow => ([...prevRow,{id:x.id, link:x.link, date:x.date}]))
-                    }
-                      )
-                }).catch(error => {
-    
-              });;  
-      }
+      
       getProfile();
       getMessages();
+      getMessages2();
       getMeetings();  
 
     }, []);
@@ -137,19 +159,43 @@ export default function Profile() {
       
 }
 
-const editDoc = () =>{
-  rows2.map(x => {if(x.id == selectionModel1){
-    setDocRowTopic(x.topic)
-    setDocRowMessage(x.message)
-  }})
+const editDoc =  async() =>{
+  if(value){
+    var b = rows2.find(x => x.id === selectionModel1[0]);
+    setDoc(b);
+  }else{
+    var a = rows3.find(x => x.id === selectionModel1[0]);
+    await axios.get(`https://localhost:7084/api/Supervisor/ChangeStatusOfMessage/${selectionModel1[0]}`,config).then(result =>{
+    });
+    setDoc(a);
+  }
+
   setDocDialog(true);
 }
 
+const handleChange = (event, newValue) => {
+  setValue(newValue);
+};
+
+const sendResponse = () =>{
+  axios.post(`https://localhost:7084/api/Supervisor/AddResponse/${selectionModel1[0]}`,{response:response1, topic:doc.topic,
+  message:doc.message, status_id:"new"},config).then(response => {
+    toast.current.show({severity:'success', summary: 'Success Message', detail:'Your message sent succesfully', life: 3000});
+  }).catch(error => {
+    toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
+});  
+setDocDialog(false);
+setValue(1);
+window.location.reload();
+}
+
 const docDialogFooter = (
-  <React.Fragment>
-      <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false)}} />
-      <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={()=>{console.log("saved")}}/>
-  </React.Fragment>
+  <Fragment> 
+    
+      <Button disabled={doc ? false:true} label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false)}} />
+      <Button disabled={doc&value ? false:true} visible={doc ? true: false} label="Send" icon="pi pi-send" className="p-button-text" onClick={sendResponse}/>
+  </Fragment>   
+  
 );
 
     const columns = [
@@ -159,10 +205,19 @@ const docDialogFooter = (
         { field: 'date', headerName: 'Date', width: 200 },
       ];
 
-      const columns2 = [
-        { field: 'id', headerName: 'ID', width: 70 },
+      const columns3 = [
+        { field: 'id', headerName: 'ID', width: 20 },
+        { field: 'from_user_name', headerName: 'From', width: 100 },
         { field: 'topic', headerName: 'Topic', width: 200 },
-        { field: 'message', headerName: 'Message', width: 600 },
+        { field: 'message', headerName: 'Message', width: 400 },
+        { field: 'status', headerName: 'Status', width: 130 },
+      ];
+
+      const columns2 = [
+        { field: 'id', headerName: 'ID', width: 20 },
+        { field: 'to_user_name', headerName: 'To', width: 100 },
+        { field: 'topic', headerName: 'Topic', width: 200 },
+        { field: 'message', headerName: 'Message', width: 400 },
         { field: 'status', headerName: 'Status', width: 130 },
       ];
 
@@ -172,6 +227,9 @@ const docDialogFooter = (
         <>
 
 <div className='Page'>
+<Helmet>
+        <title>Thesis Tracker | Profile</title>
+      </Helmet>
 <Toast ref={toast} />
 <div className='Sidebar'>
     <Sidebar dname='Profile'/>
@@ -248,7 +306,7 @@ const docDialogFooter = (
                     </div>
                 </div>
                 <div className='formBottom'>
-                    <Button className='submit' onClick={updatePassword} variant="contained">Update</Button>
+                    <Button2 className='submit' onClick={updatePassword} variant="contained">Update</Button2>
                 </div>
             </form>
             </Card>
@@ -271,19 +329,33 @@ const docDialogFooter = (
 
                           <div className='tableButtons'>
 
-                            <Button variant="outlined" onClick={deleteMeeting} startIcon={<DeleteIcon />}>
+                            <Button2 variant="outlined" onClick={deleteMeeting} startIcon={<DeleteIcon />}>
                               Delete
-                            </Button>
+                            </Button2>
 
                           </div>
             </Card>
 
             <Card className='card2'>
             <div className='tableProfile'>
-                <h3>Messages</h3>
+            <h3>Messages</h3>
+            <Box sx={{ width: '100%' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={(e,n)=>{handleChange(e,n);
+          if(value){
+            setDisp("");
+          }else{
+            setDisp("none");
+          }}}>
+          <Tab label="Received"  />
+          <Tab label="Sent"  />
+        </Tabs>
+      </Box>
+    </Box>
+                
                               <DataGrid
-                                              rows={rows2}
-                                              columns={columns2}
+                                              rows={value ? rows2: rows3}
+                                              columns={value ? columns2: columns3}
                                               pageSize={5}
                                               rowsPerPageOptions={[5]}
                                               checkboxSelection
@@ -294,17 +366,15 @@ const docDialogFooter = (
                                           />
                           </div>
 
-                          <div className='tableButtons'>
+                          <div className='tableButtons' style={{marginTop:'6rem'}}>
 
-                          <Button variant="contained" onClick={editDoc} startIcon={<VisibilityIcon />}>
+                          <Button2 variant="contained" onClick={editDoc} startIcon={<VisibilityIcon />}>
                               View
-                            </Button>
-
+                            </Button2>
                           </div>
                 
             </Card>
-
-            <Dialog visible={docDialog} style={{ width: '450px' }} header="Document Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDocDialog(false)}}>
+            <Dialog visible={docDialog} style={{ width: '450px' }} header="Message Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDocDialog(false)}}>
                 <div className="field">
                     <label htmlFor="name">{doc ? doc.name:null}</label>
                 </div>
@@ -312,32 +382,34 @@ const docDialogFooter = (
                         <label style={{marginRight:'1rem'}}>
                              Topic:
                         </label>
-                            {docRowTopic}
+                            {doc? doc.topic: null}
                             </div>
 
                             <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>
-                             Meesage:
+                             Message:
+                        </label>
+                        {doc? doc.message: null}
+                        </div>
+                      <div style={{marginTop:'1rem',display:disp}} className="field col-12 md:col-4">
+                        <label style={{marginRight:'1rem',marginBottom:'1rem'}}>
+                             Response:
                         </label>
                         <TextField sx={{marginTop:'0rem'}}
-                id="read-only-multiline-static"
                 multiline
-                rows={4}
-                defaultValue="Default Value"
-                value={docRowMessage}
+                rows={5}
+                fullWidth
+                value={response1}
+                onChange={(e)=>{setResponse(e.target.value)}}
+                style={{marginTop:'0.5rem'}}
         />
-                        </div>
+        </div>
                 </Dialog>
         </div>
-
         
-
-
 
   </div>
   
-    
-
 
 </div>
 

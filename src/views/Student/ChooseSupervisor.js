@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import { Card } from '@mui/material';
 import axios from 'axios';
 import { createBrowserHistory } from 'history';   
+import { Helmet } from 'react-helmet';
 
 export default function Documents() {
 
@@ -40,7 +41,7 @@ export default function Documents() {
 
   useEffect(()=>{
     async function getData(){
-        await axios.get('https://localhost:7084/api/Student/Supervisor',config).then((result)=>{
+        await axios.get(`https://localhost:7084/api/Student/Supervisor/${userEmail}`,config).then((result)=>{
             setData(result.data);
         });
     }
@@ -63,6 +64,9 @@ export default function Documents() {
 
   return (
     <div className="Page">
+      <Helmet>
+        <title>Thesis Tracker | Choose Supervisor</title>
+      </Helmet>
       <div className="Sidebar">
         <Sidebar dname='ChooseSup' />
       </div>

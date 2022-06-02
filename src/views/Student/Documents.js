@@ -16,7 +16,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { display } from '@mui/system';
 import axios from 'axios';
-
+import { Helmet } from 'react-helmet';
 
 
 
@@ -46,6 +46,10 @@ export default function Documents() {
   
   return (
     <div className='Page'>
+      
+<Helmet>
+        <title>Thesis Tracker | Documents</title>
+      </Helmet>
 
         <div className='Sidebar'>
             <Sidebar dname="Documents"/>

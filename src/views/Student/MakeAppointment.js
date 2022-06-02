@@ -12,6 +12,7 @@ import "primeicons/primeicons.css";                                //icons
 import { AspectRatio } from '@mui/icons-material';
 import axios from 'axios';
 import { createBrowserHistory } from 'history';
+import { Helmet } from 'react-helmet';
 
 export default function MakeAppointment() {
 
@@ -85,6 +86,9 @@ const deleteFilter = () =>{
     return(
         <>
         <div className='Page'>
+        <Helmet>
+        <title>Thesis Tracker | Appointment</title>
+      </Helmet>
 
 <div className='Sidebar'>
     <Sidebar dname='MakeApp'/>

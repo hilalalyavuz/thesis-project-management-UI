@@ -13,6 +13,7 @@ import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 export default function ContactSupervisor() {
 
@@ -24,6 +25,7 @@ export default function ContactSupervisor() {
   const config = {
       headers: { Authorization: `bearer ${tok}` }
   };
+  let choosed = sessionStorage.getItem("choosed");
     
 
     const [state2, setState2] = useState([]);
@@ -32,11 +34,13 @@ export default function ContactSupervisor() {
       await axios.post(`https://localhost:7084/api/Student/Message/${userEmail}`,
             {
                 "topic": topic,
-                "message": message
+                "message": message,
+                "status_id":"new"
               },config).then(response => {
-                toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
+                toast.current.show({severity:'success', summary: 'Success Message', detail:'Your message sent succesfully', life: 3000});
+                window.location.reload();
               }).catch(error => {
-                toast.current.show({severity:'error', summary: 'Failed to login', life: 3000});
+                toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
             });;  
     }
     
@@ -52,6 +56,9 @@ export default function ContactSupervisor() {
     return(
         <>
         <div className='Page'>
+        <Helmet>
+        <title>Thesis Tracker | Contact Supervisor</title>
+      </Helmet>
         <Toast ref={toast} />
 
 <div className='Sidebar'>
@@ -65,7 +72,7 @@ export default function ContactSupervisor() {
   <Card className="card" style={{width:'60%'}}>
     <h3>Contact Supervisor</h3>
     <form onSubmit={handleChange2} style={{display:'flex', flexDirection:'column'}}>
-    <Box 
+    <Box
       component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '50ch' },
@@ -102,7 +109,7 @@ export default function ContactSupervisor() {
     </Box>
 
        <div style={{display:'flex',justifyContent:'center',marginBottom:'1rem'}}>
-         <Button style={{width:'40%'}} onClick={send} value="Submit" variant="contained">Submit</Button>
+         <Button disabled={choosed ? true : false} style={{width:'40%'}} onClick={send} value="Submit" variant="contained">Submit</Button>
        </div>
       
 </form>

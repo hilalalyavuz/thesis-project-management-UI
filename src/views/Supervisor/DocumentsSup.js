@@ -3,6 +3,7 @@ import SupTableDoc from '../../components/SupTableDoc';
 import { useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
+import { Helmet } from 'react-helmet';
 
 export default function DocumentSup(){
     
@@ -21,6 +22,9 @@ export default function DocumentSup(){
     
     return(
         <div className='Page'>
+            <Helmet>
+        <title>Thesis Tracker | Documents</title>
+        </Helmet>
             <div className='Sidebar'>
                 <Sup_Sidebar />
             </div>

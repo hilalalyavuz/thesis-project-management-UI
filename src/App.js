@@ -21,6 +21,9 @@ import UserAdmin from './views/Admin/UserAdmin';
 import SignIn from './views/authorize/SignIn';
 import ChooseRequests from './views/Supervisor/ChooseRequests';
 import Register from './views/authorize/Register';
+import Messages from './views/Supervisor/Messages';
+import ContactStudent from './views/Supervisor/ContactStudent';
+import AdminMessages from './views/Admin/AdminMessage';
 
 function App() {
   return (
@@ -71,6 +74,12 @@ function App() {
           <Route path="/ChooseRequests" exact element={<ChooseRequests/>}>
           </Route>
           <Route path="/Register" exact element={<Register/>}>
+          </Route>
+          <Route path="/Messages" exact element={<Messages/>}>
+          </Route>
+          <Route path="/ContactStudent" exact element={<ContactStudent/>}>
+          </Route>
+          <Route path="/AdminMessages" exact element={<AdminMessages/>}>
           </Route>
        </Routes>
      </Router>

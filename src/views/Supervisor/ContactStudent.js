@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import Sidebar from '../../components/Sup_Sidebar';
 import '../../css/Common.css'
 import '../../css/ContactSupervisor.css'
@@ -13,9 +13,10 @@ import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import TextareaAutosize from '@mui/material/TextareaAutosize'; 
 import axios from 'axios';
+import { Dropdown } from "primereact/dropdown";
 import { Helmet } from 'react-helmet';
 
-export default function ContactAdmin() {
+export default function ContactStudent() {
 
   
   let userEmail = sessionStorage.getItem("email");
@@ -28,14 +29,36 @@ export default function ContactAdmin() {
     const [topic, setTopic] = useState("");
     const [message, setMessage] = useState("");
     const toast = useRef(null);
+    const [groups, setGroups] = useState([]);
+    const [groupsNames, setGroupsNames] = useState([]);
+    const [selectedGroups, setSelectedGroups] = useState(null);
+    const [id,setID] = useState();
 
       const handleChange2 = () => {
-          axios.post(`https://localhost:7084/api/Supervisor/ContactAdmin/${userEmail}`,{topic:topic,message:message,status_id:"new"},config).then(response => {
+          axios.post(`https://localhost:7084/api/Supervisor/ContactStudent/${userEmail}`,{topic:topic,message:message,status_id:"new",to_user_id:id},config).then(response => {
             toast.current.show({severity:'success', summary: 'Success Message', detail:'Your message sent succesfully', life: 3000});
           }).catch(error => {
             toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
         });  
       }
+
+      const onGroupChange = (e) => {
+        setSelectedGroups(e.value);
+        setID(e.value.split("Group ")[1]);
+      } 
+      
+      useEffect(()=>{
+        async function getData(){
+            await axios.get(`https://localhost:7084/api/Supervisor/Group/${userEmail}`,config).then((result)=>{
+                for(var i = 0; i < result.data.length; i++){
+                  setGroups(oldArray => [...oldArray, result.data[i].id]);
+                  setGroupsNames(oldArray => [...oldArray, `Group ${result.data[i].id}`]);
+                }
+            });
+        }
+        getData();
+    
+    },[]);
 
 
 
@@ -43,7 +66,7 @@ export default function ContactAdmin() {
         <>
         <div className='Page'>
         <Helmet>
-        <title>Thesis Tracker | Contact Admin</title>
+        <title>Thesis Tracker | Contact Student</title>
         </Helmet>
         <Toast ref={toast} />
 <div className='Sidebar'>
@@ -55,7 +78,7 @@ export default function ContactAdmin() {
     
 
   <Card className="card" style={{width:'60%'}}>
-    <h3>Contact Admin</h3>
+    <h3>Contact Group</h3>
     <form onSubmit={handleChange2} style={{display:'flex', flexDirection:'column'}}>
     <Box
       component="form"
@@ -65,6 +88,12 @@ export default function ContactAdmin() {
       noValidate
       autoComplete="off"
     >
+        <div className='area'>
+        <label>
+             Group:
+            </label>
+            <Dropdown style ={{width:'50ch'}}value={selectedGroups} options={groupsNames} onChange={onGroupChange} placeholder="Select a Group" />
+        </div>
         <div className='area'>
             <label>
                 Topic:

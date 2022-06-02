@@ -12,6 +12,7 @@ import "../../css/Tasks.css";
 import Sidebar from "../../components/Sidebar";
 import {useEffect} from "react";
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -159,6 +160,9 @@ export default function TransferList() {
 
   return (
     <div className="Page">
+      <Helmet>
+        <title>Thesis Tracker | Tasks</title>
+      </Helmet>
       <div className="Sidebar">
         <Sidebar dname='Tasks' />
       </div>

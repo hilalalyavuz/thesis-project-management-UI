@@ -6,6 +6,7 @@ import { Card } from '@mui/material';
 import {Button} from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Helmet } from 'react-helmet';
 
 export default function AppointmentRequests() {
 
@@ -35,6 +36,9 @@ export default function AppointmentRequests() {
     return(
         <>
         <div className='Page'>
+        <Helmet>
+        <title>Thesis Tracker | Meeting Requests</title>
+      </Helmet>
 
 <div className='Sidebar'>
     <Sidebar/>

@@ -17,7 +17,8 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css"; 
 import { Checkbox } from 'primereact/checkbox';    
 import axios from 'axios';  
-import { createBrowserHistory } from 'history';                        
+import { createBrowserHistory } from 'history';  
+import { Helmet } from 'react-helmet';                      
 
 export default function CreateGroup() {
 
@@ -101,7 +102,9 @@ export default function CreateGroup() {
         <>
         
         <div className='Page'>
-
+        <Helmet>
+        <title>Thesis Tracker | Create Group</title>
+      </Helmet>
 <div className='Sidebar'>
     <Sidebar dname='CreateGroup'/>
 </div>
@@ -113,7 +116,7 @@ export default function CreateGroup() {
   <Card className="card">
     <h3>Create Group</h3>
     <div className="field-checkbox" style={{margin:'0.5rem'}}>
-      <Checkbox style={{marginRight:'0.5rem'}} inputId="binary" checked={checked} onChange={e => setChecked(e.checked)} />
+      <Checkbox style={{marginRight:'0.5rem'}} inputId="binary" checked={checked} onChange={e => {setChecked(e.checked)}} />
         <label htmlFor="binary">I'll do it on my own.</label>
     </div>
     
@@ -141,7 +144,7 @@ export default function CreateGroup() {
         runCallback(() => {
           const row = [];
           for (var i = 1; i <= size; i++) {
-            row.push(<TextField id="outlined-basic" label={`${i}. School Id`} variant="outlined" name={i} key={i} inputProps={{ inputMode: 'numeric'}} onChange={handleChange3}/>);
+            row.push(<TextField disabled={checked} id="outlined-basic" label={`${i}. School Id`} variant="outlined" name={i} key={i} inputProps={{ inputMode: 'numeric'}} onChange={handleChange3}/>);
           }
           return row;
         })

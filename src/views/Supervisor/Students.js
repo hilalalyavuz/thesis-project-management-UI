@@ -9,6 +9,7 @@ import { Column } from 'primereact/column';
 import { ProgressBar } from 'primereact/progressbar';
 import {useEffect} from 'react';
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 
 export default function Students() {
@@ -42,6 +43,9 @@ export default function Students() {
     return(
         <>
         <div className='Page'>
+        <Helmet>
+        <title>Thesis Tracker | Students</title>
+</Helmet>
 
 <div className='Sidebar'>
     <Sidebar/>

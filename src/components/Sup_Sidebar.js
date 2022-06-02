@@ -11,6 +11,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {Link} from 'react-router-dom';
 import logo from '../img/logo.png';
 
@@ -50,10 +53,20 @@ return(
         <Link to={'/ChooseRequests'} />
     </MenuItem>
     <h5> CONTACT </h5>
-    <MenuItem className='menuItem' icon={ <ChatIcon />}>
+    <MenuItem className='menuItem' id='Contact' icon={<MailOutlineIcon/>}>
+        Messages
+        <Link to={'/Messages'} />
+    </MenuItem>
+    <SubMenu title="Contact" icon={<ChatIcon></ChatIcon>}>
+    <MenuItem className='menuItem' icon={ <HelpOutlineIcon />}>
         Contact Admin
         <Link to={'/ContactAdmin'} />
     </MenuItem>
+    <MenuItem className='menuItem' icon={ <ForwardToInboxIcon />}>
+        Contact Student
+        <Link to={'/ContactStudent'} />
+    </MenuItem>
+    </SubMenu>
 
     <h5> PROFILE </h5>
     <MenuItem className='menuItem' icon={<PermIdentityIcon />}>

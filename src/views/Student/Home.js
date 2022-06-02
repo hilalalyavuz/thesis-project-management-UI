@@ -7,6 +7,7 @@ import { Card } from 'primereact/card';
 import { ProgressBar } from 'primereact/progressbar';
 import React from 'react';
 import {Calendar} from 'primereact/calendar';
+import { Helmet } from 'react-helmet';
 
 const Home = () => {
 
@@ -20,6 +21,9 @@ const Home = () => {
   const [value, setValue] = useState(60);
    return (
     <div className="Page">
+      <Helmet>
+        <title>Thesis Tracker | Home</title>
+      </Helmet>
       <div className="Sidebar">
         <Sidebar dname='Home' />
       </div>

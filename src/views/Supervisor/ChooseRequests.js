@@ -10,6 +10,7 @@ import {useEffect} from 'react';
 import axios from 'axios';
 import { createBrowserHistory } from 'history';  
 import {Toast} from 'primereact/toast';
+import { Helmet } from 'react-helmet';
 
 export default function ChooseRequests() {
 
@@ -67,6 +68,9 @@ export default function ChooseRequests() {
     return(
         <>
         <div className='Page'>
+        <Helmet>
+        <title>Thesis Tracker | Choose Requests</title>
+        </Helmet>
         <Toast ref={toast} />
 
 <div className='Sidebar'>

@@ -18,6 +18,7 @@ import { InputText } from "primereact/inputtext";
 import { useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Toast } from 'primereact/toast';
+import { Helmet } from 'react-helmet';
 
 
 export default function TransferList() {
@@ -162,6 +163,9 @@ export default function TransferList() {
 
   return (
     <div className="Page">
+      <Helmet>
+        <title>Thesis Tracker | Tasks</title>
+      </Helmet>
       <Toast ref={toast} />
       <div className="Sidebar">
         <Sup_Sidebar />

@@ -2,9 +2,7 @@ import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import '../css/Sidebar.css'
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import ChatIcon from '@mui/icons-material/Chat';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {Link} from 'react-router-dom';
@@ -26,9 +24,9 @@ return(
         <Link to={'/UserAdmin'} />
     </MenuItem>
 
-    <MenuItem className='menuItem' icon={<ChatIcon />}>
+    <MenuItem className='menuItem' icon={<MailOutlineIcon />}>
         Message
-        <Link to={'/'} />
+        <Link to={'/AdminMessages'} />
     </MenuItem>
 
     

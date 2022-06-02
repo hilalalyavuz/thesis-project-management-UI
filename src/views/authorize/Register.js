@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import Sidebar from '../../components/Sidebar';
 import '../../css/Common.css'
 import '../../css/ContactSupervisor.css'
@@ -17,6 +17,8 @@ import logo from '../../img/logo.png';
 import wave from '../../img/wave.svg';
 import axios from 'axios';
 import { createBrowserHistory } from 'history';
+import { Helmet } from 'react-helmet';
+import { Dropdown } from 'primereact/dropdown';
 
 
 export default function Register() {
@@ -26,7 +28,19 @@ export default function Register() {
     const [surname, setSurname] = useState('');
     const [name, setName] = useState('');
     const [schoolid, setSchoolid] = useState('');
+    const [dept, setDept] = useState([]);
     const toast = useRef(null);
+    const [drops, setDrops] = useState([]);
+    const [selectedDept, setSelectedDept] = useState();
+
+    useEffect(() =>{
+        async function getData2(){
+            await axios.get(`https://localhost:7084/api/Admin/GetDepts/`).then((result)=>{
+                setDrops(result.data);
+            });
+        }
+        getData2();
+    })
     
     const send = () =>{
 
@@ -41,8 +55,9 @@ export default function Register() {
                 "surname": surname,
                 "email": email,
                 "school_id": schoolid,
-                "role_id": "student",
-                "password": password
+                "role_id": "",
+                "password": password,
+                "department":dept
               }).then(response => {
                 
                 toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
@@ -63,6 +78,9 @@ export default function Register() {
     return(
         <>
         <div className='Page'>
+        <Helmet>
+        <title>Thesis Tracker | Register</title>
+</Helmet>
         <Toast ref={toast} />
 
 
@@ -93,6 +111,7 @@ export default function Register() {
                             <TextField id="surname" label="Surname" variant="outlined" value={surname} onChange={(e)=>setSurname(e.target.value)}/>
                             <TextField id="email" label="Email" variant="outlined" value={email} onChange={(e)=>setEmail(e.target.value)}/>
                             <TextField id="schoolid" label="School Id" variant="outlined" value={schoolid} onChange={(e)=>setSchoolid(e.target.value)}/>
+                            <Dropdown value={selectedDept} options={drops} onChange={(e)=>{setDept(e.value);setSelectedDept(e.value)}} placeholder="Select Department" style={{marginTop:'2rem'}} />
                             <TextField
             id="outlined-password-input"
             label="Password"

@@ -1,0 +1,18 @@
+.customer-badge.status-new {
+    background-color: #C8E6C9;
+    color: #256029;
+}
+
+.customer-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.customer-badge.status-read {
+    background-color: #ECCFFF;
+    color: #694382;
+}

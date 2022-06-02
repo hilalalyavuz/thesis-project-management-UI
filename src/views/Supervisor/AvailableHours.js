@@ -14,6 +14,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
 import { createBrowserHistory } from 'history';
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 export default function AppointmentRequests() {
 
@@ -132,6 +133,9 @@ export default function AppointmentRequests() {
     return(
         <>
         <div className='Page'>
+        <Helmet>
+        <title>Thesis Tracker | Availability</title>
+      </Helmet>
         <Toast ref={toast} />
 
 <div className='Sidebar'>

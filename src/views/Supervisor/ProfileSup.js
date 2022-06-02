@@ -10,11 +10,10 @@ import { Card } from '@mui/material';
 import Button from '@mui/material/Button';
 import { DataGrid} from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import axios from 'axios';
 import { createBrowserHistory } from 'history';
-import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
+import { Helmet } from 'react-helmet';
 
 export default function ProfileSup() {
 
@@ -28,11 +27,6 @@ export default function ProfileSup() {
     const [pschoolid, setPschoolid] = useState("");
     const [rows2, setRows2] = useState([]);
     const [rows, setRows] = useState([]);
-    const [doc,setDoc] = useState(null);
-    const [docDialog, setDocDialog] = useState(false);
-    const [docRowTopic, setDocRowTopic] = useState("");
-    const [docRowMessage, setDocRowMessage] = useState("");
-
     
 
     let userEmail = sessionStorage.getItem("email");
@@ -57,16 +51,6 @@ export default function ProfileSup() {
               });;  
       }
 
-      const getMessages = async () => {
-        await axios.get(`https://localhost:7084/api/Supervisor/SupervisorProfileMessage/${userEmail}`,config).then(response => {
-                    response.data.map(function(x){
-                      return setRows2(prevRow => ([...prevRow,{id:x.id, topic:x.topic, message:x.message, status:x.status_id}]))
-                    }
-                      )
-                }).catch(error => {
-    
-              });;  
-      }
 
       const getMeetings = async () => {
         await axios.get(`https://localhost:7084/api/Supervisor/SupervisorProfileMeeting/${userEmail}`,config).then(response => {
@@ -79,7 +63,6 @@ export default function ProfileSup() {
               });;  
       }
       getProfile();
-      getMessages();
       getMeetings();  
 
     }, []);
@@ -137,20 +120,6 @@ export default function ProfileSup() {
       
 }
 
-const editDoc = () =>{
-  rows2.map(x => {if(x.id == selectionModel1){
-    setDocRowTopic(x.topic)
-    setDocRowMessage(x.message)
-  }})
-  setDocDialog(true);
-}
-
-const docDialogFooter = (
-  <React.Fragment>
-      <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false)}} />
-      <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={()=>{console.log("saved")}}/>
-  </React.Fragment>
-);
 
     const columns = [
 
@@ -159,19 +128,14 @@ const docDialogFooter = (
         { field: 'date', headerName: 'Date', width: 200 },
       ];
 
-      const columns2 = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'topic', headerName: 'Topic', width: 200 },
-        { field: 'message', headerName: 'Message', width: 600 },
-        { field: 'status', headerName: 'Status', width: 130 },
-      ];
-
-
     return(
 
         <>
 
 <div className='Page'>
+<Helmet>
+        <title>Thesis Tracker | Profile</title>
+</Helmet>
 <Toast ref={toast} />
 <div className='Sidebar'>
     <Sup_Sidebar dname='Profile'/>
@@ -277,57 +241,7 @@ const docDialogFooter = (
 
                           </div>
             </Card>
-
-            <Card className='card2'>
-            <div className='tableProfile'>
-                <h3>Messages</h3>
-                              <DataGrid
-                                              rows={rows2}
-                                              columns={columns2}
-                                              pageSize={5}
-                                              rowsPerPageOptions={[5]}
-                                              checkboxSelection
-                                              selectionModel={selectionModel1}
-                                              hideFooterSelectedRowCount
-                                              onSelectionModelChange={onRowSelect1}
-                                              
-                                          />
-                          </div>
-
-                          <div className='tableButtons'>
-
-                          <Button variant="contained" onClick={editDoc} startIcon={<VisibilityIcon />}>
-                              View
-                            </Button>
-
-                          </div>
-                
-            </Card>
-
-            <Dialog visible={docDialog} style={{ width: '450px' }} header="Document Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDocDialog(false)}}>
-                <div className="field">
-                    <label htmlFor="name">{doc ? doc.name:null}</label>
-                </div>
-                <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
-                        <label style={{marginRight:'1rem'}}>
-                             Topic:
-                        </label>
-                            {docRowTopic}
-                            </div>
-
-                            <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
-                        <label style={{marginRight:'1rem'}}>
-                             Meesage:
-                        </label>
-                        <TextField sx={{marginTop:'0rem'}}
-                id="read-only-multiline-static"
-                multiline
-                rows={4}
-                defaultValue="Default Value"
-                value={docRowMessage}
-        />
-                        </div>
-                </Dialog>
+                    
         </div>
 
         
