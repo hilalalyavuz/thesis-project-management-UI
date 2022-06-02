@@ -29,6 +29,7 @@ export default function AppointmentRequests() {
     const [rows2, setRows2] = useState([]);
     const [data,setData] = useState();
     const toast = useRef(null);
+    var today = new Date();
     let userEmail = sessionStorage.getItem("email");
     let tok = sessionStorage.getItem("token");
     const config = {
@@ -41,14 +42,12 @@ export default function AppointmentRequests() {
         setDuration(e.value);
     }
 
-    useEffect(()=>{
-        
-        const getHours = async () => {
+    const getHours = async () => {
             console.log(config)
             await axios.get(`https://localhost:7084/api/Supervisor/AvailableHours/${userEmail}`,config).then(response => {
                       
                       response.data.map(function(x){
-                        if(x.is_visible == 1){
+                        if(x.is_visible == 0){
                           return setRows2(prevRow => ([...prevRow,{id:x.id, date:x.available_date.split('T')[0], hour:x.available_date.split('T')[1]}]))
                         }
                       })
@@ -56,6 +55,9 @@ export default function AppointmentRequests() {
         
                   });;  
           }
+
+    useEffect(()=>{
+        
         getHours(); 
 
     },[]);
@@ -86,6 +88,7 @@ export default function AppointmentRequests() {
                 "duration": duration.code
               },config).then(response => {
                 toast.current.show({severity:'success', summary: 'Available Hours Added', life: 3000});
+                getHours();
               }).catch(error => {
                 toast.current.show({severity:'error', summary: 'Failed to Add', life: 3000});
             });;  
@@ -104,9 +107,8 @@ export default function AppointmentRequests() {
                   "id": doc.id,
                   "available_date": datee
                 },config).then(response => {
-      
-                  createBrowserHistory().push('/AvailableHours');
-                  window.location.reload();
+                  toast.current.show({severity:'warn', summary: 'Edited', life: 3000});
+                  getHours();
                   
                 }).catch(error => {
                   
@@ -167,7 +169,7 @@ export default function AppointmentRequests() {
                         <label style={{marginRight:'1rem'}}>
                              Date:
                         </label>
-                            <Calendar id="icon" value={date3} onChange={(e) => setDate3(e.value)} dateFormat="yy-mm-dd" showIcon />
+                            <Calendar id="icon" value={date3} onChange={(e) => setDate3(e.value)} minDate={today} dateFormat="yy-mm-dd" showIcon />
                         </div>
                         <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>

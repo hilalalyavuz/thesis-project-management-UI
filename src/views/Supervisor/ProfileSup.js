@@ -55,7 +55,7 @@ export default function ProfileSup() {
       const getMeetings = async () => {
         await axios.get(`https://localhost:7084/api/Supervisor/SupervisorProfileMeeting/${userEmail}`,config).then(response => {
                     response.data.map(function(x){
-                      return setRows(prevRow => ([...prevRow,{id:x.id, link:x.link, date:x.date}]))
+                      return setRows(prevRow => ([...prevRow,{id:x.id, link:x.link_host, date:x.date}]))
                     }
                       )
                 }).catch(error => {
@@ -122,11 +122,17 @@ export default function ProfileSup() {
 
 
     const columns = [
-
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'link', headerName: 'Link', width: 700 },
+        { field: 'link',headerName: 'Link', width: 700 },
         { field: 'date', headerName: 'Date', width: 200 },
       ];
+
+      const ca = (rowData) => {
+        window.open(rowData.row.link, '_blank', 'noopener,noreferrer');
+      }
+
+     
+
 
     return(
 
@@ -226,6 +232,7 @@ export default function ProfileSup() {
                                               pageSize={5}
                                               rowsPerPageOptions={[5]}
                                               checkboxSelection
+                                              onRowDoubleClick={ca}
                                               selectionModel={selectionModel}
                                               hideFooterSelectedRowCount
                                               onSelectionModelChange={onRowSelect}

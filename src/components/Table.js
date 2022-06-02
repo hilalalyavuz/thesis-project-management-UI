@@ -22,6 +22,7 @@ import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
 import { Dialog } from 'primereact/dialog';
 import DownloadIcon from '@mui/icons-material/Download';
 import fileDownload from 'react-file-download'
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
@@ -67,8 +68,18 @@ const Table = (props) => {
 
 },[]);
 
-  const deleteRow = () =>{
-    console.log(selectedProduct1)
+  const deleteRow = async () =>{
+    await axios.delete(`https://localhost:7084/api/Student/DeleteDocument/${selectedProduct1}`,config).then((result)=>{
+      toast.current.show({ severity: 'warn', summary: 'Document Deleted', life: 3000 });
+      getData();
+    });
+  }
+
+  const markFinal = async () =>{
+    
+    await axios.get(`https://localhost:7084/api/Student/MarkFinalDocument/${selectedProduct1}`,config).then((result)=>{
+      toast.current.show({ severity: 'warn', summary: 'Marked as final', life: 3000 });
+    });
   }
 
     const Input = styled('input')({
@@ -210,6 +221,11 @@ const Table = (props) => {
                           </div>
 
                           <div className='tableButtons'>
+
+
+                          <Button variant="outlined" onClick={markFinal} startIcon={<BookmarkIcon />}>
+                              Final
+                            </Button>
 
                             <Button variant="outlined" onClick={deleteRow} startIcon={<DeleteIcon />}>
                               Delete

@@ -1,23 +1,62 @@
+import * as React from 'react';
+import {useState, useRef, useEffect} from 'react'
 import Sup_Sidebar from '../../components/Sup_Sidebar';
 import SupTableDoc from '../../components/SupTableDoc';
-import { useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Helmet } from 'react-helmet';
+import axios from 'axios';
+
 
 export default function DocumentSup(){
     
-    const hh = ["deniz","hilal","gds","hy"];
-    const [selectedCity1, setSelectedCity1] = useState(null);
-    const cities = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
-    ];
+    const[header, setHeader] = useState([]);
+    const[group, setGroup] = useState([]);
+  let userEmail = sessionStorage.getItem("email");
+  let tok = sessionStorage.getItem("token");
+  const config = {
+    headers: { Authorization: `bearer ${tok}` }
+  };
+
+    useEffect(()=>{
+        async function getData(){
+            await axios.get(`https://localhost:7084/api/User/GetDocumentType/${userEmail}`,config).then((result)=>{
+                console.log(result.data)
+                setHeader(result.data);
+            });
+        }
+        async function getGroup(){
+            await axios.get(`https://localhost:7084/api/Supervisor/Group/${userEmail}`,config).then((result)=>{
+                setGroup(result.data);
+            });
+        }
+        getData();
+        getGroup();
+    },[]);
+
+
+
+    
+    const [selectedCity1, setSelectedCity1] = useState("");
+    const [selectedCity2, setSelectedCity2] = useState("");
     const onCityChange = (e) => {
         setSelectedCity1(e.value);
+    }
+
+    const FilterGroup = async () => {
+        setSelectedCity2(selectedCity1)
+        OpenGroupDocs();
+    }
+    const OpenGroupDocs = () => {
+        return(
+            <div className='' style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                {header.map(x => (
+              <SupTableDoc data={{name:x.name,docId:x.id,groupId:selectedCity2.id}}/>
+            ))
+
+            }
+                </div>
+        );
     }
     
     return(
@@ -30,17 +69,11 @@ export default function DocumentSup(){
             </div>
             <div className='Main'>
                 <div style={{marginTop:'1rem',display:'flex',justifyContent:'center'}}>
-                    <Dropdown value={selectedCity1} options={cities} onChange={onCityChange} optionLabel="name" placeholder="Select a Group" />
-                <Button label="Filter" aria-label="Submit"  />
+                    <Dropdown value={selectedCity1} options={group} onChange={onCityChange} optionLabel="id" placeholder="Select a Group" />
+                <Button label="Filter" onClick={FilterGroup} aria-label="Submit"  />
                 </div>
             
-                <div className='' style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
-                {hh.map(x => (
-              <SupTableDoc data={x}/>
-            ))
-
-            }
-                </div>
+                <OpenGroupDocs></OpenGroupDocs>
             </div>
         </div>
     );

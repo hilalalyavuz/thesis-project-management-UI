@@ -98,7 +98,6 @@ export default function Profile() {
     }
 
     useEffect(() => { 
-      
       getProfile();
       getMessages();
       getMessages2();
@@ -129,6 +128,10 @@ export default function Profile() {
                 toast.current.show({severity:'error', summary: 'Failed to update password', life: 3000});
             });;  
           }
+    }
+
+    const ca = (rowData) => {
+      window.open(rowData.row.link, '_blank', 'noopener,noreferrer');
     }
 
 
@@ -320,6 +323,7 @@ const docDialogFooter = (
                                               pageSize={5}
                                               rowsPerPageOptions={[5]}
                                               checkboxSelection
+                                              onRowDoubleClick={ca}
                                               selectionModel={selectionModel}
                                               hideFooterSelectedRowCount
                                               onSelectionModelChange={onRowSelect}

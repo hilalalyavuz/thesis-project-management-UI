@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect } from 'react'
+import {useState, useEffect, useRef } from 'react'
 import Sidebar from '../../components/Sidebar';
 import '../../css/Common.css'
 import { Card } from '@mui/material';
@@ -13,6 +13,7 @@ import { AspectRatio } from '@mui/icons-material';
 import axios from 'axios';
 import { createBrowserHistory } from 'history';
 import { Helmet } from 'react-helmet';
+import { Toast } from 'primereact/toast';
 
 export default function MakeAppointment() {
 
@@ -22,6 +23,7 @@ export default function MakeAppointment() {
   const [rows2, setRows2] = useState([]);
   const [filterDate, setFilterDate] = useState();
   const [filterValue, setFilterValue] = useState('');
+  const toast = useRef(null);
   
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
@@ -29,12 +31,11 @@ export default function MakeAppointment() {
       headers: { Authorization: `bearer ${tok}` }
   };
 
-  useEffect(() => { 
   const getHours = async () => {
     await axios.get(`https://localhost:7084/api/Student/AvailableHours/${userEmail}`,config).then(response => {
               
               response.data.map(function(x){
-                if(x.is_visible == 1){
+                if(x.is_visible == 0){
                   return setRows2(prevRow => ([...prevRow,{id:x.id, date:x.available_date.split('T')[0], hour:x.available_date.split('T')[1]}]))
                 }
               })
@@ -42,6 +43,8 @@ export default function MakeAppointment() {
 
           });;  
   }
+
+  useEffect(() => { 
   getHours();  
 }, []);
 
@@ -51,8 +54,8 @@ const send = async () => {
             "available_id": selectionModel[0]
           },config).then(response => {
 
-            createBrowserHistory().push('/MakeAppointment');
-            window.location.reload();
+            toast.current.show({ severity: 'info', summary: 'Submitted', life: 3000 });
+            getHours();
             
           }).catch(error => {
             
@@ -85,6 +88,7 @@ const deleteFilter = () =>{
 
     return(
         <>
+        <Toast ref={toast} />
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Appointment</title>

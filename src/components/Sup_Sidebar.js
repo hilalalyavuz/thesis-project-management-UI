@@ -19,6 +19,14 @@ import logo from '../img/logo.png';
 
 const Sidebar = (props) =>{
 
+    const logout = () => {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('role');
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('created');
+        sessionStorage.removeItem('choosed');
+    }
+
 return(
 <ProSidebar>
   <Menu className='menu'>
@@ -75,11 +83,11 @@ return(
     </MenuItem>
     
     <div style={{display:'flex',height:'100%',alignItems:'flex-end'}}>
-        <MenuItem className='menuItem'>
+        <MenuItem onClick={logout} className='menuItem'>
         <h5 style={{marginLeft:'0rem',marginRight:'8rem'}}> {props.name} </h5>
         <LogoutIcon />
         Log Out
-        <Link to={'/Home'} />
+        <Link to={'/SignIn'} />
     </MenuItem>
     </div>
     
