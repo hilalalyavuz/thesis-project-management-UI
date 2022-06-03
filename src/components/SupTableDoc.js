@@ -83,6 +83,7 @@ export default function SupTableDoc(props){
         },config).then((result)=>{
             toast.current.show({ severity: 'info', summary: 'Updated', life: 3000 });
             getData();
+            setDocDialog(false);
         });
     }
     const [fileDown, setFileDown] = useState();

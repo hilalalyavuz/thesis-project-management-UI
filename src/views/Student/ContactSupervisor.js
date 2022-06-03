@@ -109,7 +109,7 @@ export default function ContactSupervisor() {
     </Box>
 
        <div style={{display:'flex',justifyContent:'center',marginBottom:'1rem'}}>
-         <Button disabled={choosed ? true : false} style={{width:'40%'}} onClick={send} value="Submit" variant="contained">Submit</Button>
+         <Button disabled={choosed ? false : true} style={{width:'40%'}} onClick={send} value="Submit" variant="contained">Submit</Button>
        </div>
       
 </form>

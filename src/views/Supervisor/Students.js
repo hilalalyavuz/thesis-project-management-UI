@@ -26,7 +26,7 @@ export default function Students() {
         async function getData(){
             await axios.get(`https://localhost:7084/api/Supervisor/SupervisorStudents/${userEmail}`,config).then((response)=>{
                 response.data.map(function(x){
-                      return setRows2(prevRow => ([...prevRow,{id:x.id, name:x.name+" "+x.surname, email:x.email, group:x.group_id}]));
+                      return setRows2(prevRow => ([...prevRow,{id:x.id, name:x.name+" "+x.surname, email:x.email, group:x.group_id, status:x.last_status}]));
                   })
             });
         }
@@ -66,7 +66,7 @@ export default function Students() {
                         <Column field="name" header="Name" style={{ width: '25%' }}></Column>
                         <Column field="email" header="Email" style={{ width: '25%' }}></Column>
                         <Column field="group" header="Group" style={{ width: '25%' }}></Column>
-                        <Column header="Status" body={showProgress}></Column>
+                        <Column field="status" header="Last Status" style={{ width: '25%' }} ></Column>
                         </DataTable>
                     </Card>
    </div>

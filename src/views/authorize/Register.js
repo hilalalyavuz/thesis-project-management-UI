@@ -40,7 +40,7 @@ export default function Register() {
             });
         }
         getData2();
-    })
+    },[])
     
     const send = () =>{
 
@@ -59,13 +59,18 @@ export default function Register() {
                 "password": password,
                 "department":dept
               }).then(response => {
-                
-                toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
+                  if(response.data == true){
+                      toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
                 createBrowserHistory().push('/SignIn');
                 window.location.reload();
+                  }else{
+                    toast.current.show({severity:'error', summary: 'Failed to register', life: 3000});
+                  }
+                
+                
 
               }).catch(error => {
-                toast.current.show({severity:'error', summary: 'Failed to login', life: 3000});
+                toast.current.show({severity:'error', summary: 'Failed to register', life: 3000});
             });;  
             
             };
@@ -87,15 +92,15 @@ export default function Register() {
 <div className='Main'>
 
 <div style={{display:'flex'}}>
-<img style={{width:'13%'}} src={logo}/>
+<img style={{width:'13%',height:'11rem'}} src={logo}/>
  <div style={{display:'flex',flexDirection:'column',width:'100%',justifyContent:'center', alignItems:'center'}}>
  <h1>Thesis Tracker</h1>
  <h2>Register</h2>
  </div>
- <img style={{width:'13%',visibility:'hidden'}} src={logo}/>
+ <img style={{width:'13%',height:'11rem',visibility:'hidden'}} src={logo}/>
 </div>
 
-  <div className='Main2' style={{height:'57%'}}>
+  <div className='Main2' style={{height:'65%'}}>
 
       <div style={{display:'flex',flexDirection:'row',height:'100%'}}>
             <Card style={{display:'flex',flex:'1',marginRight:'2rem', boxShadow:'rgb(204 204 204) 0rem 0rem 2rem 7px'}}>
@@ -120,7 +125,7 @@ export default function Register() {
             value={password} onChange={(e)=> setPassword(e.target.value)}
             />
             
-                <Button style={{marginTop:'2rem',height:'2rem',borderRadius:'1rem',border:'1px solid #50C878', backgroundColor:'#50C878', color:'white', cursor:'pointer'}} onClick={send}>Sign In</Button>
+                <Button style={{marginTop:'2rem',height:'2rem',borderRadius:'1rem',border:'1px solid #50C878', backgroundColor:'#50C878', color:'white', cursor:'pointer'}} onClick={send}>Register</Button>
             
             
                         </div>

@@ -49,9 +49,9 @@ const Table = (props) => {
     const onRowSelect = (event) => {
       setSelectedProduct1(event)
       if(event.length>selectedProduct2){
-        toast.current.show({ severity: 'info', summary: 'RAD Selected', detail: `id: ${event}`, life: 3000 });
+        toast.current.show({ severity: 'info', summary: `${props.data} Selected`, detail: `id: ${event}`, life: 3000 });
       }else{
-        toast.current.show({ severity: 'warn', summary: 'RAD Unselected', life: 3000 });
+        toast.current.show({ severity: 'warn', summary: `${props.data} Unselected`, life: 3000 });
       }
       setSelectedProduct2(event.length)
   }
@@ -77,8 +77,13 @@ const Table = (props) => {
 
   const markFinal = async () =>{
     
-    await axios.get(`https://localhost:7084/api/Student/MarkFinalDocument/${selectedProduct1}`,config).then((result)=>{
-      toast.current.show({ severity: 'warn', summary: 'Marked as final', life: 3000 });
+    await axios.get(`https://localhost:7084/api/Student/MarkFinalDocument/${userEmail}/${selectedProduct1}`,config).then((result)=>{
+      if(result.data == false){
+        toast.current.show({ severity: 'error', summary: 'Not Marked', life: 3000 });
+      }else{
+        toast.current.show({ severity: 'warn', summary: 'Marked as final', life: 3000 });
+      }
+      
     });
   }
 
@@ -111,7 +116,7 @@ const Table = (props) => {
         const nameoffile=props.data+"_"+event.target.files[0].name;
 
         const formData=new FormData();
-        console.log(nameoffile);
+        
         formData.append("formFile",event.target.files[0],nameoffile)
       
       await axios.post(`https://localhost:7084/api/User/a/${userEmail}`,formData).then(res => {
@@ -223,26 +228,26 @@ const Table = (props) => {
                           <div className='tableButtons'>
 
 
-                          <Button variant="outlined" onClick={markFinal} startIcon={<BookmarkIcon />}>
+                          <Button variant="outlined" id={props.data+'final'} onClick={markFinal} startIcon={<BookmarkIcon />}>
                               Final
                             </Button>
 
-                            <Button variant="outlined" onClick={deleteRow} startIcon={<DeleteIcon />}>
+                            <Button variant="outlined" id={props.data+'delete'} onClick={deleteRow} startIcon={<DeleteIcon />}>
                               Delete
                             </Button>
 
-                            <label htmlFor="contained-button-file">
-                              <Input accept="pdf/*" id="contained-button-file" onChange={uploadFile} multiple type="file" />
+                            <label htmlFor={props.data+'upload'}>
+                              <Input accept="pdf/*" id={props.data+'upload'} onChange={uploadFile} multiple type="file" />
                               <Button startIcon={<FileUploadIcon />} variant="contained" component="span">
                                 Upload
                               </Button>
                             </label>
 
-                            <Button variant="contained" onClick={downloadFile2} startIcon={<DownloadIcon />}>
+                            <Button variant="contained" id={props.data+'download'} onClick={downloadFile2} startIcon={<DownloadIcon />}>
                               Download
                             </Button>
 
-                            <Button variant="contained" onClick={downloadFile} startIcon={<VisibilityIcon />}>
+                            <Button variant="contained" id={props.data+'view'} onClick={downloadFile} startIcon={<VisibilityIcon />}>
                               View
                             </Button>
 

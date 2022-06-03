@@ -137,6 +137,9 @@ export default function SignIn() {
             <div style={{marginTop:'1rem'}}>
             Don't have an account? <a href='/Register'>Sign up</a>
             </div>
+            <div style={{marginTop:'1rem'}}>
+            Don't remember your password? <a href='/ForgotPassword'>Forgot Password</a>
+            </div>
                 <Button style={{marginTop:'1rem',height:'2rem',borderRadius:'1rem',border:'1px solid #50C878', backgroundColor:'#50C878', color:'white', cursor:'pointer'}} onClick={send}>Sign In</Button>
             
             

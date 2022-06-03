@@ -21,7 +21,11 @@ export default function DocumentSup(){
     useEffect(()=>{
         async function getData(){
             await axios.get(`https://localhost:7084/api/User/GetDocumentType/${userEmail}`,config).then((result)=>{
-                console.log(result.data)
+                result.data.sort(function(a,b) {
+                    a = a.deadline.split('T')[0].split('-').reverse().join('');
+                    b = b.deadline.split('T')[0].split('-').reverse().join('');
+                    return a > b ? 1 : -1;
+                  });
                 setHeader(result.data);
             });
         }

@@ -24,6 +24,7 @@ import Register from './views/authorize/Register';
 import Messages from './views/Supervisor/Messages';
 import ContactStudent from './views/Supervisor/ContactStudent';
 import AdminMessages from './views/Admin/AdminMessage';
+import ForgotPassword from './views/authorize/ForgotPassword';
 
 function App() {
   return (
@@ -80,6 +81,8 @@ function App() {
           <Route path="/ContactStudent" exact element={<ContactStudent/>}>
           </Route>
           <Route path="/AdminMessages" exact element={<AdminMessages/>}>
+          </Route>
+          <Route path="/ForgotPassword" exact element={<ForgotPassword/>}>
           </Route>
        </Routes>
      </Router>
