@@ -36,7 +36,7 @@ export default function UserAdmin() {
 
     const status = [{name: 'student'},{name: 'supervisor'}]
     const [capacity, setCapacity] = useState();
-    const [disp, setDisp] = useState('normal');
+    const [place_capacity, setPCapacity] = useState();
     const [isSup ,setSup] = useState();
     const items = [
         {label: 'Users', icon: 'pi pi-users'},
@@ -62,10 +62,10 @@ export default function UserAdmin() {
         setDocDialog(true);
         if(tab){
             if(doc.role_id=='supervisor'){
-                setCapacity(doc.capacity);
+                setPCapacity(doc.capacity);
                 setSup(true);
             }else{
-                setCapacity(null);
+                setPCapacity(null);
                 setSup(false);
             }
         }else{
@@ -92,31 +92,71 @@ export default function UserAdmin() {
     }
 
     const saveEdit = () =>{
-        if(stat != null || stat != ""){
-                axios.patch(`https://localhost:7084/api/Admin/ChangeRole/${doc.id}`,
-              {
-                  "name":doc.name,
-                  "surname":doc.surname,
-                  "email":doc.email,
-                  "department":doc.department,
-                  "password":doc.password,
-                  "school_id":doc.school_id,
-                  "role_id":stat.name
-                },config).then(response => {
-                    toast.current.show({severity:'success', summary: 'User Role Changed', life: 3000});
+        if(stat != null){
+            if(stat.name === 'supervisor'){
+                if(capacity != undefined || capacity != null){
+                axios.get(`https://localhost:7084/api/Admin/ChangeCapacity/${doc.id}/${capacity}`,config).then(response => {
+                    toast.current.show({severity:'success', summary: 'Capacity Changed', life: 3000});
                     window.location.reload();
                 }).catch(error => {
                     toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
-              }); 
+                }); 
+
+                axios.patch(`https://localhost:7084/api/Admin/ChangeRole/${doc.id}`,
+                {
+                    "name":doc.name,
+                    "surname":doc.surname,
+                    "email":doc.email,
+                    "department":doc.department,
+                    "password":doc.password,
+                    "school_id":doc.school_id,
+                    "role_id":stat.name
+                  },config).then(response => {
+                      toast.current.show({severity:'success', summary: 'User Role Changed', life: 3000});
+                      window.location.reload();
+                  }).catch(error => {
+                      toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
+                }); 
+
+                }else if(capacity == undefined || capacity ==null){
+                    toast.current.show({severity:'warn', summary: 'You have to fill the capacity field', life: 3000});
+                }
+            }else if(stat.name === 'student'){
+                axios.patch(`https://localhost:7084/api/Admin/ChangeRole/${doc.id}`,
+                {
+                    "name":doc.name,
+                    "surname":doc.surname,
+                    "email":doc.email,
+                    "department":doc.department,
+                    "password":doc.password,
+                    "school_id":doc.school_id,
+                    "role_id":stat.name
+                  },config).then(response => {
+                      toast.current.show({severity:'success', summary: 'User Role Changed', life: 3000});
+                      window.location.reload();
+                  }).catch(error => {
+                      toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
+                }); 
+            }
             
-              setDocDialog(false); 
+               
+        }else if(doc.role_id ==='supervisor'){
+            if(capacity != undefined || capacity != null){
+                axios.get(`https://localhost:7084/api/Admin/ChangeCapacity/${doc.id}/${capacity}`,config).then(response => {
+                    toast.current.show({severity:'success', summary: 'Capacity Changed', life: 3000});
+                    window.location.reload();
+                }).catch(error => {
+                    toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
+                }); 
+            }
         }
+        setDocDialog(false);
     }
 
     const docDialogFooter = (
         <React.Fragment>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false);setStat2(null);}} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveEdit}/>
+            <Button label="Save" disabled={tab ? (stat||capacity? false:true):(isSup? !(stat&&capacity):!(stat))} icon="pi pi-check" className="p-button-text" onClick={saveEdit}/>
         </React.Fragment>
     );
 
@@ -172,7 +212,7 @@ export default function UserAdmin() {
                         </DataTable>
                     </div>
                     </Card>
-                   <Dialog visible={docDialog} style={{ width: '450px' }} header="User Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDocDialog(false)}}>
+                   <Dialog visible={docDialog} style={{ width: '450px' }} header="User Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDocDialog(false);setCapacity(null);setStat2(null);setPCapacity();}}>
                 <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
                         <label style={{marginRight:'1rem'}}>
                              Role:
@@ -184,7 +224,7 @@ export default function UserAdmin() {
                             <label style={{marginRight:'1rem'}}>
                                  Capacity:
                             </label>
-                            <InputText visible={isSup} onChange={(e) => setCapacity(e.target.value)} placeholder={capacity} />
+                            <InputText onChange={(e) => setCapacity(e.target.value)} placeholder={place_capacity} />
                         </div> : <div></div>
                         }
                 </Dialog>

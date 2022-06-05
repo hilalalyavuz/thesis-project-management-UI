@@ -72,6 +72,7 @@ export default function AddDept() {
     const accept = async () => {
        await axios.delete(`https://localhost:7084/api/Admin/DeleteDept/${selectedProduct5.id}`,config).then(response=>{
             toast.current.show({severity:'success', summary: 'Success Message', detail:'Department and all related records with department deleted.', life: 3000});
+            window.location.reload();
         }).catch(error =>{
             toast.current.show({ severity: 'error', summary: 'Error', detail: `Error:${error}`, life: 3000 });
         });
