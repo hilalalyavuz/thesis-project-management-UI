@@ -25,13 +25,14 @@ export default function UserAdmin() {
     const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
     const [date3, setDate3] = useState(null);
     const [value1, setValue1] = useState('');
-    const [stat,setStat] = useState(null);
+    const [stat,setStat2] = useState(null);
     const [rows,setRows] = useState([]);
     const toast = useRef(null);
     const [tab, setTab] = useState(true);
     const [users, setUsers] = useState([]);
     const [newUsers, setNewUsers] = useState([]);
     const [active,setActive] = useState();
+    const [capReq,setCapReq] = useState(false);
 
     const status = [{name: 'student'},{name: 'supervisor'}]
     const [capacity, setCapacity] = useState();
@@ -68,12 +69,26 @@ export default function UserAdmin() {
                 setSup(false);
             }
         }else{
-            if(stat != null && stat =='supervisor'){
-                setSup(true);
-            }else{
-                setSup(false);
-            }
+            setSup(false);
         }
+    }
+
+    const setStat = (event) => {
+        setStat2(event.target.value);
+        
+        if(event.target.value.name == 'supervisor'){
+            setSup(true);
+            if(!tab){
+                setCapReq(true);
+            }else{
+                setCapReq(false);
+            }
+            
+        }else{
+            setSup(false);
+            setCapReq(false);
+        }
+        
     }
 
     const saveEdit = () =>{
@@ -100,7 +115,7 @@ export default function UserAdmin() {
 
     const docDialogFooter = (
         <React.Fragment>
-            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false);setStat(null)}} />
+            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false);setStat2(null);}} />
             <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveEdit}/>
         </React.Fragment>
     );
@@ -162,19 +177,15 @@ export default function UserAdmin() {
                         <label style={{marginRight:'1rem'}}>
                              Role:
                         </label>
-                            <Dropdown value={stat} options={status} onChange={(e)=>{setStat(e.value);if(e.value=='supervisor'){
-                                setSup(true);
-                            }else{
-                                setSup(false);
-                            }}} optionLabel="name" placeholder="Select Role" />
+                            <Dropdown value={stat} options={status} onChange={setStat} optionLabel="name" placeholder="Select Role" />
                         </div>
-                        {isSup?
+                        {isSup ?
                             <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
                             <label style={{marginRight:'1rem'}}>
                                  Capacity:
                             </label>
                             <InputText visible={isSup} onChange={(e) => setCapacity(e.target.value)} placeholder={capacity} />
-                        </div>: <div></div>
+                        </div> : <div></div>
                         }
                 </Dialog>
     
