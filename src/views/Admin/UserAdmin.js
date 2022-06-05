@@ -9,6 +9,7 @@ import { Column } from 'primereact/column';
 import { Dialog } from 'primereact/dialog';
 import { TabMenu } from 'primereact/tabmenu';
 import { Dropdown } from 'primereact/dropdown';
+import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
@@ -31,6 +32,9 @@ export default function UserAdmin() {
     const [active,setActive] = useState();
 
     const status = [{name: 'student'},{name: 'supervisor'}]
+    const [capacity, setCapacity] = useState();
+    const [disp, setDisp] = useState('normal');
+    const [isSup ,setSup] = useState();
     const items = [
         {label: 'Users', icon: 'pi pi-users'},
         {label: 'New Users', icon: 'pi pi-user-plus'}
@@ -53,11 +57,26 @@ export default function UserAdmin() {
     const editDoc = (doc) =>{
         setDoc({...doc});
         setDocDialog(true);
+        if(tab){
+            if(doc.role_id=='supervisor'){
+                setCapacity(doc.capacity);
+                setSup(true);
+            }else{
+                setCapacity(null);
+                setSup(false);
+            }
+        }else{
+            if(stat != null && stat =='supervisor'){
+                setSup(true);
+            }else{
+                setSup(false);
+            }
+        }
     }
 
     const saveEdit = () =>{
         if(stat != null || stat != ""){
-            axios.patch(`https://localhost:7084/api/Admin/ChangeRole/${doc.id}`,
+                axios.patch(`https://localhost:7084/api/Admin/ChangeRole/${doc.id}`,
               {
                   "name":doc.name,
                   "surname":doc.surname,
@@ -72,13 +91,14 @@ export default function UserAdmin() {
                 }).catch(error => {
                     toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
               }); 
+            
               setDocDialog(false); 
         }
     }
 
     const docDialogFooter = (
         <React.Fragment>
-            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false)}} />
+            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false);setStat(null)}} />
             <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveEdit}/>
         </React.Fragment>
     );
@@ -138,8 +158,20 @@ export default function UserAdmin() {
                         <label style={{marginRight:'1rem'}}>
                              Role:
                         </label>
-                            <Dropdown value={stat} options={status} onChange={(e)=>{setStat(e.value)}} optionLabel="name" placeholder="Select Role" />
+                            <Dropdown value={stat} options={status} onChange={(e)=>{setStat(e.value);if(e.value=='supervisor'){
+                                setSup(true);
+                            }else{
+                                setSup(false);
+                            }}} optionLabel="name" placeholder="Select Role" />
                         </div>
+                        {isSup?
+                            <div style={{marginTop:'1rem'}} className="field col-12 md:col-4">
+                            <label style={{marginRight:'1rem'}}>
+                                 Capacity:
+                            </label>
+                            <InputText visible={isSup} onChange={(e) => setCapacity(e.target.value)} placeholder={capacity} />
+                        </div>: <div></div>
+                        }
                 </Dialog>
     
   </div>
