@@ -1,9 +1,15 @@
 import Sup_Sidebar from '../../components/Sup_Sidebar';
+import {useState, useRef, useEffect} from 'react'
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function SupervisorHome(){
 
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
+
     return(
+        <>
+        { pageRole=="supervisor" ? 
         <div className='Page'>
             <Helmet>
         <title>Thesis Tracker | Home</title>
@@ -16,7 +22,8 @@ export default function SupervisorHome(){
 
                 </div>
             </div>
-        </div>
+        </div> : <Unauthorized></Unauthorized>}
+        </>
     );
 
 }

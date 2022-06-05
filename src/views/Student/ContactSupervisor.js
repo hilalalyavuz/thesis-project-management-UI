@@ -14,10 +14,12 @@ import "primeicons/primeicons.css";                                //icons
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function ContactSupervisor() {
 
   const [topic, setTopic] = useState([]);
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   const [message, setMessage] = useState([]);
   const toast = useRef(null);
   let userEmail = sessionStorage.getItem("email");
@@ -55,6 +57,7 @@ export default function ContactSupervisor() {
 
     return(
         <>
+        { pageRole=="student" ?
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Contact Supervisor</title>
@@ -126,12 +129,7 @@ export default function ContactSupervisor() {
 
 </div>
 
-</div>
-
-        
-
-
-
+</div> : <Unauthorized/> }
 
 
       </>

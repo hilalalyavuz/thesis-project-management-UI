@@ -6,12 +6,14 @@ import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
+import Unauthorized from '../Warnings/Unauthorized';
 
 
 export default function DocumentSup(){
     
     const[header, setHeader] = useState([]);
     const[group, setGroup] = useState([]);
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
   const config = {
@@ -36,6 +38,7 @@ export default function DocumentSup(){
         }
         getData();
         getGroup();
+        setPageRole(sessionStorage.getItem("role"));
     },[]);
 
 
@@ -64,6 +67,8 @@ export default function DocumentSup(){
     }
     
     return(
+        <>
+        { pageRole=="supervisor" ? 
         <div className='Page'>
             <Helmet>
         <title>Thesis Tracker | Documents</title>
@@ -79,6 +84,7 @@ export default function DocumentSup(){
             
                 <OpenGroupDocs></OpenGroupDocs>
             </div>
-        </div>
+        </div> : <Unauthorized></Unauthorized>}
+        </>
     );
 }

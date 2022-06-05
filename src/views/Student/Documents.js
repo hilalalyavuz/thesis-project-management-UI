@@ -17,6 +17,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { display } from '@mui/system';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 
 
@@ -25,6 +26,7 @@ import { Helmet } from 'react-helmet';
 export default function Documents() {
     
   const[header, setHeader] = useState([]);
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
   const config = {
@@ -43,6 +45,7 @@ export default function Documents() {
         });
     }
     getData();
+    setPageRole(sessionStorage.getItem("role"));
 
 },[]);
   
@@ -50,6 +53,8 @@ export default function Documents() {
 
   
   return (
+    <>
+    { pageRole=="student" ? 
     <div className='Page'>
       
 <Helmet>
@@ -75,6 +80,7 @@ export default function Documents() {
         </div>
 
     </div>
-    
+  : <Unauthorized></Unauthorized>}
+    </>
   );
 }

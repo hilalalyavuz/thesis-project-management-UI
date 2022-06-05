@@ -17,6 +17,7 @@ import { Toast } from 'primereact/toast';
 import { DesktopAccessDisabled } from '@mui/icons-material';
 import { Helmet } from 'react-helmet';
 import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function DocumentsAdmin() {
 
@@ -24,6 +25,7 @@ export default function DocumentsAdmin() {
     const [doc,setDoc] = useState(null);
     const [docDialog, setDocDialog] = useState(false);
     const [date8, setDate8] = useState(null);
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
     const [date3, setDate3] = useState(null);
     const [value1, setValue1] = useState('');
     const [value2, setValue2] = useState('');
@@ -60,6 +62,7 @@ export default function DocumentsAdmin() {
             });
         }
         getData2();
+        setPageRole(sessionStorage.getItem("role"));
     },[]);
 
       const actionEdit = (rowData) => {
@@ -191,6 +194,7 @@ export default function DocumentsAdmin() {
 
     return(
         <>
+         { pageRole=="admin" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Document Types</title>
@@ -291,7 +295,7 @@ export default function DocumentsAdmin() {
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
       </>
     )
 }

@@ -13,6 +13,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 
 export default function UserAdmin() {
@@ -21,6 +22,7 @@ export default function UserAdmin() {
     const [doc,setDoc] = useState(null);
     const [docDialog, setDocDialog] = useState(false);
     const [date8, setDate8] = useState(null);
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
     const [date3, setDate3] = useState(null);
     const [value1, setValue1] = useState('');
     const [stat,setStat] = useState(null);
@@ -116,10 +118,12 @@ export default function UserAdmin() {
             });
         }
         getData2();
+        setPageRole(sessionStorage.getItem("role"));
     },[]);
 
     return(
         <>
+        { pageRole=="admin" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Users</title>
@@ -177,8 +181,8 @@ export default function UserAdmin() {
   </div>
 
 </div>
-
-</div>
+ 
+</div> : <Unauthorized></Unauthorized>}
       </>
     )
 }

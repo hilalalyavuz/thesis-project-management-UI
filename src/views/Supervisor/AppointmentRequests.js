@@ -9,11 +9,13 @@ import { Column } from 'primereact/column';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import { Toast } from 'primereact/toast';
+import Unauthorized from '../Warnings/Unauthorized';
 
 
 export default function AppointmentRequests() {
 
   let userEmail = sessionStorage.getItem("email");
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   const toast = useRef(null);
   let tok = sessionStorage.getItem("token");
   const config = {
@@ -37,6 +39,7 @@ const getHours = async () => {
   useEffect(()=>{
         
     getHours(); 
+    setPageRole(sessionStorage.getItem("role"));
 
 },[]);
 
@@ -70,6 +73,7 @@ const ApproveMeeting = async () => {
 
     return(
         <>
+        { pageRole=="supervisor" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Meeting Requests</title>
@@ -106,7 +110,7 @@ const ApproveMeeting = async () => {
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
       </>
     )
 }

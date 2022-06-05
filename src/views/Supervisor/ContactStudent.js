@@ -15,12 +15,14 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import axios from 'axios';
 import { Dropdown } from "primereact/dropdown";
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function ContactStudent() {
 
   
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
 
   const config = {
     headers: { Authorization: `bearer ${tok}` }
@@ -57,6 +59,7 @@ export default function ContactStudent() {
             });
         }
         getData();
+        setPageRole(sessionStorage.getItem("role"));
     
     },[]);
 
@@ -64,6 +67,7 @@ export default function ContactStudent() {
 
     return(
         <>
+        { pageRole=="supervisor" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Contact Student</title>
@@ -140,7 +144,7 @@ export default function ContactStudent() {
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
 
         
 

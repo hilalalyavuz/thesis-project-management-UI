@@ -14,12 +14,14 @@ import "primeicons/primeicons.css";                                //icons
 import TextareaAutosize from '@mui/material/TextareaAutosize'; 
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function ZoomSets() {
 
   
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
 
   const config = {
     headers: { Authorization: `bearer ${tok}` }
@@ -41,6 +43,7 @@ export default function ZoomSets() {
 
     return(
         <>
+        { pageRole=="admin" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Zoom Settings</title>
@@ -77,7 +80,7 @@ export default function ZoomSets() {
   
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
 
       </>
     )

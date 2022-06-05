@@ -15,12 +15,14 @@ import { Toast } from 'primereact/toast';
 import { createBrowserHistory } from 'history';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function AppointmentRequests() {
 
 
     const [doc,setDoc] = useState(null);
     const [docDialog, setDocDialog] = useState(false);
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
     const [date8, setDate8] = useState(null);
     const [date9, setDate9] = useState(null);
     const [date3, setDate3] = useState(null);
@@ -59,6 +61,7 @@ export default function AppointmentRequests() {
     useEffect(()=>{
         
         getHours(); 
+        setPageRole(sessionStorage.getItem("role"));
 
     },[]);
 
@@ -134,6 +137,7 @@ export default function AppointmentRequests() {
 
     return(
         <>
+        { pageRole=="supervisor" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Availability</title>
@@ -223,7 +227,7 @@ export default function AppointmentRequests() {
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
       </>
     )
 }

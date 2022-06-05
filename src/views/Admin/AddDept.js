@@ -19,6 +19,7 @@ import { Helmet } from 'react-helmet';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function AddDept() {
 
@@ -32,6 +33,7 @@ export default function AddDept() {
     const [state2, setState2] = useState([]);
     const [dept, setDept] = useState("");
     const [rows, setRows] = useState([]);
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
     const toast = useRef(null);
     const [value1, setValue1] = useState('');
     const [selectedProduct5, setSelectedProduct5] = useState(null);
@@ -54,6 +56,7 @@ export default function AddDept() {
             });
         }
         getData2();
+        setPageRole(sessionStorage.getItem("role"));
       },[]);
 
       const confirm2 = () => {
@@ -67,7 +70,7 @@ export default function AddDept() {
         });
     };
     const accept = async () => {
-       await axios.delete(`https://localhost:7084/api/Admin/DeleteDept/${doc.id}`,config).then(response=>{
+       await axios.delete(`https://localhost:7084/api/Admin/DeleteDept/${selectedProduct5.id}`,config).then(response=>{
             toast.current.show({severity:'success', summary: 'Success Message', detail:'Department and all related records with department deleted.', life: 3000});
         }).catch(error =>{
             toast.current.show({ severity: 'error', summary: 'Error', detail: `Error:${error}`, life: 3000 });
@@ -107,6 +110,7 @@ export default function AddDept() {
 
     return(
         <>
+        { pageRole=="admin" ? 
         <div className='Page'>
         <ConfirmDialog />
         <Helmet>
@@ -166,7 +170,7 @@ export default function AddDept() {
   
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
 
       </>
     )

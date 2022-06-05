@@ -17,11 +17,13 @@ import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import '../../css/Message.css';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function Messages() {
 
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
 
   const config = {
     headers: { Authorization: `bearer ${tok}` }
@@ -97,12 +99,14 @@ const statusBodyTemplate = (rowData) => {
    
     getMessagesSent();
     getMessagesRec();
+    setPageRole(sessionStorage.getItem("role"));
 
 },[]);
 
 
     return(
         <>
+        { pageRole=="supervisor" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Messages</title>
@@ -188,7 +192,7 @@ const statusBodyTemplate = (rowData) => {
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
       </>
     )
 }

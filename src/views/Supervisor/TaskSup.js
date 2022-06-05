@@ -19,6 +19,7 @@ import { useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Toast } from 'primereact/toast';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 
 export default function TransferList() {
@@ -27,6 +28,7 @@ export default function TransferList() {
   const [middle, setMiddle] = React.useState([]);
   const [right, setRight] = React.useState([]);
   const [dialog, setDialog] = useState(false);
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
   const [groups, setGroups] = useState([]);
@@ -53,7 +55,7 @@ export default function TransferList() {
         });
     }
     getData();
-
+    setPageRole(sessionStorage.getItem("role"));
 },[]);
 
 
@@ -162,6 +164,8 @@ export default function TransferList() {
   );
 
   return (
+    <>
+    { pageRole=="supervisor" ? 
     <div className="Page">
       <Helmet>
         <title>Thesis Tracker | Tasks</title>
@@ -217,6 +221,7 @@ export default function TransferList() {
                 </div>
                 </Dialog> 
       </div>
-    </div>
+    </div> : <Unauthorized></Unauthorized>}
+    </>
   );
 }

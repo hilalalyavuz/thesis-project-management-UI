@@ -20,12 +20,14 @@ import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
 import { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function Profile() {
 
     const toast = useRef(null);
     const [selectionModel, setSelectionModel] = useState([]);
     const [selectionModel1, setSelectionModel1] = useState([]);
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [pass, setPass] = useState("");
@@ -102,6 +104,7 @@ export default function Profile() {
       getMessages();
       getMessages2();
       getMeetings();  
+      setPageRole(sessionStorage.getItem("role"));
 
     }, []);
 
@@ -228,7 +231,7 @@ const docDialogFooter = (
     return(
 
         <>
-
+  { pageRole=="student" ? 
 <div className='Page'>
 <Helmet>
         <title>Thesis Tracker | Profile</title>
@@ -417,7 +420,7 @@ const docDialogFooter = (
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
 
         </>
 

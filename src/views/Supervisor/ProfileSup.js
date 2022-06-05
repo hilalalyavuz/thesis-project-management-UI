@@ -14,12 +14,14 @@ import axios from 'axios';
 import { createBrowserHistory } from 'history';
 import { Toast } from 'primereact/toast';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function ProfileSup() {
 
     const toast = useRef(null);
     const [selectionModel, setSelectionModel] = useState([]);
     const [selectionModel1, setSelectionModel1] = useState([]);
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [pass, setPass] = useState("");
@@ -64,6 +66,7 @@ export default function ProfileSup() {
       }
       getProfile();
       getMeetings();  
+      setPageRole(sessionStorage.getItem("role"));
 
     }, []);
 
@@ -137,6 +140,7 @@ export default function ProfileSup() {
     return(
 
         <>
+        { pageRole=="supervisor" ? 
 
 <div className='Page'>
 <Helmet>
@@ -262,7 +266,7 @@ export default function ProfileSup() {
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
 
         </>
 

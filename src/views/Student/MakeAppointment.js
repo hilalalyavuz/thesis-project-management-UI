@@ -14,12 +14,14 @@ import axios from 'axios';
 import { createBrowserHistory } from 'history';
 import { Helmet } from 'react-helmet';
 import { Toast } from 'primereact/toast';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function MakeAppointment() {
 
   
   const [date2, setDate2] = useState(null);
   const [rows, setRows] = useState([]);
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   const [rows2, setRows2] = useState([]);
   const [filterDate, setFilterDate] = useState();
   const [filterValue, setFilterValue] = useState('');
@@ -46,6 +48,7 @@ export default function MakeAppointment() {
 
   useEffect(() => { 
   getHours();  
+  setPageRole(sessionStorage.getItem("role"));
 }, []);
 
 const send = async () => {
@@ -88,7 +91,9 @@ const deleteFilter = () =>{
 
     return(
         <>
+        
         <Toast ref={toast} />
+        { pageRole=="student" ?
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Appointment</title>
@@ -149,7 +154,7 @@ const deleteFilter = () =>{
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
 
         
 

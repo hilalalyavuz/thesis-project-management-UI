@@ -8,9 +8,10 @@ import { ProgressBar } from 'primereact/progressbar';
 import React from 'react';
 import {Calendar} from 'primereact/calendar';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 const Home = () => {
-
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   const displayValueTemplate = (value) => {
     return (
         <React.Fragment>
@@ -20,6 +21,8 @@ const Home = () => {
 }
   const [value, setValue] = useState(60);
    return (
+     <>
+     { pageRole=="student" ? 
     <div className="Page">
       <Helmet>
         <title>Thesis Tracker | Home</title>
@@ -57,7 +60,8 @@ const Home = () => {
 
         
       </div>
-    </div>
+    </div> : <Unauthorized></Unauthorized>}
+    </>
   );
 };
 

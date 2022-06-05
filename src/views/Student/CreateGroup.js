@@ -18,11 +18,13 @@ import "primeicons/primeicons.css";
 import { Checkbox } from 'primereact/checkbox';    
 import axios from 'axios';  
 import { createBrowserHistory } from 'history';  
-import { Helmet } from 'react-helmet';                      
+import { Helmet } from 'react-helmet';           
+import Unauthorized from '../Warnings/Unauthorized';           
 
 export default function CreateGroup() {
 
     const toast = useRef(null);
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
     const [size, setSize] = useState();
     const [checked, setChecked] = useState(false);
     let userEmail = sessionStorage.getItem("email");
@@ -94,13 +96,14 @@ export default function CreateGroup() {
         }else{
           setFlag(false);
         }
+        setPageRole(sessionStorage.getItem("role"));
     },[]);
 
 
 
     return(
         <>
-        
+        { pageRole=="student" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Create Group</title>
@@ -159,7 +162,7 @@ export default function CreateGroup() {
 </div>
     
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
   
       </>
 );

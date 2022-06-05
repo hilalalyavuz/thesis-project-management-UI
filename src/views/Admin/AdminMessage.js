@@ -16,10 +16,12 @@ import TextField from '@mui/material/TextField';
 import { Dialog } from 'primereact/dialog';
 import '../../css/Message.css';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function AdminMessage() {
 
   let userEmail = sessionStorage.getItem("email");
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let tok = sessionStorage.getItem("token");
 
   const config = {
@@ -95,12 +97,14 @@ const statusBodyTemplate = (rowData) => {
    
     getMessagesSent();
     getMessagesRec();
+    setPageRole(sessionStorage.getItem("role"));
 
 },[]);
 
 
     return(
         <>
+        { pageRole=="admin" ? 
         <div className='Page'>
           
 <Helmet>
@@ -186,8 +190,8 @@ const statusBodyTemplate = (rowData) => {
   </div>
 
 </div>
-
-</div>
+ 
+</div> : <Unauthorized></Unauthorized>}
       </>
     )
 }

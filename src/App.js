@@ -27,6 +27,7 @@ import AdminMessages from './views/Admin/AdminMessage';
 import ForgotPassword from './views/authorize/ForgotPassword';
 import ZoomSets from './views/Admin/ZoomSets';
 import AddDept from './views/Admin/AddDept';
+import NotFound from "./views/Warnings/NotFound";
 
 function App() {
   return (
@@ -89,6 +90,8 @@ function App() {
           <Route path="/ZoomSets" exact element={<ZoomSets/>}>
           </Route>
           <Route path="/AddDept" exact element={<AddDept/>}>
+          </Route>
+          <Route path='/*' element={<NotFound />}>
           </Route>
        </Routes>
      </Router>

@@ -14,11 +14,13 @@ import "primeicons/primeicons.css";                                //icons
 import TextareaAutosize from '@mui/material/TextareaAutosize'; 
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function ContactAdmin() {
 
   
   let userEmail = sessionStorage.getItem("email");
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let tok = sessionStorage.getItem("token");
 
   const config = {
@@ -41,6 +43,7 @@ export default function ContactAdmin() {
 
     return(
         <>
+        { pageRole=="supervisor" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Contact Admin</title>
@@ -111,7 +114,7 @@ export default function ContactAdmin() {
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
 
         
 

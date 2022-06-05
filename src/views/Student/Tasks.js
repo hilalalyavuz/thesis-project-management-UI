@@ -10,9 +10,10 @@ import Paper from "@mui/material/Paper";
 import "../../css/Common.css";
 import "../../css/Tasks.css";
 import Sidebar from "../../components/Sidebar";
-import {useEffect} from "react";
+import {useEffect , useState} from "react";
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -23,6 +24,7 @@ function intersection(a, b) {
 }
 
 export default function TransferList() {
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
 
@@ -123,6 +125,7 @@ export default function TransferList() {
         });
     }
     getData();
+    setPageRole(sessionStorage.getItem("role"));
 
 },[]);
 
@@ -159,6 +162,8 @@ export default function TransferList() {
   );
 
   return (
+    <>
+    { pageRole=="student" ? 
     <div className="Page">
       <Helmet>
         <title>Thesis Tracker | Tasks</title>
@@ -236,6 +241,7 @@ export default function TransferList() {
         </fieldset> </Grid>
         </Grid>
       </div>
-    </div>
+    </div> : <Unauthorized></Unauthorized>}
+    </>
   );
 }

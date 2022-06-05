@@ -13,10 +13,12 @@ import { Card } from '@mui/material';
 import axios from 'axios';
 import { createBrowserHistory } from 'history';   
 import { Helmet } from 'react-helmet';
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function Documents() {
 
   const [data,setData] = useState([]);
+  const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let userEmail = sessionStorage.getItem("email");
   let tok = sessionStorage.getItem("token");
   let choosed = sessionStorage.getItem("choosed");
@@ -51,6 +53,7 @@ export default function Documents() {
     }else{
       setFlag(false);
     }
+    setPageRole(sessionStorage.getItem("role"));
 
 },[]);
 
@@ -63,49 +66,53 @@ export default function Documents() {
   ];
 
   return (
+    <>
+    { pageRole=="student" ?
     <div className="Page">
-      <Helmet>
-        <title>Thesis Tracker | Choose Supervisor</title>
-      </Helmet>
-      <div className="Sidebar">
-        <Sidebar dname='ChooseSup' />
-      </div>
-
-      <div className="Main" style={{display:'flex',flexDirection:'column'}}>
-      { flag && created ? <div><h5>You choosed your supervisor</h5></div> :
-        <div className="Main2">
-            <Card className="card" style={{width:'80%',marginTop:'6rem'}}>
-          <div className="table" style={{height:'30rem',width:'100%'}}>
-          <h3 style={{paddingBottom:'2rem'}}>Choose Supervisor</h3>
-            <DataGrid
-              rows={data}
-              columns={columns}
-              pageSize={5}
-              checkboxSelection
-              selectionModel={selectionModel}
-              hideFooterSelectedRowCount
-              onSelectionModelChange={(selection) => {
-                if (selection.length > 1) {
-                  const selectionSet = new Set(selectionModel);
-                  const result = selection.filter((s) => !selectionSet.has(s));
-
-                  setSelectionModel(result);
-                } else {
-                  setSelectionModel(selection);
-                }
-              }}
-            />
-          </div>
-          <div className="buttonArea">
-          <Button variant="contained" style={{marginTop:'6rem',marginBottom:'1rem'}} onClick={submitSelection}>
-                              SUBMIT
-                            </Button>
-          </div>
-          </Card>
-        </div>
-        }
-      </div>
-            
+    <Helmet>
+      <title>Thesis Tracker | Choose Supervisor</title>
+    </Helmet>
+    <div className="Sidebar">
+      <Sidebar dname='ChooseSup' />
     </div>
+
+    <div className="Main" style={{display:'flex',flexDirection:'column'}}>
+    { flag && created ? <div><h5>You choosed your supervisor</h5></div> :
+      <div className="Main2">
+          <Card className="card" style={{width:'80%',marginTop:'6rem'}}>
+        <div className="table" style={{height:'30rem',width:'100%'}}>
+        <h3 style={{paddingBottom:'2rem'}}>Choose Supervisor</h3>
+          <DataGrid
+            rows={data}
+            columns={columns}
+            pageSize={5}
+            checkboxSelection
+            selectionModel={selectionModel}
+            hideFooterSelectedRowCount
+            onSelectionModelChange={(selection) => {
+              if (selection.length > 1) {
+                const selectionSet = new Set(selectionModel);
+                const result = selection.filter((s) => !selectionSet.has(s));
+
+                setSelectionModel(result);
+              } else {
+                setSelectionModel(selection);
+              }
+            }}
+          />
+        </div>
+        <div className="buttonArea">
+        <Button variant="contained" style={{marginTop:'6rem',marginBottom:'1rem'}} onClick={submitSelection}>
+                            SUBMIT
+                          </Button>
+        </div>
+        </Card>
+      </div>
+      }
+    </div>
+          
+  </div> : <Unauthorized/>}
+    </>
+    
   );
 }

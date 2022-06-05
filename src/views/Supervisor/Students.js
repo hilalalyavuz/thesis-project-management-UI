@@ -11,6 +11,7 @@ import {useEffect} from 'react';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import '../../css/Message.css';
+import Unauthorized from '../Warnings/Unauthorized';
 
 
 export default function Students() {
@@ -18,6 +19,8 @@ export default function Students() {
 
     let userEmail = sessionStorage.getItem("email");
     let tok = sessionStorage.getItem("token");
+    const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
+
     const config = {
       headers: { Authorization: `bearer ${tok}` }
   };
@@ -32,6 +35,7 @@ export default function Students() {
             });
         }
         getData();
+        setPageRole(sessionStorage.getItem("role"));
     
     },[]);
 
@@ -42,6 +46,7 @@ export default function Students() {
 
     return(
         <>
+        { pageRole=="supervisor" ? 
         <div className='Page'>
         <Helmet>
         <title>Thesis Tracker | Students</title>
@@ -74,7 +79,7 @@ export default function Students() {
 
 </div>
 
-</div>
+</div> : <Unauthorized></Unauthorized>}
       </>
     )
 }
