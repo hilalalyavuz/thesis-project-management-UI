@@ -31,7 +31,9 @@ export default function SignIn() {
     
     const send = () =>{
 
-        if(!email.includes('@')){
+        if( !email>0 || !password.length>0 ){
+            toast.current.show({severity:'warn', detail:"Please fill all fileds", life: 3000});
+        }else if(!email.includes('@') || !email.includes('.com')){
             toast.current.show({severity:'warn', detail:"Please enter a part following '@'.", life: 3000});
         }else{
         
@@ -41,7 +43,7 @@ export default function SignIn() {
                 "email": email,
                 "password": password
               }).then(response => {
-                toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
+                toast.current.show({severity:'success', summary: 'Login successful', life: 3000});
                 setToken(response.data[0]);
                 sessionStorage.setItem("token", response.data[0]);
                 setRole(response.data[1]);

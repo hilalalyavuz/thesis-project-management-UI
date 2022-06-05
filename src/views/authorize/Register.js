@@ -44,9 +44,12 @@ export default function Register() {
     
     const send = () =>{
 
-        if(!email.includes('@')){
+        if(!name.length>0 || !surname.length>0 || !email>0 || !schoolid.length>0 || !password.length>0 || !dept.length>0){
+            toast.current.show({severity:'warn', detail:"Please fill all fileds", life: 3000});
+        }else if(!email.includes('@') || !email.includes('.com')){
             toast.current.show({severity:'warn', detail:"Please enter a part following '@'.", life: 3000});
-        }else{
+        }
+        else{
         
         const GetData = async () => { 
             await axios.post('https://localhost:7084/api/User',

@@ -50,14 +50,14 @@ const ApproveMeeting = async () => {
 };
   await axios.get(`https://localhost:7084/api/Supervisor/CreateMeetings/${selectedProduct5.id}`,config).then(res => {
     toast.current.show({ severity: 'info', summary: 'Approved', life: 3000 });
-              getHours();
+    window.location.reload();
     })
   };
 
   const reject = async () => {
     await axios.get(`https://localhost:7084/api/Supervisor/RejectMeetings/${selectedProduct5.id}`,config).then(response => {
               toast.current.show({ severity: 'info', summary: 'Rejected', life: 3000 });
-              getHours();
+              window.location.reload();
               
             }).catch(error => {
               
@@ -73,6 +73,7 @@ const ApproveMeeting = async () => {
 
     return(
         <>
+        <Toast ref={toast} />
         { pageRole=="supervisor" ? 
         <div className='Page'>
         <Helmet>

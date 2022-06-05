@@ -110,9 +110,10 @@ export default function Profile() {
 
     const deleteMeeting = async () => {
       await axios.delete(`https://localhost:7084/api/Student/StudentProfileMeetingDelete/${selectionModel[0]}`,config).then(response => {
-                
+        toast.current.show({severity:'info', summary: 'Meeting deleted', life: 3000});
+        getMeetings();
               }).catch(error => {
-                
+                toast.current.show({severity:'error', summary: 'Failed to delete meeting', life: 3000});
             });;  
     }
 
@@ -186,7 +187,7 @@ const handleChange = (event, newValue) => {
 const sendResponse = () =>{
   axios.post(`https://localhost:7084/api/Supervisor/AddResponse/${selectionModel1[0]}`,{response:response1, topic:doc.topic,
   message:doc.message, status_id:"new"},config).then(response => {
-    toast.current.show({severity:'success', summary: 'Success Message', detail:'Your message sent succesfully', life: 3000});
+    toast.current.show({severity:'success', detail:'Your message sent succesfully', life: 3000});
   }).catch(error => {
     toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
 });  
@@ -198,7 +199,7 @@ window.location.reload();
 const docDialogFooter = (
   <Fragment> 
     
-      <Button disabled={doc ? false:true} label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false)}} />
+      <Button disabled={doc ? false:true} label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false); setResponse();}} />
       <Button disabled={doc&value ? false:true} visible={doc ? true: false} label="Send" icon="pi pi-send" className="p-button-text" onClick={sendResponse}/>
   </Fragment>   
   
@@ -381,7 +382,7 @@ const docDialogFooter = (
                           </div>
                 
             </Card>
-            <Dialog visible={docDialog} style={{ width: '450px' }} header="Message Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDocDialog(false)}}>
+            <Dialog visible={docDialog} style={{ width: '450px' }} header="Message Details" modal className="p-fluid" footer={docDialogFooter} onHide={()=>{setDocDialog(false); setResponse();}}>
                 <div className="field">
                     <label htmlFor="name">{doc ? doc.name:null}</label>
                 </div>

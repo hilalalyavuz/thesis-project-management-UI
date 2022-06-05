@@ -19,7 +19,7 @@ import { Checkbox } from 'primereact/checkbox';
 import axios from 'axios';  
 import { createBrowserHistory } from 'history';  
 import { Helmet } from 'react-helmet';           
-import Unauthorized from '../Warnings/Unauthorized';           
+import Unauthorized from '../Warnings/Unauthorized';
 
 export default function CreateGroup() {
 
@@ -60,10 +60,9 @@ export default function CreateGroup() {
       };
 
       const submitValues = () =>{
-          console.log(checked);
           if(checked){
             axios.post(`https://localhost:7084/api/Student/Group`,{'size':1,'ids':[id]},config).then((result)=>{
-            console.log(result.data);
+            toast.current.show({severity:'success', detail:"Submitted", life: 3000});
             sessionStorage.setItem("created",true);
             createBrowserHistory().push('/CreateGroup');
             window.location.reload();
@@ -73,6 +72,7 @@ export default function CreateGroup() {
           }else{
             state2.push(id);
             axios.post(`https://localhost:7084/api/Student/Group`,{'size':size+1,'ids':state2},config).then((result)=>{
+            toast.current.show({severity:'success', detail:"Submitted", life: 3000});
             console.log(result.data);
             sessionStorage.setItem("created",true);
             createBrowserHistory().push('/CreateGroup');

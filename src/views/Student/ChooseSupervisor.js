@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {DataGrid} from "@mui/x-data-grid";
 import Sidebar from "../../components/Sidebar";
 import '../../css/Common.css'
@@ -14,12 +14,14 @@ import axios from 'axios';
 import { createBrowserHistory } from 'history';   
 import { Helmet } from 'react-helmet';
 import Unauthorized from '../Warnings/Unauthorized';
+import { Toast } from 'primereact/toast';
 
 export default function Documents() {
 
   const [data,setData] = useState([]);
   const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let userEmail = sessionStorage.getItem("email");
+  const toast = useRef(null);
   let tok = sessionStorage.getItem("token");
   let choosed = sessionStorage.getItem("choosed");
   let created = sessionStorage.getItem("created");
@@ -32,12 +34,13 @@ export default function Documents() {
 
   const submitSelection =()=>{
     axios.post(`https://localhost:7084/api/Student/Supervisor/${userEmail}`,{'supervisor_id':selectionModel[0]},config).then((result)=>{
+            toast.current.show({severity:'success', detail:"Submitted", life: 3000});
             sessionStorage.setItem("choosed",true);
             createBrowserHistory().push('/ChooseSupervisor');
             window.location.reload();
 
           }).catch(error =>{
-            console.log(error);
+            toast.current.show({severity:'error', detail:`${error}`, life: 3000});
         });
   }
 
@@ -67,6 +70,7 @@ export default function Documents() {
 
   return (
     <>
+    <Toast ref={toast} />
     { pageRole=="student" ?
     <div className="Page">
     <Helmet>

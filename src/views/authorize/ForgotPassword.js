@@ -29,7 +29,12 @@ export default function SignIn() {
     const toast = useRef(null);
     
     const send = async () =>{
-
+        if(!email>0 || !password.length>0 || !code.length>0){
+            toast.current.show({severity:'warn', detail:"Please fill all fileds", life: 3000});
+        }else if(!email.includes('@') || !email.includes('.com')){
+            toast.current.show({severity:'warn', detail:"Please enter a part following '@'.", life: 3000});
+        }
+        else{
         await axios.post(`https://localhost:7084/api/User/forgotPassword`,{
             "email":email,
             "code":code,
@@ -44,10 +49,16 @@ export default function SignIn() {
 
           });;
 
-    }
+    } 
+}
 
     const getCode = async () =>{
-
+        if(!email>0){
+            toast.current.show({severity:'warn', detail:"Please enter an email", life: 3000});
+        }else if(!email.includes('@') || !email.includes('.com')){
+            toast.current.show({severity:'warn', detail:"Please enter a part following '@'.", life: 3000});
+        }
+        else{
         await axios.get(`https://localhost:7084/api/User/recovery/${email}`).then(response => {
 
             toast.current.show({severity:'warn', detail:'Check your email for recovery code', life: 3000});
@@ -57,6 +68,7 @@ export default function SignIn() {
           });;  
 
     }
+}
 
 
     return(

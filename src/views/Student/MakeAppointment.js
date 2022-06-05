@@ -58,10 +58,10 @@ const send = async () => {
           },config).then(response => {
 
             toast.current.show({ severity: 'info', summary: 'Submitted', life: 3000 });
-            getHours();
+            window.location.reload();
             
           }).catch(error => {
-            
+            toast.current.show({ severity: 'error', summary: 'Failed to submit', life: 3000 });
         });;  
 }
 
