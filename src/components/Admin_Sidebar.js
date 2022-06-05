@@ -7,6 +7,9 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {Link} from 'react-router-dom';
 import logo from '../img/logo.png';
+import SettingsIcon from '@mui/icons-material/Settings';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 const Sidebar = (props) =>{
 
@@ -23,11 +26,21 @@ return(
         User
         <Link to={'/UserAdmin'} />
     </MenuItem>
-
+    <MenuItem className='menuItem' id='Depts' icon={ <MenuBookIcon />}>
+        Departments
+        <Link to={'/AddDept'} />
+    </MenuItem>
     <MenuItem className='menuItem' icon={<MailOutlineIcon />}>
         Message
         <Link to={'/AdminMessages'} />
     </MenuItem>
+
+    <SubMenu title="Settings" icon={<SettingsIcon></SettingsIcon>}>
+    <MenuItem className='menuItem' id='ZoomSets' icon={<VideocamIcon />}>
+        Zoom Settings
+        <Link to={'/ZoomSets'} />
+    </MenuItem>
+    </SubMenu>
 
     
     <div style={{display:'flex',height:'100%',alignItems:'flex-end'}}>

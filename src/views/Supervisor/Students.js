@@ -10,6 +10,7 @@ import { ProgressBar } from 'primereact/progressbar';
 import {useEffect} from 'react';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import '../../css/Message.css';
 
 
 export default function Students() {
@@ -34,11 +35,10 @@ export default function Students() {
     
     },[]);
 
-    const showProgress = (rowData)=>(
-        <React.Fragment>
-            <ProgressBar value={rowData.Progress}></ProgressBar>
-        </React.Fragment>
-    );
+    const statusBodyTemplate = (rowData) => {
+        console.log(rowData);
+        return <span className={`customer-badge status-general`}>{rowData.status}</span>;
+    }
 
     return(
         <>
@@ -66,7 +66,7 @@ export default function Students() {
                         <Column field="name" header="Name" style={{ width: '25%' }}></Column>
                         <Column field="email" header="Email" style={{ width: '25%' }}></Column>
                         <Column field="group" header="Group" style={{ width: '25%' }}></Column>
-                        <Column field="status" header="Last Status" style={{ width: '25%' }} ></Column>
+                        <Column field="status" header="Last Status" style={{ width: '25%' }} body={statusBodyTemplate} ></Column>
                         </DataTable>
                     </Card>
    </div>

@@ -69,6 +69,7 @@ const sendResponse = () =>{
     });
     setDocDialog(false);
     setTab(false);
+    setActive(1);
 }
 
 const statusBodyTemplate = (rowData) => {

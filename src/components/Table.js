@@ -23,6 +23,7 @@ import { Dialog } from 'primereact/dialog';
 import DownloadIcon from '@mui/icons-material/Download';
 import fileDownload from 'react-file-download'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import { Message } from 'primereact/message';
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
@@ -44,16 +45,21 @@ const Table = (props) => {
     //for rad
     const [selectedProduct1, setSelectedProduct1] = useState(null);
     const [selectedProduct2, setSelectedProduct2] = useState(null);
+    const [selectionModel, setSelectionModel] = useState();
     const [rows, setRows] = useState([]);
+    var today = new Date();
+    var passed = today.toISOString() > props.deadline;
 
     const onRowSelect = (event) => {
-      setSelectedProduct1(event)
-      if(event.length>selectedProduct2){
-        toast.current.show({ severity: 'info', summary: `${props.data} Selected`, detail: `id: ${event}`, life: 3000 });
-      }else{
-        toast.current.show({ severity: 'warn', summary: `${props.data} Unselected`, life: 3000 });
+       if (event.length > 1) {
+       const selectionSet = new Set(selectionModel);
+       const result = event.filter((s) => !selectionSet.has(s));
+       setSelectionModel(result);
+       setSelectedProduct1(result);
+      } else {
+        setSelectionModel(event);
+        setSelectedProduct1(event);
       }
-      setSelectedProduct2(event.length)
   }
 
   async function getData(){
@@ -214,7 +220,10 @@ const Table = (props) => {
         <Card className="card2" style={{width:'75%'}}>
         <div>
               <div className='table' style={{width:'100%'}}>
+                              <div className="col-12 md:col-3">
                               <h3>{props.data}</h3>
+                        <Message severity="warn" text={props.deadline.split('T')[0] + " / " + props.deadline.split('T')[1]} />
+                    </div>
                               <DataGrid
                                               rows={rows}
                                               columns={columns}
@@ -222,13 +231,14 @@ const Table = (props) => {
                                               rowsPerPageOptions={[5]}
                                               checkboxSelection
                                               onSelectionModelChange = {onRowSelect}
+                                              selectionModel = {selectionModel}
                                           />
                           </div>
 
-                          <div className='tableButtons'>
+                          <div className='tableButtons' style={{marginTop:'5rem'}}>
 
 
-                          <Button variant="outlined" id={props.data+'final'} onClick={markFinal} startIcon={<BookmarkIcon />}>
+                          <Button variant="outlined" disabled={passed? false:true} id={props.data+'final'} onClick={markFinal} startIcon={<BookmarkIcon />}>
                               Final
                             </Button>
 
@@ -237,8 +247,8 @@ const Table = (props) => {
                             </Button>
 
                             <label htmlFor={props.data+'upload'}>
-                              <Input accept="pdf/*" id={props.data+'upload'} onChange={uploadFile} multiple type="file" />
-                              <Button startIcon={<FileUploadIcon />} variant="contained" component="span">
+                              <Input disabled={passed? true:false} accept="pdf/*" id={props.data+'upload'} onChange={uploadFile} multiple type="file" />
+                              <Button disabled={passed? true:false} startIcon={<FileUploadIcon />} variant="contained" component="span">
                                 Upload
                               </Button>
                             </label>

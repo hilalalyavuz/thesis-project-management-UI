@@ -25,6 +25,8 @@ import Messages from './views/Supervisor/Messages';
 import ContactStudent from './views/Supervisor/ContactStudent';
 import AdminMessages from './views/Admin/AdminMessage';
 import ForgotPassword from './views/authorize/ForgotPassword';
+import ZoomSets from './views/Admin/ZoomSets';
+import AddDept from './views/Admin/AddDept';
 
 function App() {
   return (
@@ -83,6 +85,10 @@ function App() {
           <Route path="/AdminMessages" exact element={<AdminMessages/>}>
           </Route>
           <Route path="/ForgotPassword" exact element={<ForgotPassword/>}>
+          </Route>
+          <Route path="/ZoomSets" exact element={<ZoomSets/>}>
+          </Route>
+          <Route path="/AddDept" exact element={<AddDept/>}>
           </Route>
        </Routes>
      </Router>

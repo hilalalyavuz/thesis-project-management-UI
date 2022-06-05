@@ -16,3 +16,8 @@
     background-color: #ECCFFF;
     color: #694382;
 }
+
+.customer-badge.status-general {
+    background-color: #B3E5FC;
+    color: #23547B;
+}

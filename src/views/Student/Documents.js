@@ -63,7 +63,7 @@ export default function Documents() {
         <div className='Main'>
           <div className='Main2'>
             {header.map(x => (
-              <Table data={x.name}/>
+              <Table data={x.name} deadline={x.deadline}/>
             ))
 
             }

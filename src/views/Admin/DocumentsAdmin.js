@@ -16,6 +16,7 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import { Toast } from 'primereact/toast';
 import { DesktopAccessDisabled } from '@mui/icons-material';
 import { Helmet } from 'react-helmet';
+import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 
 export default function DocumentsAdmin() {
 
@@ -33,6 +34,7 @@ export default function DocumentsAdmin() {
     const [rows, setRows] = useState([]);
     const [drops, setDrops] = useState([]);
     const [selectedDept, setSelectedDept] = useState();
+    const [visible, setVisible] = useState(false);
     var today = new Date();
     let userEmail = sessionStorage.getItem("email");
     let tok = sessionStorage.getItem("token");
@@ -71,6 +73,15 @@ export default function DocumentsAdmin() {
     const editDoc = (doc) =>{
         setDoc({...doc});
         setDocDialog(true);
+    }
+
+    const deleteDoc = (e) =>{
+        axios.delete(`https://localhost:7084/api/Admin/DeleteDocType/${doc.id}`,config).then(response =>{
+            toast.current.show({severity:'success', summary: 'Document Type deleted succesfully', life: 3000});
+        }).catch(error=>{
+            toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
+        });
+        setDocDialog(false); 
     }
 
     const createDoc = (e) =>{
@@ -112,6 +123,7 @@ export default function DocumentsAdmin() {
         let hourss;
         let names;
         let deads;
+        if(date3 != null || date8 != null || value1 !='' || value2 != ''){
         if(value2 == null || value2 == ""){
             dept = doc.department;
         }else{
@@ -149,10 +161,6 @@ export default function DocumentsAdmin() {
             hourss = hh + ":"+min+":"+"00";
         }
         deads = dayss + "T" + hourss;
-        console.log(doc.id);
-        console.log(deads);
-        console.log(names);
-        console.log(dept);
         axios.patch(`https://localhost:7084/api/Admin/UpdateDoc/${doc.id}`,
               {
                   "id": doc.id,
@@ -165,6 +173,10 @@ export default function DocumentsAdmin() {
                 }).catch(error => {
                     toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
               }); 
+            }else{
+                e.preventDefault();
+                toast.current.show({severity:'warn', summary: `You have to make a change before save!`, life: 3000});
+            }
               setDocDialog(false); 
     }
 
@@ -173,7 +185,7 @@ export default function DocumentsAdmin() {
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={()=>{setDocDialog(false);
             setValue1(""); setValue2(""); setDate3(""); setDate8("")}} />
             <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveUpdate}/>
-            <Button label="Delete" icon="pi pi-trash" className="p-button-text" onClick={()=>{console.log("deleted")}}/>
+            <Button label="Delete" icon="pi pi-trash" className="p-button-danger p-button-outlined" onClick={deleteDoc}/>
         </React.Fragment>
     );
 
@@ -273,6 +285,7 @@ export default function DocumentsAdmin() {
                         <Dropdown value={selectedDept} options={drops} onChange={(e)=>{setValue2(e.value);setSelectedDept(e.value)}} placeholder="Select Department" />
                     </div>
                 </Dialog>
+
     
   </div>
 
