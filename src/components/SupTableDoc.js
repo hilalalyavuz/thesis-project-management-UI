@@ -8,6 +8,7 @@ import { Dialog } from 'primereact/dialog';
 import {InputTextarea} from 'primereact/inputtextarea';
 import { Rating } from 'primereact/rating';
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 import { Toast } from 'primereact/toast';
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
@@ -158,25 +159,22 @@ export default function SupTableDoc(props){
         </Page>
       </Document>
         </Dialog>
-        <div style={{width:'80%'}}>
+        <div style={{width:'80%', marginTop:'2rem'}}>
             <div >
                 <div>
-                <h3>{props.data.groupId == undefined ? props.data.name:props.data.name+" Group "+props.data.groupId}</h3>
-                </div>
-                <div>
                     <Card>
-                        <DataTable value={rows} paginator responsiveLayout="scroll"
+                        <DataTable header={props.data.groupId == undefined ? props.data.name:props.data.name+" Group "+props.data.groupId} value={rows} paginator responsiveLayout="scroll"
                         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10,20,50]}
                         paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
-                        <Column field="name" header="Name" style={{ width: '25%' }}></Column>
-                        <Column field="feedback" header="Feedback" style={{ width: '25%' }}></Column>
-                        <Column field="insert_date" header="Date" style={{ width: '25%' }}></Column>
-                        <Column field="status_id" header="Status" style={{ width: '25%' }}></Column>
-                        <Column field="is_final" header="Final" style={{ width: '25%' }}></Column>
+                        <Column headerStyle={{backgroundColor:'#e4f8f0'}} field="name" header="Name" style={{ width: '25%' }}></Column>
+                        <Column headerStyle={{backgroundColor:'#e4f8f0'}} field="feedback" header="Feedback" style={{ width: '25%' }}></Column>
+                        <Column headerStyle={{backgroundColor:'#e4f8f0'}} field="insert_date" header="Date" style={{ width: '25%' }}></Column>
+                        <Column headerStyle={{backgroundColor:'#e4f8f0'}} field="status_id" header="Status" style={{ width: '25%' }}></Column>
+                        <Column headerStyle={{backgroundColor:'#e4f8f0'}} field="is_final" header="Final" style={{ width: '25%' }}></Column>
 
-                        <Column header="Edit" body={actionEdit}></Column>
-                        <Column header="View" body={actionView}></Column>
+                        <Column headerStyle={{backgroundColor:'#e4f8f0'}} header="Edit" body={actionEdit}></Column>
+                        <Column headerStyle={{backgroundColor:'#e4f8f0'}} header="View" body={actionView}></Column>
                         </DataTable>
                     
                     </Card>

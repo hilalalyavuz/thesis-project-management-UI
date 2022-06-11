@@ -40,8 +40,8 @@ export default function Documents() {
     async function getData(){
         await axios.get(`https://localhost:7084/api/User/GetDocumentType/${userEmail}`,config).then((result)=>{
           result.data.sort(function(a,b) {
-            a = a.deadline.split('T')[0].split('-').reverse().join('');
-            b = b.deadline.split('T')[0].split('-').reverse().join('');
+            a = new Date(a.deadline);
+            b = new Date(b.deadline);
             return a > b ? 1 : -1;
           });
             setHeader(result.data);

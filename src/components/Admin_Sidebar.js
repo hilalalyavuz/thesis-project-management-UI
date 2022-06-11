@@ -14,12 +14,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 const Sidebar = (props) =>{
 
     const logout = () => {
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('role');
-        sessionStorage.removeItem('email');
-        sessionStorage.removeItem('created');
-        sessionStorage.removeItem('choosed');
-        sessionStorage.removeItem('requested');
+        sessionStorage.clear();
     }
 
 return(

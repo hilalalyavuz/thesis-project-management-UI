@@ -52,12 +52,9 @@ export default function SignIn() {
                 const config = { headers: { Authorization: `bearer ${response.data[0]}` }}
                 async function hasGroup(){
                     await axios.get(`https://localhost:7084/api/Student/hasGroup/${email}`,config).then((result)=>{
-                        console.log("a",result.data);
-                        if(result.data == false){
-                          sessionStorage.setItem("created",true);
-                        }else{
-                            sessionStorage.setItem("created",false);
-                        }
+                        
+                          sessionStorage.setItem("created",!result.data);
+                        
                     })
                     
                 }
@@ -65,37 +62,35 @@ export default function SignIn() {
 
                   async function hasSupervisor(){
                     await axios.get(`https://localhost:7084/api/Student/hasSupervisor/${email}`,config).then((result)=>{
-                            console.log("b",result.data);
-                            if(result.data == false){
-                                sessionStorage.setItem("choosed",true);
-                            }else{
-                                sessionStorage.setItem("choosed",false);
-                            }
+                            
+                                sessionStorage.setItem("choosed",!result.data);
+                            
                     })
                 }
                   hasSupervisor();
 
                   async function HasChooseSupervisor(){
                     await axios.get(`https://localhost:7084/api/Student/HasChooseSupervisor/${email}`,config).then((result)=>{
-                            if(result.data == false){
-                                sessionStorage.setItem("requested",true);
-                            }else{
-                                sessionStorage.setItem("requested",false);
-                            }
+                            
+                                sessionStorage.setItem("requested",!result.data);
+                            
                     })
                 }
                 HasChooseSupervisor();
                 
-                if(response.data[1] == "student"){
-                    createBrowserHistory().push('/Home');
-                    window.location.reload();
-                }else if(response.data[1] == "supervisor"){
-                    createBrowserHistory().push('/SupervisorHome');
-                    window.location.reload();
-                }else if(response.data[1] == "admin"){
-                    createBrowserHistory().push('/DocumentsAdmin');
-                    window.location.reload();
+                async function toLink(){
+                    if(response.data[1] == "student"){
+                        createBrowserHistory().push('/Home');
+                        window.location.reload();
+                    }else if(response.data[1] == "supervisor"){
+                        createBrowserHistory().push('/SupervisorHome');
+                        window.location.reload();
+                    }else if(response.data[1] == "admin"){
+                        createBrowserHistory().push('/DocumentsAdmin');
+                        window.location.reload();
+                    }
                 }
+                toLink();
                 
             }).catch(error => {
                 toast.current.show({severity:'error', summary: 'Failed to login', life: 3000});

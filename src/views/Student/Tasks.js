@@ -10,10 +10,11 @@ import Paper from "@mui/material/Paper";
 import "../../css/Common.css";
 import "../../css/Tasks.css";
 import Sidebar from "../../components/Sidebar";
-import {useEffect , useState} from "react";
+import {useEffect , useState, useRef} from "react";
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import Unauthorized from '../Warnings/Unauthorized';
+import { Toast } from 'primereact/toast';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -26,6 +27,7 @@ function intersection(a, b) {
 export default function TransferList() {
   const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let userEmail = sessionStorage.getItem("email");
+  const toast = useRef(null);
   let tok = sessionStorage.getItem("token");
 
   const config = {
@@ -69,7 +71,7 @@ export default function TransferList() {
     status_id = "inprogress";
     detail = leftChecked[0].detail;
     axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
-      console.log(result.data);
+      toast.current.show({severity:'success', detail:'Task status changed succesfully', life: 3000});
     })
   };
 
@@ -81,7 +83,7 @@ export default function TransferList() {
     status_id = "done";
     detail = middleChecked[0].detail;
     axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
-      console.log(result.data);
+      toast.current.show({severity:'success', detail:'Task status changed succesfully', life: 3000});
     })
   };
   
@@ -94,7 +96,7 @@ export default function TransferList() {
     status_id = "todo";
     detail = middleChecked[0].detail;
     axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
-      console.log(result.data);
+      toast.current.show({severity:'success', detail:'Task status changed succesfully', life: 3000});
     })
   };
 
@@ -106,7 +108,7 @@ export default function TransferList() {
     status_id = "inprogress";
     detail = rightChecked[0].detail;
     axios.patch(`https://localhost:7084/api/Student/Tasks/Update/${userEmail}`,{'id':id,'detail':detail,'status_id':status_id},config).then((result)=>{
-      console.log(result.data);
+      toast.current.show({severity:'success', detail:'Task status changed succesfully', life: 3000});
     })
   };
 
@@ -114,10 +116,9 @@ export default function TransferList() {
     async function getData(){
         await axios.get(`https://localhost:7084/api/Student/Tasks/${userEmail}`,config).then((result)=>{
             for(var i = 0; i < result.data.length; i++){
-              console.log(result.data);
               if(result.data[i].status_id=="todo"){
                 setLeft(oldArray => [...oldArray, result.data[i]]);
-              }else if(result.data[i].status_id=="in progress"){
+              }else if(result.data[i].status_id=="inprogress"){
                 setMiddle(oldArray => [...oldArray, result.data[i]]);
               }else if(result.data[i].status_id=="done"){
                 setRight(oldArray => [...oldArray, result.data[i]]);
@@ -164,6 +165,7 @@ export default function TransferList() {
 
   return (
     <>
+    <Toast ref={toast}/>
     { pageRole=="student" ? 
     <div className="Page">
       <Helmet>
