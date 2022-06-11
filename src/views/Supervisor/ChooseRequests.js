@@ -36,7 +36,7 @@ export default function ChooseRequests() {
             createBrowserHistory().push('/ChooseRequests');
             window.location.reload();
           }else{
-            toast.current.show({severity:'warn', detail:"You don't have available capacity.", life: 3000});
+            toast.current.show({severity:'warn', detail:"You don't have available quota.", life: 3000});
           }
           
         });

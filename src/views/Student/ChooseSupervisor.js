@@ -39,7 +39,7 @@ export default function Documents() {
       return x.remain_capacity;
     }});
     if(rem_cap[0] == 0){
-      toast.current.show({severity:'warn', detail:"There is no remain capacity for selected supervisor", life: 3000});
+      toast.current.show({severity:'warn', detail:"There is no remain quota for selected supervisor", life: 3000});
     }else{
       axios.post(`https://localhost:7084/api/Student/Supervisor/${userEmail}`,{'supervisor_id':selectionModel[0]},config).then((result)=>{
             toast.current.show({severity:'success', detail:"Submitted", life: 3000});
@@ -74,8 +74,8 @@ export default function Documents() {
     { field: "id", headerName: "ID", width: 70 },
     { field: "name", headerName: "First Name", width: 130 },
     { field: "surname", headerName: "Last Name", width: 130 },
-    { field: "remain_capacity", headerName: "Remain Capacity", width: 130 },
-    { field: "capacity", headerName: "Capacity", width: 130 }
+    { field: "remain_capacity", headerName: "Remain Quota", width: 130 },
+    { field: "capacity", headerName: "Quota", width: 130 }
   ];
 
   return (
