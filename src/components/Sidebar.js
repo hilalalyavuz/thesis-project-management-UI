@@ -28,6 +28,7 @@ const Sidebar = (props) =>{
         sessionStorage.removeItem('email');
         sessionStorage.removeItem('created');
         sessionStorage.removeItem('choosed');
+        sessionStorage.removeItem('requested');
     }
     
 return(

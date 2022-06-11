@@ -13,6 +13,15 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 const Sidebar = (props) =>{
 
+    const logout = () => {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('role');
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('created');
+        sessionStorage.removeItem('choosed');
+        sessionStorage.removeItem('requested');
+    }
+
 return(
 <ProSidebar>
   <Menu className='menu'>
@@ -44,7 +53,7 @@ return(
 
     
     <div style={{display:'flex',height:'100%',alignItems:'flex-end'}}>
-        <MenuItem className='menuItem'>
+        <MenuItem onClick={logout} className='menuItem'>
         <h5 style={{marginLeft:'0rem',marginRight:'8rem'}}> {props.name} </h5>
         <LogoutIcon />
         Log Out

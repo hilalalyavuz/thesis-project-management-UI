@@ -18,6 +18,7 @@ import { display } from '@mui/system';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import Unauthorized from '../Warnings/Unauthorized';
+import WrongPage from '../Warnings/WrongPage';
 
 
 
@@ -28,6 +29,8 @@ export default function Documents() {
   const[header, setHeader] = useState([]);
   const[pageRole, setPageRole] = useState(sessionStorage.getItem("role"));
   let userEmail = sessionStorage.getItem("email");
+  let choosed = sessionStorage.getItem("choosed");
+  let created = sessionStorage.getItem("created");
   let tok = sessionStorage.getItem("token");
   const config = {
     headers: { Authorization: `bearer ${tok}` }
@@ -54,7 +57,7 @@ export default function Documents() {
   
   return (
     <>
-    { pageRole=="student" ? 
+    { pageRole=="student" ?
     <div className='Page'>
       
 <Helmet>
@@ -64,7 +67,7 @@ export default function Documents() {
         <div className='Sidebar'>
             <Sidebar dname="Documents"/>
         </div>
-        
+        { choosed=="true" ?
         <div className='Main'>
           <div className='Main2'>
             {header.map(x => (
@@ -78,6 +81,7 @@ export default function Documents() {
 
 
         </div>
+    : <WrongPage data={"You should have a supervisor"}/>}
 
     </div>
   : <Unauthorized></Unauthorized>}

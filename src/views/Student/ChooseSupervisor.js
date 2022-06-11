@@ -15,6 +15,7 @@ import { createBrowserHistory } from 'history';
 import { Helmet } from 'react-helmet';
 import Unauthorized from '../Warnings/Unauthorized';
 import { Toast } from 'primereact/toast';
+import WrongPage from '../Warnings/WrongPage';
 
 export default function Documents() {
 
@@ -25,6 +26,7 @@ export default function Documents() {
   let tok = sessionStorage.getItem("token");
   let choosed = sessionStorage.getItem("choosed");
   let created = sessionStorage.getItem("created");
+  let requested = sessionStorage.getItem("requested");
   const [selectionModel, setSelectionModel] = useState([]);
   const [flag, setFlag] = useState();
 
@@ -32,16 +34,24 @@ export default function Documents() {
     headers: { Authorization: `bearer ${tok}` }
   };
 
-  const submitSelection =()=>{
-    axios.post(`https://localhost:7084/api/Student/Supervisor/${userEmail}`,{'supervisor_id':selectionModel[0]},config).then((result)=>{
+  const submitSelection =(rowData)=>{
+    let rem_cap = data.map(x => {if(x.id == selectionModel[0]){
+      return x.remain_capacity;
+    }});
+    if(rem_cap[0] == 0){
+      toast.current.show({severity:'warn', detail:"There is no remain capacity for selected supervisor", life: 3000});
+    }else{
+      axios.post(`https://localhost:7084/api/Student/Supervisor/${userEmail}`,{'supervisor_id':selectionModel[0]},config).then((result)=>{
             toast.current.show({severity:'success', detail:"Submitted", life: 3000});
-            sessionStorage.setItem("choosed",true);
             createBrowserHistory().push('/ChooseSupervisor');
+            sessionStorage.setItem("requested",true);
             window.location.reload();
 
           }).catch(error =>{
             toast.current.show({severity:'error', detail:`${error}`, life: 3000});
         });
+    }
+    
   }
 
   useEffect(()=>{
@@ -51,7 +61,7 @@ export default function Documents() {
         });
     }
     getData();
-    if(sessionStorage.getItem("choosed")=="true"){
+    if(sessionStorage.getItem("requested")=="true"){
       setFlag(true);
     }else{
       setFlag(false);
@@ -81,8 +91,7 @@ export default function Documents() {
     </div>
 
     <div className="Main" style={{display:'flex',flexDirection:'column'}}>
-    { flag && created ? <div><h5>You choosed your supervisor</h5></div> :
-      <div className="Main2">
+    { choosed=="false" ? (flag==false ? (created=="true" ? <div className="Main2">
           <Card className="card" style={{width:'80%',marginTop:'6rem'}}>
         <div className="table" style={{height:'30rem',width:'100%'}}>
         <h3 style={{paddingBottom:'2rem'}}>Choose Supervisor</h3>
@@ -111,8 +120,8 @@ export default function Documents() {
                           </Button>
         </div>
         </Card>
-      </div>
-      }
+      </div> : <WrongPage data={"You should create a group before choosing supervisor"}/>) : <WrongPage data={"You already made your request"}/>) 
+       : <WrongPage data={"You already have a supervisor"}/>}
     </div>
           
   </div> : <Unauthorized/>}

@@ -114,6 +114,7 @@ export default function TransferList() {
     async function getData(){
         await axios.get(`https://localhost:7084/api/Student/Tasks/${userEmail}`,config).then((result)=>{
             for(var i = 0; i < result.data.length; i++){
+              console.log(result.data);
               if(result.data[i].status_id=="todo"){
                 setLeft(oldArray => [...oldArray, result.data[i]]);
               }else if(result.data[i].status_id=="in progress"){

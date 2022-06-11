@@ -74,6 +74,17 @@ export default function SignIn() {
                     })
                 }
                   hasSupervisor();
+
+                  async function HasChooseSupervisor(){
+                    await axios.get(`https://localhost:7084/api/Student/HasChooseSupervisor/${email}`,config).then((result)=>{
+                            if(result.data == false){
+                                sessionStorage.setItem("requested",true);
+                            }else{
+                                sessionStorage.setItem("requested",false);
+                            }
+                    })
+                }
+                HasChooseSupervisor();
                 
                 if(response.data[1] == "student"){
                     createBrowserHistory().push('/Home');

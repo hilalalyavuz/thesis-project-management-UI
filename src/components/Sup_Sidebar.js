@@ -25,16 +25,13 @@ const Sidebar = (props) =>{
         sessionStorage.removeItem('email');
         sessionStorage.removeItem('created');
         sessionStorage.removeItem('choosed');
+        sessionStorage.removeItem('requested');
     }
 
 return(
 <ProSidebar>
   <Menu className='menu'>
   <img src={logo} style={{height:'20%',width:'50%',marginLeft:'3.5rem'}}/>
-     <MenuItem className='menuItem' icon={<HomeOutlinedIcon />}>
-        Home
-        <Link to={'/'} />
-     </MenuItem>
      <h5> STUDENTS </h5>
      <MenuItem className='menuItem' icon={<GroupsIcon />}>
         Students

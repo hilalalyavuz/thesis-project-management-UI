@@ -20,6 +20,7 @@ import axios from 'axios';
 import { createBrowserHistory } from 'history';  
 import { Helmet } from 'react-helmet';           
 import Unauthorized from '../Warnings/Unauthorized';
+import WrongPage from '../Warnings/WrongPage';
 
 export default function CreateGroup() {
 
@@ -113,7 +114,7 @@ export default function CreateGroup() {
 </div>
 
 <div className='Main'>
-  { flag ? <div><h5>You made your choice</h5></div> : 
+  { flag ? <WrongPage data={"You already have a group"}/> : 
   <div className='Main2'>
   <Toast ref={toast} />
   <Card className="card">

@@ -39,6 +39,7 @@ export default function ContactStudent() {
       const handleChange2 = () => {
           axios.post(`https://localhost:7084/api/Supervisor/ContactStudent/${userEmail}`,{topic:topic,message:message,status_id:"new",to_user_id:id},config).then(response => {
             toast.current.show({severity:'success', summary: 'Success Message', detail:'Your message sent succesfully', life: 3000});
+            window.location.reload();
           }).catch(error => {
             toast.current.show({severity:'error', summary: `Error: ${error}`, life: 3000});
         });  

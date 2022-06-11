@@ -35,9 +35,10 @@ export default function MakeAppointment() {
 
   const getHours = async () => {
     await axios.get(`https://localhost:7084/api/Student/AvailableHours/${userEmail}`,config).then(response => {
-              
+              let today = new Date();
               response.data.map(function(x){
-                if(x.is_visible == 0){
+                let r2 = new Date(x.available_date);
+                if(x.is_visible == 0 && today<=r2){
                   return setRows2(prevRow => ([...prevRow,{id:x.id, date:x.available_date.split('T')[0], hour:x.available_date.split('T')[1]}]))
                 }
               })

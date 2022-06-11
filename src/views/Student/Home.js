@@ -18,13 +18,14 @@ const Home = () => {
   const displayValueTemplate = (value) => {
     return (
         <React.Fragment>
-            {value}/<b>100</b>
+            {value} day
         </React.Fragment>
     );
 }
   const [value, setValue] = useState(60);
   const [date, setDate] = useState();
   const [rows, setRows] = useState(['']);
+  const [countDown, setCounDown] = useState(0);
   const toast = useRef(null);
   const [data,setData] = useState([]);
   const [remain, setRemain] = useState();
@@ -48,6 +49,15 @@ const Home = () => {
        axios.get(`https://localhost:7084/api/User/GetDocumentType/${userEmail}`,config).then((result)=>{
           setData(result.data.sort((a, b) => (a.color > b.color) ? -1 : 1));
           setRemain(result.data.sort((a, b) => (a.color > b.color) ? -1 : 1)[0].deadline);
+          let today = new Date();
+          let r = result.data.sort((a, b) => (a.color > b.color) ? -1 : 1)[0].deadline;
+          let r2 = new Date(r);
+          var diffDays2 = parseInt((r2 - today) / (1000 * 60 * 60 * 24), 10);
+          setCounDown(Math.abs(diffDays2));
+          //const diffTime = Math.abs(r2 - today);
+          //const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+          //console.log(diffDays + " days");
+
       });
       axios.get(`https://localhost:7084/api/Student/GetStudentByEmail/${userEmail}`,config).then((result)=>{
         setUser(result.data);
@@ -113,6 +123,13 @@ const Home = () => {
         toast.current.show({severity:'info', summary: 'Meeting with Supervisor',detail:`Time: ${rows[i].date.split('T')[0]}` +` / ${rows[i].date.split('T')[1]}`+'\n'+`${rows[i].link}`,lifetime:1000000});
       }
     }
+    for(let i = 0; i < data.length; i++){
+      let dt = new Date(data[i].deadline);
+      dt = {"month":dt.getMonth(),"year":dt.getFullYear(),"day":dt.getDate()};
+      if(dt.day == dtt.value.getDate() && dt.month == dtt.value.getMonth() && dt.year == dtt.value.getFullYear()){
+        toast.current.show({severity:'warn', summary: 'Deadline',detail:`Time: ${data[i].deadline.split('T')[0]}` +` / ${data[i].deadline.split('T')[1]}`+'\n'+`${data[i].name}`,lifetime:1000000});
+      }
+    }
   }
    return (
      <>
@@ -144,11 +161,11 @@ const Home = () => {
 
 <Card className="card" style={{width:'-webkit-fill-available',marginTop:'0rem'}}>
      <h3>Last Deadline: {remain ? remain.split('T')[0]: null}</h3>
-      <ProgressBar value={40} displayValueTemplate={displayValueTemplate} size={80} className="progressbar"/>
+      <ProgressBar value={countDown} displayValueTemplate={displayValueTemplate} size={80} className="progressbar"/>
           </Card>
 
           <Card className="card" style={{marginTop:'0rem',padding:'0rem 0rem'}}>
-            <h3>Meeting Calendar</h3>
+            <h3>Calendar</h3>
           <Calendar value={date} onChange={change} inline showButtonBar
           dateTemplate={dateTemplate}
           />
