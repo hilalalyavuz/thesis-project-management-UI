@@ -15,7 +15,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {Link} from 'react-router-dom';
-import logo from '../img/logo.png';
+import logo from '../img/logo_supervisor.jpg';
 
 const Sidebar = (props) =>{
 
@@ -26,7 +26,7 @@ const Sidebar = (props) =>{
 return(
 <ProSidebar>
   <Menu className='menu'>
-  <img src={logo} style={{height:'20%',width:'50%',marginLeft:'3.5rem'}}/>
+  <img src={logo} style={{height:'20%',width:'50%',marginLeft:'4rem'}}/>
      <h5> STUDENTS </h5>
      <MenuItem className='menuItem' icon={<GroupsIcon />}>
         Students

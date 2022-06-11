@@ -6,7 +6,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {Link} from 'react-router-dom';
-import logo from '../img/logo.png';
+import logo from '../img/logo_admin.jpg';
 import SettingsIcon from '@mui/icons-material/Settings';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -20,7 +20,7 @@ const Sidebar = (props) =>{
 return(
 <ProSidebar>
   <Menu className='menu'>
-  <img src={logo} style={{height:'20%',width:'50%',marginLeft:'3.5rem'}}/>
+  <img src={logo} style={{height:'20%',width:'50%',marginLeft:'4rem'}}/>
      <h5> DASHBOARD </h5>
     <MenuItem className='menuItem' icon={<AssignmentIcon />}>
         Documents
