@@ -62,13 +62,11 @@ return(
     </MenuItem>
          
  <SubMenu title="Project Settings" icon={<SettingsIcon></SettingsIcon>}>
-    <MenuItem className='menuItem' id='CreateGroup'>
-        <GroupsIcon />
+    <MenuItem className='menuItem' id='CreateGroup' icon={<GroupsIcon />}>
         Create Group
         <Link to={'/CreateGroup'} />
     </MenuItem>
-    <MenuItem className='menuItem' id='ChooseSup'>
-        <ManageAccountsIcon />
+    <MenuItem className='menuItem' id='ChooseSup' icon={<ManageAccountsIcon />}>
         Choose Supervisor
         <Link to={'/ChooseSupervisor'} />
     </MenuItem>
