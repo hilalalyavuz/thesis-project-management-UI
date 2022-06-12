@@ -238,7 +238,7 @@ const Table = (props) => {
                           <div className='tableButtons' style={{marginTop:'5rem'}}>
 
 
-                          <Button variant="outlined" disabled={passed? false:true} id={props.data+'final'} onClick={markFinal} startIcon={<BookmarkIcon />}>
+                          <Button variant="outlined" disabled={passed? true:false} id={props.data+'final'} onClick={markFinal} startIcon={<BookmarkIcon />}>
                               Final
                             </Button>
 
