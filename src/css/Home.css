@@ -41,4 +41,17 @@
     width: -webkit-fill-available;
 }
 
+.Sides{
+    display: flex;
+    flex-direction: row;
+}
+.leftSide{
+    display: flex;
+    flex: 1;
+    flex-direction: column-reverse;
+}
+.RightSide{
+    display: flex;
+    flex: 1;
+}
 

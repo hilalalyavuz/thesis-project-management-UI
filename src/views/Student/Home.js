@@ -18,14 +18,15 @@ const Home = () => {
   const displayValueTemplate = (value) => {
     return (
         <React.Fragment>
-            {value} day
+            {countDown} day
         </React.Fragment>
     );
 }
-  const [value, setValue] = useState(60);
+  const [value, setValue] = useState(0);
   const [date, setDate] = useState();
   const [rows, setRows] = useState(['']);
   const [countDown, setCounDown] = useState(0);
+  const [countDown2, setCounDown2] = useState(0);
   const toast = useRef(null);
   const [data,setData] = useState([]);
   const [remain, setRemain] = useState();
@@ -46,23 +47,49 @@ const Home = () => {
             });;  
     }
     getMeetings();
-       axios.get(`https://localhost:7084/api/User/GetDocumentType/${userEmail}`,config).then((result)=>{
-          setData(result.data.sort((a, b) => (a.color > b.color) ? -1 : 1));
-          setRemain(result.data.sort((a, b) => (a.color > b.color) ? -1 : 1)[0].deadline);
+    const getDocumentType = async () => {
+      await axios.get(`https://localhost:7084/api/User/GetDocumentType/${userEmail}`,config).then((result)=>{
+          setData(result.data.sort((a, b) => (a.deadline > b.deadline) ? -1 : 1));
+          setRemain(result.data.sort((a, b) => (a.deadline > b.deadline) ? -1 : 1)[0].deadline);
           let today = new Date();
-          let r = result.data.sort((a, b) => (a.color > b.color) ? -1 : 1)[0].deadline;
+          let r = result.data.sort((a, b) => (a.deadline > b.deadline) ? -1 : 1)[0].deadline;
           let r2 = new Date(r);
           var diffDays2 = parseInt((r2 - today) / (1000 * 60 * 60 * 24), 10);
           setCounDown(Math.abs(diffDays2));
           //const diffTime = Math.abs(r2 - today);
           //const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
           //console.log(diffDays + " days");
+          axios.get(`https://localhost:7084/api/Student/GetStudentByEmail/${userEmail}`,config).then((res)=>{
+        setUser(res.data);
+        let docRes = result.data.sort((a, b) => (a.deadline > b.deadline) ? 1 : -1)
+        let count = 0;
+        docRes.map((x,index) => {
+          if(x.name == res.data.last_status){
+            setValue(parseInt(Number(Number(count+1) / Number(docRes.length))*100));
+            if(index+1 <= docRes.length){
+              setCounDown2(docRes[index+1])
+            }
+          }else{
+            count++;
+          }
+        })
+      });
+      });
+    }
+    getDocumentType();
 
-      });
-      axios.get(`https://localhost:7084/api/Student/GetStudentByEmail/${userEmail}`,config).then((result)=>{
-        setUser(result.data);
-      });
+    // const getStudentByEmail = async () => {
+    //   await axios.get(`https://localhost:7084/api/Student/GetStudentByEmail/${userEmail}`,config).then((result)=>{
+    //     setUser(result.data);
+    //     calculateProgress();
+    //   });
+    // }
+    // getStudentByEmail();
+
+      
   },[]);
+
+
   const dateTemplate = (dat) =>{
         for(let i = 0; i < rows.length; i++){
           let dt = new Date(rows[i].date);
@@ -84,8 +111,6 @@ const Home = () => {
                 overflow: 'hidden',
                 position: 'relative'}}>{dat.day}</div> );
   
-          }else{
-            return dat.day;
           }
         }
         for(let i = 0; i < data.length; i++){
@@ -94,12 +119,12 @@ const Home = () => {
           if(dt.day == dat.day && dt.month == dat.month && dt.year == dat.year){
             return (
               <div style={{color: "#4338CA",
-                background: "#F12637", width: '2.5rem',
+                background: "#FFE0E3", width: '2.5rem',
                 className:'busy',
                 height: '2.5rem',
                 borderRadius: '50%',
                 transition: 'box-shadow 0.2s',
-                border: '1px solid #FFE0E3',
+                border: '1px solid #F12637',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -107,12 +132,9 @@ const Home = () => {
                 margin: '0 auto',
                 overflow: 'hidden',
                 position: 'relative'}}>{dat.day}</div> );
-  
-          }else{
-            return dat.day;
           }
       }
-   
+      return dat.day;
   }
 
   const change = (dtt) =>{
@@ -147,10 +169,9 @@ const Home = () => {
           <div className="title">
               <h3>DASHBOARD</h3> 
           </div>
-     
-      
-<div className="prog">
-    <Card className="card" style={{marginTop:'0rem'}}>
+     <div className="Sides">
+     <div className="leftSide">
+      <Card className="card2" style={{marginTop:'0rem',width:'-webkit-fill-available'}}>
       <h4>Status: 
         <span className={`customer-badge status-general`} style={{marginLeft:'1rem'}}>{user ? user.last_status: null}</span>
       </h4>
@@ -159,24 +180,32 @@ const Home = () => {
     </Card>  
     <div>
 
-<Card className="card" style={{width:'-webkit-fill-available',marginTop:'0rem'}}>
-     <h3>Last Deadline: {remain ? remain.split('T')[0]: null}</h3>
-      <ProgressBar value={countDown} displayValueTemplate={displayValueTemplate} size={80} className="progressbar"/>
+<Card className="card2" style={{width:'-webkit-fill-available',marginTop:'0rem'}}>
+     <h3>Next Document: {countDown2 ? countDown2.name : ""}</h3>
+     <h3>Deadline: {countDown2 ? countDown2.deadline.split('T')[0]+' / '+countDown2.deadline.split('T')[1] : ""}</h3>
           </Card>
+      </div>
+    <div>
 
-          <Card className="card" style={{marginTop:'0rem',padding:'0rem 0rem'}}>
+<Card className="card2" style={{width:'-webkit-fill-available',marginTop:'0rem'}}>
+     <h3>Total Remain Day</h3>
+      <ProgressBar value={100-countDown} displayValueTemplate={displayValueTemplate} size={80} className="progressbar"/>
+          </Card>
+      </div>
+      
+      </div>
+
+<div className="RightSide">
+          <Card className="card2" style={{marginTop:'0rem',padding:'0rem 0rem',width:'-webkit-fill-available'}}>
             <h3>Calendar</h3>
-          <Calendar value={date} onChange={change} inline showButtonBar
+          <Calendar style={{width:'85%'}} value={date} onChange={change} inline showButtonBar
           dateTemplate={dateTemplate}
           />
 
           </Card>
     </div>
+     </div>
      
-         
-        </div>
-
-        
       </div>
     </div> : <Unauthorized></Unauthorized>}
     </>
