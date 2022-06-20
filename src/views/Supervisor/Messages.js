@@ -54,7 +54,7 @@ const editDoc = () =>{
     setDocRowTopic(selectedProduct5 ? selectedProduct5.topic : "");
     setDocRowMessage(selectedProduct5 ? selectedProduct5.message : "");
     setDocDialog(true);
-    if(tab && selectedProduct5.status_id=="NEW" || selectedProduct5.status_id=="new"){
+    if(tab && (selectedProduct5.status_id=="NEW" || selectedProduct5.status_id=="new")){
          axios.get(`https://localhost:7084/api/Supervisor/ChangeStatusOfMessage/${selectedProduct5.id}`,config).then(result =>{
         getMessagesSent();
         getMessagesRec();

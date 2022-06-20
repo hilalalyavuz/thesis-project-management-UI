@@ -63,7 +63,7 @@ export default function Register() {
                 "department":dept
               }).then(response => {
                   if(response.data == true){
-                      toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
+                      toast.current.show({severity:'success', summary: 'Successfully registered', life: 3000});
                 createBrowserHistory().push('/SignIn');
                 window.location.reload();
                   }else{

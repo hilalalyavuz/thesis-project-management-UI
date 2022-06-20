@@ -86,8 +86,10 @@ const Table = (props) => {
     await axios.get(`https://localhost:7084/api/Student/MarkFinalDocument/${userEmail}/${selectedProduct1}`,config).then((result)=>{
       if(result.data == false){
         toast.current.show({ severity: 'error', summary: 'Not Marked', life: 3000 });
+        window.location.reload();
       }else{
         toast.current.show({ severity: 'warn', summary: 'Marked as final', life: 3000 });
+        window.location.reload();
       }
       
     });

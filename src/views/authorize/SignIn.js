@@ -50,10 +50,14 @@ export default function SignIn() {
                 sessionStorage.setItem("role", response.data[1]);
                 sessionStorage.setItem("email",email);
                 const config = { headers: { Authorization: `bearer ${response.data[0]}` }}
+                if(response.data[1] != "student"){
+                    toLink();
+                }
                 async function hasGroup(){
                     await axios.get(`https://localhost:7084/api/Student/hasGroup/${email}`,config).then((result)=>{
                         
                           sessionStorage.setItem("created",!result.data);
+                          hasSupervisor();
                         
                     })
                     
@@ -64,19 +68,21 @@ export default function SignIn() {
                     await axios.get(`https://localhost:7084/api/Student/hasSupervisor/${email}`,config).then((result)=>{
                             
                                 sessionStorage.setItem("choosed",!result.data);
+                                HasChooseSupervisor();
                             
                     })
                 }
-                  hasSupervisor();
+                  
 
                   async function HasChooseSupervisor(){
                     await axios.get(`https://localhost:7084/api/Student/HasChooseSupervisor/${email}`,config).then((result)=>{
                             
                                 sessionStorage.setItem("requested",!result.data);
+                                setTimeout(toLink(),3000);
                             
                     })
                 }
-                HasChooseSupervisor();
+               
                 
                 async function toLink(){
                     if(response.data[1] == "student"){
@@ -90,7 +96,7 @@ export default function SignIn() {
                         window.location.reload();
                     }
                 }
-                toLink();
+                
                 
             }).catch(error => {
                 toast.current.show({severity:'error', summary: 'Failed to login', life: 3000});
