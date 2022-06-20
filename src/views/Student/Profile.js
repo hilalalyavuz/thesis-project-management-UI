@@ -43,6 +43,7 @@ export default function Profile() {
     const [value,setValue] = useState(0);
     const [response1,setResponse] = useState();
     const [disp,setDisp] = useState();
+    const [dept, setDept] = useState("");
     
 
     let userEmail = sessionStorage.getItem("email");
@@ -58,7 +59,8 @@ export default function Profile() {
                     { setName(x.name)
                       setSurname(x.surname)
                       setPemail(x.email)
-                      setPschoolid(x.school_id)                   
+                      setPschoolid(x.school_id)
+                      setDept(x.department)                   
                   }
                     )
               }).catch(error => {
@@ -122,10 +124,11 @@ export default function Profile() {
       await axios.post(`https://localhost:7084/api/Student/StudentProfilePassword/${userEmail}`,{
         "name": name,
         "surname": surname,
-        "email": userEmail,
+        "email": pemail,
         "school_id": pschoolid,
         "password": pass,
-        "role_id": role
+        "role_id": role,
+        "department": dept
       },config).then(response => {
         toast.current.show({severity:'success', summary: 'Password Updated', life: 3000});
               }).catch(error => {
